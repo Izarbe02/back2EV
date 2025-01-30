@@ -18,7 +18,7 @@ CREATE TABLE Pelicula (
     nombre NVARCHAR(100) NOT NULL,
     descripcion NVARCHAR(MAX),
     idCategoria INT,
-    añoSalida INT,
+    añoSalida DATETIME,
     director NVARCHAR(100),
     caratula NVARCHAR(255),
     duracion INT , 
