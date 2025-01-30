@@ -1,0 +1,6 @@
+@back2EV_HostAddress = http://localhost:5088
+
+GET {{back2EV_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
