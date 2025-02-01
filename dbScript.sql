@@ -17,7 +17,6 @@ CREATE TABLE Pelicula (
     ID INT IDENTITY(1,1) PRIMARY KEY,
     nombre NVARCHAR(100) NOT NULL,
     descripcion NVARCHAR(MAX),
-    idCategoria INT,
     añoSalida DATETIME,
     director NVARCHAR(100),
     caratula NVARCHAR(255),
@@ -46,6 +45,7 @@ CREATE TABLE Asientos (
     idSala INT,
     fila INT,
     numero INT,
+    ocupado TINYINT DEFAULT 0,
     PRIMARY KEY (idSala, fila, numero),
     FOREIGN KEY (idSala) REFERENCES Sala(ID)
 );

@@ -5,7 +5,5 @@
         public int IdSala { get; set; }
         public int Cantidad { get; set; }
 
-      //  public Sesion Sesion { get; set; } // Relación con Sesion
-      //  public Sala Sala { get; set; } // Relación con Sala
     }
 
