@@ -1,4 +1,8 @@
+using Models;
+using Microsoft.Data.SqlClient;
 
+
+namespace dosEvAPI.Repositories{
     public class EstablecimientoColaboradorRepository : IEstablecimientoColaboradorRepository
     {
         private readonly string _connectionString;
@@ -133,3 +137,4 @@
             }
         }
     }
+}

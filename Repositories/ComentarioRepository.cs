@@ -1,5 +1,7 @@
-
+using Models;
 using Microsoft.Data.SqlClient;
+
+
 namespace dosEvAPI.Repositories{
     public class ComentarioRepository : IComentarioRepository
     {
@@ -86,7 +88,7 @@ namespace dosEvAPI.Repositories{
                 }
             }
         }
-//
+
         public async Task UpdateAsync(Comentario comentario)
         {
             using (var connection = new SqlConnection(_connectionString))
@@ -104,7 +106,7 @@ namespace dosEvAPI.Repositories{
                 }
             }
         }
-//
+
         public async Task DeleteAsync(int id)
         {
             using (var connection = new SqlConnection(_connectionString))

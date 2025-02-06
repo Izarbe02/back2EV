@@ -3,50 +3,51 @@ using Microsoft.Data.SqlClient;
 
 
 namespace dosEvAPI.Repositories{
-public class CategoriaEventoRepository : ICategoriaEventoRepository
+
+       public class TematicaRepository : ITematicaRepository
     {
         private readonly string _connectionString;
 
-        public CategoriaEventoRepository(string connectionString)
+        public TematicaRepository(string connectionString)
         {
             _connectionString = connectionString;
         }
 
-        public async Task<List<CategoriaEvento>> GetAllAsync()
+        public async Task<List<Tematica>> GetAllAsync()
         {
-            var categorias = new List<CategoriaEvento>();
+            var tematicas = new List<Tematica>();
 
             using (var connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
-                string query = "SELECT Id, Nombre FROM CategoriaEvento";
+                string query = "SELECT ID, nombre FROM Tematica";
                 using (var command = new SqlCommand(query, connection))
                 {
                     using (var reader = await command.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
                         {
-                            var categoria = new CategoriaEvento
+                            var tematica = new Tematica
                             {
                                 Id = reader.GetInt32(0),
                                 Nombre = reader.GetString(1)
                             };
-                            categorias.Add(categoria);
+                            tematicas.Add(tematica);
                         }
                     }
                 }
             }
-            return categorias;
+            return tematicas;
         }
 
-        public async Task<CategoriaEvento?> GetByIdAsync(int id)
+        public async Task<Tematica?> GetByIdAsync(int id)
         {
-            CategoriaEvento? categoria = null;
+            Tematica? tematica = null;
 
             using (var connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
-                string query = "SELECT Id, Nombre FROM CategoriaEvento WHERE Id = @Id";
+                string query = "SELECT ID, nombre FROM Tematica WHERE ID = @Id";
                 using (var command = new SqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@Id", id);
@@ -54,7 +55,7 @@ public class CategoriaEventoRepository : ICategoriaEventoRepository
                     {
                         if (await reader.ReadAsync())
                         {
-                            categoria = new CategoriaEvento
+                            tematica = new Tematica
                             {
                                 Id = reader.GetInt32(0),
                                 Nombre = reader.GetString(1)
@@ -63,33 +64,33 @@ public class CategoriaEventoRepository : ICategoriaEventoRepository
                     }
                 }
             }
-            return categoria;
+            return tematica;
         }
 
-        public async Task AddAsync(CategoriaEvento categoria)
+        public async Task AddAsync(Tematica tematica)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
-                string query = "INSERT INTO CategoriaEvento (Nombre) VALUES (@Nombre)";
+                string query = "INSERT INTO Tematica (nombre) VALUES (@Nombre)";
                 using (var command = new SqlCommand(query, connection))
                 {
-                    command.Parameters.AddWithValue("@Nombre", categoria.Nombre);
+                    command.Parameters.AddWithValue("@Nombre", tematica.Nombre);
                     await command.ExecuteNonQueryAsync();
                 }
             }
         }
 
-        public async Task UpdateAsync(CategoriaEvento categoria)
+        public async Task UpdateAsync(Tematica tematica)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
-                string query = "UPDATE CategoriaEvento SET Nombre = @Nombre WHERE Id = @Id";
+                string query = "UPDATE Tematica SET nombre = @Nombre WHERE ID = @Id";
                 using (var command = new SqlCommand(query, connection))
                 {
-                    command.Parameters.AddWithValue("@Id", categoria.Id);
-                    command.Parameters.AddWithValue("@Nombre", categoria.Nombre);
+                    command.Parameters.AddWithValue("@Id", tematica.Id);
+                    command.Parameters.AddWithValue("@Nombre", tematica.Nombre);
                     await command.ExecuteNonQueryAsync();
                 }
             }
@@ -100,29 +101,10 @@ public class CategoriaEventoRepository : ICategoriaEventoRepository
             using (var connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
-                string query = "DELETE FROM CategoriaEvento WHERE Id = @Id";
+                string query = "DELETE FROM Tematica WHERE ID = @Id";
                 using (var command = new SqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@Id", id);
-                    await command.ExecuteNonQueryAsync();
-                }
-            }
-        }
-
-        public async Task InicializarDatosAsync()
-        {
-            using (var connection = new SqlConnection(_connectionString))
-            {
-                await connection.OpenAsync();
-                string query = @"
-                    INSERT INTO CategoriaEvento (Nombre)
-                    VALUES 
-                    (@Nombre1),
-                    (@Nombre2)";
-                using (var command = new SqlCommand(query, connection))
-                {
-                    command.Parameters.AddWithValue("@Nombre1", "Conciertos");
-                    command.Parameters.AddWithValue("@Nombre2", "Teatro");
                     await command.ExecuteNonQueryAsync();
                 }
             }

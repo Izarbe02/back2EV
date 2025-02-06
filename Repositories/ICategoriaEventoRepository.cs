@@ -1,10 +1,8 @@
 using Models;
 using Microsoft.Data.SqlClient;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
-namespace RestauranteAPI.Repositories
-{
+
+namespace dosEvAPI.Repositories{
     public interface ICategoriaProductoRepository
     {
         Task<List<CategoriaProducto>> GetAllAsync();
