@@ -8,12 +8,12 @@ public class EstablecimientoColaborador : Usuario
     public int IdRol { get; set; }
     public int IdCategoria { get; set; }
 
-    public EstablecimientoColaborador(string username,string nombre,string contraseña,int idRol,int idCategoria,string email,
+    public EstablecimientoColaborador(string username,string nombre,string contrasenia,int idRol,int idCategoria,string email,
         string ubicacion,
         string descripcion,
         string enlace,
         string telefono)
-        : base(username, nombre, contraseña, email, ubicacion)
+        : base(username, nombre, contrasenia, email, ubicacion)
     {
         IdRol = idRol;
         IdCategoria = idCategoria;

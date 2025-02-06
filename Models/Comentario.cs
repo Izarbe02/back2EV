@@ -2,6 +2,7 @@ namespace Models;
 
 public class Comentario
 {
+    //update comentado, solo borrado y creacion
     public int Id { get; set; }
     public int IdUsuario { get; set; }
     public int IdEvento { get; set; }
@@ -13,7 +14,7 @@ public class Comentario
         IdUsuario = idUsuario;
         IdEvento = idEvento;
         Contenido = contenido;
-        Fecha = fecha ? DateTime.Now;
+        Fecha = fecha;
     }
 
     public Comentario() { }

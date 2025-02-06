@@ -7,13 +7,13 @@ public class Usuario
     public string Nombre { get; set; }
     public string Email { get; set; }
     public string Ubicacion { get; set; }
-    public string Contraseña { get; set; }
+    public string Contrasenia { get; set; }
 
-    public Usuario(string username, string nombre, string contraseña, string email = null, string ubicacion = null)
+    public Usuario(string username, string nombre, string contrasenia, string email = null, string ubicacion = null)
     {
         Username = username;
         Nombre = nombre;
-        Contraseña = contraseña;
+        Contrasenia = contrasenia;
         Email = email;
         Ubicacion = ubicacion;
     }
