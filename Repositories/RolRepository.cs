@@ -3,50 +3,60 @@ using Microsoft.Data.SqlClient;
 
 
 namespace dosEvAPI.Repositories{
-public class CategoriaEventoRepository : ICategoriaEventoRepository
+
+    public interface IRolRepository
+    {
+        Task<List<Rol>> GetAllAsync();
+        Task<Rol?> GetByIdAsync(int id);
+        Task AddAsync(Rol rol);
+        Task UpdateAsync(Rol rol);
+        Task DeleteAsync(int id);
+    }
+
+    public class RolRepository : IRolRepository
     {
         private readonly string _connectionString;
 
-        public CategoriaEventoRepository(string connectionString)
+        public RolRepository(string connectionString)
         {
             _connectionString = connectionString;
         }
 
-        public async Task<List<CategoriaEvento>> GetAllAsync()
+        public async Task<List<Rol>> GetAllAsync()
         {
-            var categorias = new List<CategoriaEvento>();
+            var roles = new List<Rol>();
 
             using (var connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
-                string query = "SELECT Id, Nombre FROM CategoriaEvento";
+                string query = "SELECT ID, nombre FROM Roles";
                 using (var command = new SqlCommand(query, connection))
                 {
                     using (var reader = await command.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
                         {
-                            var categoria = new CategoriaEvento
+                            var rol = new Rol
                             {
                                 Id = reader.GetInt32(0),
                                 Nombre = reader.GetString(1)
                             };
-                            categorias.Add(categoria);
+                            roles.Add(rol);
                         }
                     }
                 }
             }
-            return categorias;
+            return roles;
         }
 
-        public async Task<CategoriaEvento?> GetByIdAsync(int id)
+        public async Task<Rol?> GetByIdAsync(int id)
         {
-            CategoriaEvento? categoria = null;
+            Rol? rol = null;
 
             using (var connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
-                string query = "SELECT Id, Nombre FROM CategoriaEvento WHERE Id = @Id";
+                string query = "SELECT ID, nombre FROM Roles WHERE ID = @Id";
                 using (var command = new SqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@Id", id);
@@ -54,7 +64,7 @@ public class CategoriaEventoRepository : ICategoriaEventoRepository
                     {
                         if (await reader.ReadAsync())
                         {
-                            categoria = new CategoriaEvento
+                            rol = new Rol
                             {
                                 Id = reader.GetInt32(0),
                                 Nombre = reader.GetString(1)
@@ -63,33 +73,33 @@ public class CategoriaEventoRepository : ICategoriaEventoRepository
                     }
                 }
             }
-            return categoria;
+            return rol;
         }
 
-        public async Task AddAsync(CategoriaEvento categoria)
+        public async Task AddAsync(Rol rol)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
-                string query = "INSERT INTO CategoriaEvento (Nombre) VALUES (@Nombre)";
+                string query = "INSERT INTO Roles (nombre) VALUES (@Nombre)";
                 using (var command = new SqlCommand(query, connection))
                 {
-                    command.Parameters.AddWithValue("@Nombre", categoria.Nombre);
+                    command.Parameters.AddWithValue("@Nombre", rol.Nombre);
                     await command.ExecuteNonQueryAsync();
                 }
             }
         }
 
-        public async Task UpdateAsync(CategoriaEvento categoria)
+        public async Task UpdateAsync(Rol rol)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
-                string query = "UPDATE CategoriaEvento SET Nombre = @Nombre WHERE Id = @Id";
+                string query = "UPDATE Roles SET nombre = @Nombre WHERE ID = @Id";
                 using (var command = new SqlCommand(query, connection))
                 {
-                    command.Parameters.AddWithValue("@Id", categoria.Id);
-                    command.Parameters.AddWithValue("@Nombre", categoria.Nombre);
+                    command.Parameters.AddWithValue("@Id", rol.Id);
+                    command.Parameters.AddWithValue("@Nombre", rol.Nombre);
                     await command.ExecuteNonQueryAsync();
                 }
             }
@@ -100,29 +110,10 @@ public class CategoriaEventoRepository : ICategoriaEventoRepository
             using (var connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
-                string query = "DELETE FROM CategoriaEvento WHERE Id = @Id";
+                string query = "DELETE FROM Roles WHERE ID = @Id";
                 using (var command = new SqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@Id", id);
-                    await command.ExecuteNonQueryAsync();
-                }
-            }
-        }
-
-        public async Task InicializarDatosAsync()
-        {
-            using (var connection = new SqlConnection(_connectionString))
-            {
-                await connection.OpenAsync();
-                string query = @"
-                    INSERT INTO CategoriaEvento (Nombre)
-                    VALUES 
-                    (@Nombre1),
-                    (@Nombre2)";
-                using (var command = new SqlCommand(query, connection))
-                {
-                    command.Parameters.AddWithValue("@Nombre1", "Conciertos");
-                    command.Parameters.AddWithValue("@Nombre2", "Teatro");
                     await command.ExecuteNonQueryAsync();
                 }
             }

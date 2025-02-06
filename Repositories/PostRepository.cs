@@ -1,7 +1,11 @@
-
+using Models;
 using Microsoft.Data.SqlClient;
+
+
 namespace dosEvAPI.Repositories{
- public class PostRepository : IPostRepository
+    
+    
+     public class PostRepository : IPostRepository
     {
         private readonly string _connectionString;
 

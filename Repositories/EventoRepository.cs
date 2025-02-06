@@ -1,3 +1,5 @@
+using Models;
+using Microsoft.Data.SqlClient;
 
 namespace dosEvAPI.Repositories
 {
