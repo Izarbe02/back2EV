@@ -1,8 +1,6 @@
 CREATE DATABASE dosEvBack;
 USE dosEvBack;
 
-GO
-
 -- Usuarios
 CREATE TABLE Usuarios (
     ID INT IDENTITY(1,1) PRIMARY KEY,
@@ -19,17 +17,14 @@ CREATE TABLE Roles (
     nombre NVARCHAR(50) NOT NULL
 );
 
--- Relación entre Usuarios - Roles
-CREATE TABLE Usuario_Roles (
-    idUsuario INT,
-    idRol INT,
-    PRIMARY KEY (idUsuario, idRol),
-    FOREIGN KEY (idUsuario) REFERENCES Usuarios(ID) ON DELETE CASCADE,
-    FOREIGN KEY (idRol) REFERENCES Roles(ID) ON DELETE CASCADE
+-- CategoríasEventos
+CREATE TABLE CategoriasEventos (
+    ID INT IDENTITY(1,1) PRIMARY KEY,
+    nombre NVARCHAR(100) NOT NULL UNIQUE
 );
 
--- Categorías 
-CREATE TABLE Categorias (
+-- CategoríasProductos
+CREATE TABLE CategoriasProductos (
     ID INT IDENTITY(1,1) PRIMARY KEY,
     nombre NVARCHAR(100) NOT NULL UNIQUE
 );
@@ -51,9 +46,7 @@ CREATE TABLE EstablecimientosColaboradores (
     contraseña NVARCHAR(255) NOT NULL,
     telefono NVARCHAR(20),
     idRol INT NOT NULL,
-    idCategoria INT NOT NULL,
-    FOREIGN KEY (idRol) REFERENCES Roles(ID) ON DELETE CASCADE,
-    FOREIGN KEY (idCategoria) REFERENCES Categorias(ID) ON DELETE CASCADE
+    FOREIGN KEY (idRol) REFERENCES Roles(ID) ON DELETE CASCADE
 );
 
 -- Eventos
@@ -69,7 +62,7 @@ CREATE TABLE Eventos (
     idCategoria INT NOT NULL,
     idOrganizador INT NOT NULL,
     FOREIGN KEY (idTematica) REFERENCES Tematica(ID) ON DELETE SET NULL,
-    FOREIGN KEY (idCategoria) REFERENCES Categorias(ID) ON DELETE SET NULL,
+    FOREIGN KEY (idCategoria) REFERENCES CategoriasEventos(ID) ON DELETE SET NULL,
     FOREIGN KEY (idOrganizador) REFERENCES Usuarios(ID) ON DELETE CASCADE
 );
 
@@ -104,5 +97,5 @@ CREATE TABLE Productos (
     idUsuario INT NOT NULL,
     idCategoria INT NOT NULL,
     FOREIGN KEY (idUsuario) REFERENCES Usuarios(ID) ON DELETE CASCADE,
-    FOREIGN KEY (idCategoria) REFERENCES Categorias(ID) ON DELETE CASCADE
+    FOREIGN KEY (idCategoria) REFERENCES CategoriasProductos(ID) ON DELETE CASCADE
 );

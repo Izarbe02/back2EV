@@ -1,14 +1,14 @@
 namespace Models;
 
-public class Categoria
+public class CategoriaEvento
 {
     public int Id { get; set; }
     public string Nombre { get; set; }
 
-    public Categoria(string nombre)
+    public CategoriaEvento(string nombre)
     {
         Nombre = nombre;
     }
 
-    public Categoria() { }
+    public CategoriaEvento() { }
 }
