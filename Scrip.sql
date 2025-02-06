@@ -1,3 +1,8 @@
+CREATE DATABASE dosEvBack;
+
+USE dosEvBack;
+
+GO
 -- Usuarios
 CREATE TABLE Usuarios (
     ID INT IDENTITY(1,1) PRIMARY KEY,
