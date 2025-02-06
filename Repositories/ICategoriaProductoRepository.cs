@@ -1,4 +1,4 @@
-
+using Microsoft.Data.SqlClient;
     public class EstablecimientoColaboradorRepository : IEstablecimientoColaboradorRepository
     {
         private readonly string _connectionString;
@@ -30,7 +30,7 @@
                                 Descripcion = reader.GetString(3),
                                 Enlace = reader.GetString(4),
                                 Email = reader.GetString(5),
-                                Contraseña = reader.GetString(6),
+                                Contrasenia = reader.GetString(6),
                                 Telefono = reader.GetString(7),
                                 IdRol = reader.GetInt32(8)
                             };
@@ -49,7 +49,7 @@
             using (var connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
-                string query = "SELECT ID, nombre, ubicacion, descripcion, enlace, email, contraseña, telefono, idRol FROM EstablecimientosColaboradores WHERE ID = @Id";
+                string query = "SELECT ID, nombre, ubicacion, descripcion, enlace, email, contrasenia, telefono, idRol FROM EstablecimientosColaboradores WHERE ID = @Id";
                 using (var command = new SqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@Id", id);
@@ -65,7 +65,7 @@
                                 Descripcion = reader.GetString(3),
                                 Enlace = reader.GetString(4),
                                 Email = reader.GetString(5),
-                                Contraseña = reader.GetString(6),
+                                Contrasenia = reader.GetString(6),
                                 Telefono = reader.GetString(7),
                                 IdRol = reader.GetInt32(8)
                             };
@@ -81,7 +81,7 @@
             using (var connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
-                string query = "INSERT INTO EstablecimientosColaboradores (nombre, ubicacion, descripcion, enlace, email, contraseña, telefono, idRol) VALUES (@Nombre, @Ubicacion, @Descripcion, @Enlace, @Email, @Contraseña, @Telefono, @IdRol)";
+                string query = "INSERT INTO EstablecimientosColaboradores (nombre, ubicacion, descripcion, enlace, email, contrasenia, telefono, idRol) VALUES (@Nombre, @Ubicacion, @Descripcion, @Enlace, @Email, @Contrasenia, @Telefono, @IdRol)";
                 using (var command = new SqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@Nombre", establecimiento.Nombre);
@@ -89,7 +89,7 @@
                     command.Parameters.AddWithValue("@Descripcion", establecimiento.Descripcion);
                     command.Parameters.AddWithValue("@Enlace", establecimiento.Enlace);
                     command.Parameters.AddWithValue("@Email", establecimiento.Email);
-                    command.Parameters.AddWithValue("@Contraseña", establecimiento.Contraseña);
+                    command.Parameters.AddWithValue("@Contrasenia", establecimiento.Contrasenia);
                     command.Parameters.AddWithValue("@Telefono", establecimiento.Telefono);
                     command.Parameters.AddWithValue("@IdRol", establecimiento.IdRol);
                     await command.ExecuteNonQueryAsync();
@@ -102,7 +102,7 @@
             using (var connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
-                string query = "UPDATE EstablecimientosColaboradores SET nombre = @Nombre, ubicacion = @Ubicacion, descripcion = @Descripcion, enlace = @Enlace, email = @Email, contraseña = @Contraseña, telefono = @Telefono, idRol = @IdRol WHERE ID = @Id";
+                string query = "UPDATE EstablecimientosColaboradores SET nombre = @Nombre, ubicacion = @Ubicacion, descripcion = @Descripcion, enlace = @Enlace, email = @Email, contrasenia = @Contrasenia, telefono = @Telefono, idRol = @IdRol WHERE ID = @Id";
                 using (var command = new SqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@Id", establecimiento.Id);
@@ -111,7 +111,7 @@
                     command.Parameters.AddWithValue("@Descripcion", establecimiento.Descripcion);
                     command.Parameters.AddWithValue("@Enlace", establecimiento.Enlace);
                     command.Parameters.AddWithValue("@Email", establecimiento.Email);
-                    command.Parameters.AddWithValue("@Contraseña", establecimiento.Contraseña);
+                    command.Parameters.AddWithValue("@Contrasenia", establecimiento.Contrasenia);
                     command.Parameters.AddWithValue("@Telefono", establecimiento.Telefono);
                     command.Parameters.AddWithValue("@IdRol", establecimiento.IdRol);
                     await command.ExecuteNonQueryAsync();
