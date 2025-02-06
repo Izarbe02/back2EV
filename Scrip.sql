@@ -1,8 +1,8 @@
 CREATE DATABASE dosEvBack;
-
 USE dosEvBack;
 
 GO
+
 -- Usuarios
 CREATE TABLE Usuarios (
     ID INT IDENTITY(1,1) PRIMARY KEY,
@@ -19,7 +19,7 @@ CREATE TABLE Roles (
     nombre NVARCHAR(50) NOT NULL
 );
 
--- Relación entgre Usuarios - Roles
+-- Relación entre Usuarios - Roles
 CREATE TABLE Usuario_Roles (
     idUsuario INT,
     idRol INT,
@@ -28,7 +28,19 @@ CREATE TABLE Usuario_Roles (
     FOREIGN KEY (idRol) REFERENCES Roles(ID) ON DELETE CASCADE
 );
 
--- Establecimientos Colaboradores
+-- Categorías 
+CREATE TABLE Categorias (
+    ID INT IDENTITY(1,1) PRIMARY KEY,
+    nombre NVARCHAR(100) NOT NULL UNIQUE
+);
+
+-- Temáticas
+CREATE TABLE Tematica (
+    ID INT IDENTITY(1,1) PRIMARY KEY,
+    nombre NVARCHAR(100) NOT NULL UNIQUE
+);
+
+-- Establecimientos 
 CREATE TABLE EstablecimientosColaboradores (
     ID INT IDENTITY(1,1) PRIMARY KEY,
     nombre NVARCHAR(50) NOT NULL,
@@ -39,13 +51,9 @@ CREATE TABLE EstablecimientosColaboradores (
     contraseña NVARCHAR(255) NOT NULL,
     telefono NVARCHAR(20),
     idRol INT NOT NULL,
-    FOREIGN KEY (idRol) REFERENCES Roles(ID) ON DELETE CASCADE
-);
-
--- Categorías de Eventos
-CREATE TABLE Categorias_Evento (
-    ID INT IDENTITY(1,1) PRIMARY KEY,
-    nombre NVARCHAR(100) NOT NULL UNIQUE
+    idCategoria INT NOT NULL,
+    FOREIGN KEY (idRol) REFERENCES Roles(ID) ON DELETE CASCADE,
+    FOREIGN KEY (idCategoria) REFERENCES Categorias(ID) ON DELETE CASCADE
 );
 
 -- Eventos
@@ -56,19 +64,20 @@ CREATE TABLE Eventos (
     ubicacion NVARCHAR(255) NOT NULL,
     fecha_inicio DATETIME NOT NULL,
     fecha_fin DATETIME NOT NULL,
-    tematica NVARCHAR(100),
+    idTematica INT NOT NULL,
     enlace NVARCHAR(255),
-    idCategoria INT,
-    idOrganizador INT,
-    FOREIGN KEY (idCategoria) REFERENCES Categorias_Evento(ID) ON DELETE SET NULL,
+    idCategoria INT NOT NULL,
+    idOrganizador INT NOT NULL,
+    FOREIGN KEY (idTematica) REFERENCES Tematica(ID) ON DELETE SET NULL,
+    FOREIGN KEY (idCategoria) REFERENCES Categorias(ID) ON DELETE SET NULL,
     FOREIGN KEY (idOrganizador) REFERENCES Usuarios(ID) ON DELETE CASCADE
 );
 
 -- Comentarios
 CREATE TABLE Comentarios (
     ID INT IDENTITY(1,1) PRIMARY KEY,
-    idUsuario INT,
-    idEvento INT,
+    idUsuario INT NOT NULL,
+    idEvento INT NOT NULL,
     comentario NVARCHAR(MAX) NOT NULL,
     fecha DATETIME DEFAULT GETDATE(),
     FOREIGN KEY (idUsuario) REFERENCES Usuarios(ID) ON DELETE CASCADE,
@@ -78,7 +87,7 @@ CREATE TABLE Comentarios (
 -- Posts
 CREATE TABLE Posts (
     ID INT IDENTITY(1,1) PRIMARY KEY,
-    idUsuario INT,
+    idUsuario INT NOT NULL,
     titulo NVARCHAR(100) NOT NULL,
     contenido NVARCHAR(200) NOT NULL,
     fecha DATETIME DEFAULT GETDATE(),
@@ -89,24 +98,11 @@ CREATE TABLE Posts (
 CREATE TABLE Productos (
     ID INT IDENTITY(1,1) PRIMARY KEY,
     nombre NVARCHAR(100) NOT NULL,
-    descripcion NVARCHAR(150),
-    ubicacion NVARCHAR(255),
-    imagen NVARCHAR(255),
-    idUsuario INT,
-    FOREIGN KEY (idUsuario) REFERENCES Usuarios(ID) ON DELETE CASCADE
-);
-
--- Categorías de Productos
-CREATE TABLE Categorias_Productos (
-    ID INT IDENTITY(1,1) PRIMARY KEY,
-    nombre NVARCHAR(100) NOT NULL UNIQUE
-);
-
--- Relación entre Productos - Categorías
-CREATE TABLE Producto_Categoria (
-    idProducto INT,
-    idCategoria INT,
-    PRIMARY KEY (idProducto, idCategoria),
-    FOREIGN KEY (idProducto) REFERENCES Productos(ID) ON DELETE CASCADE,
-    FOREIGN KEY (idCategoria) REFERENCES Categorias_Productos(ID) ON DELETE CASCADE
+    descripcion NVARCHAR(150) NOT NULL,
+    ubicacion NVARCHAR(255) NOT NULL,
+    imagen NVARCHAR(255) NOT NULL,
+    idUsuario INT NOT NULL,
+    idCategoria INT NOT NULL,
+    FOREIGN KEY (idUsuario) REFERENCES Usuarios(ID) ON DELETE CASCADE,
+    FOREIGN KEY (idCategoria) REFERENCES Categorias(ID) ON DELETE CASCADE
 );
