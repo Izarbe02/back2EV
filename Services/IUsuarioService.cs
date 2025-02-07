@@ -1,7 +1,8 @@
+using dosEvAPI.Repositories;
 using Models;
+
 namespace dosEvAPI.Service
-{
-    public interface IUsuarioService
+{    public interface IUsuarioService
     {
         Task<List<Usuario>> GetAllAsync();
         Task<Usuario?> GetByIdAsync(int id);

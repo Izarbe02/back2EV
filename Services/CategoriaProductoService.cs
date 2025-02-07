@@ -1,6 +1,8 @@
+using dosEvAPI.Repositories;
 using Models;
 
-namespace dosEvAPI.Service{public class CategoriaProductoService : ICategoriaProductoService
+namespace dosEvAPI.Service
+{public class CategoriaProductoService : ICategoriaProductoService
     {
         private readonly ICategoriaProductoRepository _categoriaProductoRepository;
 

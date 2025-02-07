@@ -1,4 +1,6 @@
-namespace Models;
+using System.Diagnostics;
+using Models;
+
 
 public class Usuario
 {

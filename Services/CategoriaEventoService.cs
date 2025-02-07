@@ -1,8 +1,8 @@
+using dosEvAPI.Repositories;
 using Models;
 
-
-
-namespace dosEvAPI.Service{
+namespace dosEvAPI.Service
+{
         private readonly ICategoriaEventoRepository _categoriaEventoRepository;
 
         public CategoriaEventoService(ICategoriaEventoRepository categoriaEventoRepository)

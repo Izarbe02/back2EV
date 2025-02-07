@@ -1,4 +1,5 @@
-namespace Models;
+using System.Diagnostics;
+using Models;
 
 public class Comentario
 {
@@ -14,7 +15,7 @@ public class Comentario
         IdUsuario = idUsuario;
         IdEvento = idEvento;
         Contenido = contenido;
-        Fecha = fecha;
+        Fecha = (DateTime)fecha;
     }
 
     public Comentario() { }

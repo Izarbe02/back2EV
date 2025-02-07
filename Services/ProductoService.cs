@@ -1,9 +1,8 @@
-    
+using dosEvAPI.Repositories;
 using Models;
 
 namespace dosEvAPI.Service
-    {
-        public class ProductoService : IProductoService
+{        public class ProductoService : IProductoService
         {
             private readonly IProductoRepository _productoRepository;
 

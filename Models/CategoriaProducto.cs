@@ -1,6 +1,8 @@
-namespace Models;
+using System.Diagnostics;
+using Models;
 
-public class CategoriaProductoProducto
+
+public class CategoriaProducto
 {
     public int Id { get; set; }
     public string Nombre { get; set; }
