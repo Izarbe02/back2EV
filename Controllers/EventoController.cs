@@ -32,6 +32,17 @@ namespace dosEvAPI.Controllers{
             return Ok(evento);
         }
 
+        [HttpGet("{NombreEstablecimiento}")]
+        public async Task<ActionResult<Evento>> GetEvento(string NombreEstablecimiento)
+        {
+            var evento = await _serviceEvento.GetByIdAsync(id);
+            if (evento == null)
+            {
+                return NotFound();
+            }
+            return Ok(evento);
+        }
+
         [HttpPost]
         public async Task<ActionResult<Evento>> CreateEvento(Evento evento)
         {
