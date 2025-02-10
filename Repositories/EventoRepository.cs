@@ -3,15 +3,6 @@ using Microsoft.Data.SqlClient;
 
 namespace dosEvAPI.Repositories
 {
-    public interface IEventoRepository
-    {
-        Task<List<Evento>> GetAllAsync();
-        Task<Evento?> GetByIdAsync(int id);
-        Task AddAsync(Evento evento);
-        Task UpdateAsync(Evento evento);
-        Task DeleteAsync(int id);
-    }
-
     public class EventoRepository : IEventoRepository
     {
         private readonly string _connectionString;
@@ -67,6 +58,41 @@ namespace dosEvAPI.Repositories
                 using (var command = new SqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@Id", id);
+                    using (var reader = await command.ExecuteReaderAsync())
+                    {
+                        if (await reader.ReadAsync())
+                        {
+                            evento = new Evento
+                            {
+                                Id = reader.GetInt32(0),
+                                Nombre = reader.GetString(1),
+                                Descripcion = reader.GetString(2),
+                                Ubicacion = reader.GetString(3),
+                                FechaInicio = reader.GetDateTime(4),
+                                FechaFin = reader.GetDateTime(5),
+                                IdTematica = reader.GetInt32(6),
+                                Enlace = reader.GetString(7),
+                                IdCategoria = reader.GetInt32(8),
+                                IdOrganizador = reader.GetInt32(9)
+                            };
+                        }
+                    }
+                }
+            }
+            return evento;
+        }
+
+        public async Task<Evento?> GetByCategoriaAsync(string categoria)
+        {
+            Evento? evento = null;
+
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                string query = "SELECT e.ID, e.nombre, e.descripcion, e.ubicacion, e.fecha_inicio, e.fecha_fin, e.idTematica, e.enlace, e.idCategoria, e.idOrganizador FROM Eventos e INNER JOIN CategoriasEventos c ON e.idCategoria=c.ID WHERE c.nombre = @categoria";
+                using (var command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@categoria", categoria);
                     using (var reader = await command.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())

@@ -23,6 +23,11 @@ namespace dosEvAPI.Service
             return await _eventoRepository.GetByIdAsync(id);
         }
 
+        public async Task<Evento?> GetByCategoriaAsync(string categoria)
+        {
+            return await _eventoRepository.GetByCategoriaAsync(categoria);
+        }
+
         public async Task AddAsync(Evento evento)
         {
             await _eventoRepository.AddAsync(evento);
