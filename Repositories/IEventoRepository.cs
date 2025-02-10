@@ -16,5 +16,6 @@ namespace dosEvAPI.Repositories
         Task UpdateAsync(Evento evento);
         Task DeleteAsync(int id);
         Task InicializarDatosAsync();
+          Task<EventoInfoDTO?>  GetInfoEventoAsync();
     }
 }

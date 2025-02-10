@@ -200,6 +200,46 @@ namespace dosEvAPI.Repositories
             }
         }
 
+
+        public async Task<EventoInfoDTO> GetInfoEventoAsync (int id )
+        {
+            EventoInfoDTO eventoInfo = null;
+
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                string query =@"SELECT o.nombre, e.nombre, e.descripcion, e.fecha_inicio, e.fecha_fin, e.ubicacion, c.nombre, t.nombre, e.enlace
+                FROM Eventos e INNER JOIN Organizador o 
+                ON e.idOrganizador=o.ID INNER JOIN CategoriasEventos c
+                 ON e.idCategoria=c.ID INNER JOIN Tematicas t
+                  ON e.idTematica=t.ID WHERE e.ID = @Id";
+                using (var command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@Id", id);
+                    using (var reader = await command.ExecuteReaderAsync())
+                    {
+                        if (await reader.ReadAsync())
+                        {
+                            eventoInfo = new EventoInfoDTO
+                            {
+                                NombreOrg = reader.GetString(0),
+                                NombreEvento = reader.GetString(1),
+                                Descripcion = reader.GetString(2),
+                                FechaInicio = reader.GetDateTime(3),
+                                FechaFin = reader.GetDateTime(4),
+                                Ubicacion = reader.GetString(5),
+                                EventoCategoria = reader.GetString(6),
+                                Tematica = reader.GetString(7),
+                                Enlace = reader.GetString(8)
+                            };
+                        }
+                    }
+                }
+            }
+            return eventoInfo;
+        }
+      
+
         public async Task DeleteAsync(int id)
         {
             using (var connection = new SqlConnection(_connectionString))
