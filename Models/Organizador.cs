@@ -1,6 +1,6 @@
 namespace Models;
 
-public class EstablecimientoColaborador : Usuario
+public class Organizador : Usuario
 {
     public string Descripcion { get; set; }
     public string Enlace { get; set; }
@@ -8,7 +8,7 @@ public class EstablecimientoColaborador : Usuario
     public int IdRol { get; set; }
     public int IdCategoria { get; set; }
 
-    public EstablecimientoColaborador(string username,string nombre,string contrasenia,int idRol,int idCategoria,string email,
+    public Organizador(string username,string nombre,string contrasenia,int idRol,int idCategoria,string email,
         string ubicacion,
         string descripcion,
         string enlace,
@@ -22,5 +22,5 @@ public class EstablecimientoColaborador : Usuario
         Telefono = telefono;
     }
 
-    public EstablecimientoColaborador() : base() { }
+    public Organizador() : base() { }
 }

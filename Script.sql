@@ -35,8 +35,8 @@ CREATE TABLE Tematica (
     nombre NVARCHAR(100) NOT NULL UNIQUE
 );
 
--- Establecimientos 
-CREATE TABLE EstablecimientosColaboradores (
+-- Organizador 
+CREATE TABLE Organizador (
     ID INT IDENTITY(1,1) PRIMARY KEY,
     nombre NVARCHAR(50) NOT NULL,
     ubicacion NVARCHAR(255) NOT NULL,
@@ -63,7 +63,7 @@ CREATE TABLE Eventos (
     idOrganizador INT NOT NULL,
     FOREIGN KEY (idTematica) REFERENCES Tematica(ID) ON DELETE SET NULL,
     FOREIGN KEY (idCategoria) REFERENCES CategoriasEventos(ID) ON DELETE SET NULL,
-    FOREIGN KEY (idOrganizador) REFERENCES Usuarios(ID) ON DELETE CASCADE
+    FOREIGN KEY (idOrganizador) REFERENCES Organizador(ID) ON DELETE CASCADE
 );
 
 -- Comentarios

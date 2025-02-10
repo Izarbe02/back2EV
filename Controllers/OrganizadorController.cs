@@ -5,26 +5,26 @@ using dosEvAPI.Service;
 namespace dosEvAPI.Controllers{
     [Route("api/[controller]")]
     [ApiController]
-    public class EstablecimientoColaboradorController : ControllerBase
+    public class OrganizadorController : ControllerBase
     {
-        private readonly IEstablecimientoColaboradorService _serviceEstablecimientoColaborador;
+        private readonly IOrganizadorService _serviceOrganizador;
 
-        public EstablecimientoColaboradorController(IEstablecimientoColaboradorService service)
+        public OrganizadorController(IOrganizadorService service)
         {
-            _serviceEstablecimientoColaborador = service;
+            _serviceOrganizador = service;
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<EstablecimientoColaborador>>> GetEstablecimientos()
+        public async Task<ActionResult<List<Organizador>>> GetEstablecimientos()
         {
-            var establecimientos = await _serviceEstablecimientoColaborador.GetAllAsync();
+            var establecimientos = await _serviceOrganizador.GetAllAsync();
             return Ok(establecimientos);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<EstablecimientoColaborador>> GetEstablecimiento(int id)
+        public async Task<ActionResult<Organizador>> GetEstablecimiento(int id)
         {
-            var establecimiento = await _serviceEstablecimientoColaborador.GetByIdAsync(id);
+            var establecimiento = await _serviceOrganizador.GetByIdAsync(id);
             if (establecimiento == null)
             {
                 return NotFound();
@@ -33,16 +33,16 @@ namespace dosEvAPI.Controllers{
         }
 
         [HttpPost]
-        public async Task<ActionResult<EstablecimientoColaborador>> CreateEstablecimiento(EstablecimientoColaborador establecimiento)
+        public async Task<ActionResult<Organizador>> CreateEstablecimiento(Organizador establecimiento)
         {
-            await _serviceEstablecimientoColaborador.AddAsync(establecimiento);
+            await _serviceOrganizador.AddAsync(establecimiento);
             return CreatedAtAction(nameof(GetEstablecimiento), new { id = establecimiento.Id }, establecimiento);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateEstablecimiento(int id, EstablecimientoColaborador updatedEstablecimiento)
+        public async Task<IActionResult> UpdateEstablecimiento(int id, Organizador updatedEstablecimiento)
         {
-            var existingEstablecimiento = await _serviceEstablecimientoColaborador.GetByIdAsync(id);
+            var existingEstablecimiento = await _serviceOrganizador.GetByIdAsync(id);
             if (existingEstablecimiento == null)
             {
                 return NotFound();
@@ -54,19 +54,19 @@ namespace dosEvAPI.Controllers{
             existingEstablecimiento.IdRol = updatedEstablecimiento.IdRol;
             existingEstablecimiento.IdCategoria = updatedEstablecimiento.IdCategoria;
 
-            await _serviceEstablecimientoColaborador.UpdateAsync(existingEstablecimiento);
+            await _serviceOrganizador.UpdateAsync(existingEstablecimiento);
             return NoContent();
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteEstablecimiento(int id)
         {
-            var establecimiento = await _serviceEstablecimientoColaborador.GetByIdAsync(id);
+            var establecimiento = await _serviceOrganizador.GetByIdAsync(id);
             if (establecimiento == null)
             {
                 return NotFound();
             }
-            await _serviceEstablecimientoColaborador.DeleteAsync(id);
+            await _serviceOrganizador.DeleteAsync(id);
             return NoContent();
         }
     }

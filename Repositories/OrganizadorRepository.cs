@@ -1,30 +1,30 @@
 using Models;
 using Microsoft.Data.SqlClient;
 namespace dosEvAPI.Repositories{
-    public class EstablecimientoColaboradorRepository : IEstablecimientoColaboradorRepository
+    public class OrganizadorRepository : IOrganizadorRepository
     {
         private readonly string _connectionString;
 
-        public EstablecimientoColaboradorRepository(string connectionString)
+        public OrganizadorRepository(string connectionString)
         {
             _connectionString = connectionString;
         }
 
-        public async Task<List<EstablecimientoColaborador>> GetAllAsync()
+        public async Task<List<Organizador>> GetAllAsync()
         {
-            var establecimientos = new List<EstablecimientoColaborador>();
+            var organizadores = new List<Organizador>();
 
             using (var connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
-                string query = "SELECT ID, nombre, ubicacion, descripcion, enlace, email, contraseña, telefono, idRol FROM EstablecimientosColaboradores";
+                string query = "SELECT ID, nombre, ubicacion, descripcion, enlace, email, contraseña, telefono, idRol FROM Organizador";
                 using (var command = new SqlCommand(query, connection))
                 {
                     using (var reader = await command.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
                         {
-                            var establecimiento = new EstablecimientoColaborador
+                            var organizador = new Organizador
                             {
                                 Id = reader.GetInt32(0),
                                 Nombre = reader.GetString(1),
@@ -36,22 +36,22 @@ namespace dosEvAPI.Repositories{
                                 Telefono = reader.GetString(7),
                                 IdRol = reader.GetInt32(8)
                             };
-                            establecimientos.Add(establecimiento);
+                            organizadores.Add(organizador);
                         }
                     }
                 }
             }
-            return establecimientos;
+            return organizadores;
         }
 
-        public async Task<EstablecimientoColaborador?> GetByIdAsync(int id)
+        public async Task<Organizador?> GetByIdAsync(int id)
         {
-            EstablecimientoColaborador? establecimiento = null;
+            Organizador? organizador = null;
 
             using (var connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
-                string query = "SELECT ID, nombre, ubicacion, descripcion, enlace, email, contraseña, telefono, idRol FROM EstablecimientosColaboradores WHERE ID = @Id";
+                string query = "SELECT ID, nombre, ubicacion, descripcion, enlace, email, contraseña, telefono, idRol FROM Organizador WHERE ID = @Id";
                 using (var command = new SqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@Id", id);
@@ -59,7 +59,7 @@ namespace dosEvAPI.Repositories{
                     {
                         if (await reader.ReadAsync())
                         {
-                            establecimiento = new EstablecimientoColaborador
+                            organizador = new Organizador
                             {
                                 Id = reader.GetInt32(0),
                                 Nombre = reader.GetString(1),
@@ -75,47 +75,47 @@ namespace dosEvAPI.Repositories{
                     }
                 }
             }
-            return establecimiento;
+            return organizador;
         }
 
-        public async Task AddAsync(EstablecimientoColaborador establecimiento)
+        public async Task AddAsync(Organizador organizador)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
-                string query = "INSERT INTO EstablecimientosColaboradores (nombre, ubicacion, descripcion, enlace, email, contraseña, telefono, idRol) VALUES (@Nombre, @Ubicacion, @Descripcion, @Enlace, @Email, @Contraseña, @Telefono, @IdRol)";
+                string query = "INSERT INTO Organizador (nombre, ubicacion, descripcion, enlace, email, contraseña, telefono, idRol) VALUES (@Nombre, @Ubicacion, @Descripcion, @Enlace, @Email, @Contraseña, @Telefono, @IdRol)";
                 using (var command = new SqlCommand(query, connection))
                 {
-                    command.Parameters.AddWithValue("@Nombre", establecimiento.Nombre);
-                    command.Parameters.AddWithValue("@Ubicacion", establecimiento.Ubicacion);
-                    command.Parameters.AddWithValue("@Descripcion", establecimiento.Descripcion);
-                    command.Parameters.AddWithValue("@Enlace", establecimiento.Enlace);
-                    command.Parameters.AddWithValue("@Email", establecimiento.Email);
-                    command.Parameters.AddWithValue("@Contraseña", establecimiento.Contraseña);
-                    command.Parameters.AddWithValue("@Telefono", establecimiento.Telefono);
-                    command.Parameters.AddWithValue("@IdRol", establecimiento.IdRol);
+                    command.Parameters.AddWithValue("@Nombre", organizador.Nombre);
+                    command.Parameters.AddWithValue("@Ubicacion", organizador.Ubicacion);
+                    command.Parameters.AddWithValue("@Descripcion", organizador.Descripcion);
+                    command.Parameters.AddWithValue("@Enlace", organizador.Enlace);
+                    command.Parameters.AddWithValue("@Email", organizador.Email);
+                    command.Parameters.AddWithValue("@Contraseña", organizador.Contraseña);
+                    command.Parameters.AddWithValue("@Telefono", organizador.Telefono);
+                    command.Parameters.AddWithValue("@IdRol", organizador.IdRol);
                     await command.ExecuteNonQueryAsync();
                 }
             }
         }
 
-        public async Task UpdateAsync(EstablecimientoColaborador establecimiento)
+        public async Task UpdateAsync(Organizador organizador)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
-                string query = "UPDATE EstablecimientosColaboradores SET nombre = @Nombre, ubicacion = @Ubicacion, descripcion = @Descripcion, enlace = @Enlace, email = @Email, contraseña = @Contraseña, telefono = @Telefono, idRol = @IdRol WHERE ID = @Id";
+                string query = "UPDATE Organizador SET nombre = @Nombre, ubicacion = @Ubicacion, descripcion = @Descripcion, enlace = @Enlace, email = @Email, contraseña = @Contraseña, telefono = @Telefono, idRol = @IdRol WHERE ID = @Id";
                 using (var command = new SqlCommand(query, connection))
                 {
-                    command.Parameters.AddWithValue("@Id", establecimiento.Id);
-                    command.Parameters.AddWithValue("@Nombre", establecimiento.Nombre);
-                    command.Parameters.AddWithValue("@Ubicacion", establecimiento.Ubicacion);
-                    command.Parameters.AddWithValue("@Descripcion", establecimiento.Descripcion);
-                    command.Parameters.AddWithValue("@Enlace", establecimiento.Enlace);
-                    command.Parameters.AddWithValue("@Email", establecimiento.Email);
-                    command.Parameters.AddWithValue("@Contraseña", establecimiento.Contraseña);
-                    command.Parameters.AddWithValue("@Telefono", establecimiento.Telefono);
-                    command.Parameters.AddWithValue("@IdRol", establecimiento.IdRol);
+                    command.Parameters.AddWithValue("@Id", organizador.Id);
+                    command.Parameters.AddWithValue("@Nombre", organizador.Nombre);
+                    command.Parameters.AddWithValue("@Ubicacion", organizador.Ubicacion);
+                    command.Parameters.AddWithValue("@Descripcion", organizador.Descripcion);
+                    command.Parameters.AddWithValue("@Enlace", organizador.Enlace);
+                    command.Parameters.AddWithValue("@Email", organizador.Email);
+                    command.Parameters.AddWithValue("@Contraseña", organizador.Contraseña);
+                    command.Parameters.AddWithValue("@Telefono", organizador.Telefono);
+                    command.Parameters.AddWithValue("@IdRol", organizador.IdRol);
                     await command.ExecuteNonQueryAsync();
                 }
             }
@@ -126,7 +126,7 @@ namespace dosEvAPI.Repositories{
             using (var connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
-                string query = "DELETE FROM EstablecimientosColaboradores WHERE ID = @Id";
+                string query = "DELETE FROM Organizador WHERE ID = @Id";
                 using (var command = new SqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@Id", id);

@@ -32,10 +32,23 @@ namespace dosEvAPI.Controllers{
             return Ok(evento);
         }
 
-        [HttpGet("{NombreEstablecimiento}")]
-        public async Task<ActionResult<Evento>> GetEvento(string NombreEstablecimiento)
+
+        [HttpGet("{organizador}")]
+        public async Task<ActionResult<Evento>> GetEvento(string organizador)
         {
-            var evento = await _serviceEvento.GetByIdAsync(id);
+            var evento = await _serviceEvento.GetByIdAsync(organizador);
+            if (evento == null)
+            {
+                return NotFound();
+            }
+            return Ok(evento);
+        }
+
+
+        [HttpGet("{categoria}")]
+        public async Task<ActionResult<Evento>> GetEvento(string categoria)
+        {
+            var evento = await _serviceEvento.GetByCategoriaAsync(categoria);
             if (evento == null)
             {
                 return NotFound();

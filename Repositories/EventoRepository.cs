@@ -82,6 +82,7 @@ namespace dosEvAPI.Repositories
             return evento;
         }
 
+        // Funcion para filtrar por categoria
         public async Task<Evento?> GetByCategoriaAsync(string categoria)
         {
             Evento? evento = null;
@@ -93,6 +94,43 @@ namespace dosEvAPI.Repositories
                 using (var command = new SqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@categoria", categoria);
+                    using (var reader = await command.ExecuteReaderAsync())
+                    {
+                        if (await reader.ReadAsync())
+                        {
+                            evento = new Evento
+                            {
+                                Id = reader.GetInt32(0),
+                                Nombre = reader.GetString(1),
+                                Descripcion = reader.GetString(2),
+                                Ubicacion = reader.GetString(3),
+                                FechaInicio = reader.GetDateTime(4),
+                                FechaFin = reader.GetDateTime(5),
+                                IdTematica = reader.GetInt32(6),
+                                Enlace = reader.GetString(7),
+                                IdCategoria = reader.GetInt32(8),
+                                IdOrganizador = reader.GetInt32(9)
+                            };
+                        }
+                    }
+                }
+            }
+            return evento;
+        }
+        
+
+        // Funcion para filtrar por organizador
+        public async Task<Evento?> GetByOrganizadorAsync(string organizador)
+        {
+            Evento? evento = null;
+
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                string query = "SELECT e.ID, e.nombre, e.descripcion, e.ubicacion, e.fecha_inicio, e.fecha_fin, e.idTematica, e.enlace, e.idCategoria, e.idOrganizador FROM Eventos e INNER JOIN Organizador o ON e.idOrganizador=o.ID WHERE o.nombre = @organizador";
+                using (var command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@organizador", organizador);
                     using (var reader = await command.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
