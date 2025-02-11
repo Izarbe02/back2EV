@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using dosEvAPI.Repositories;
 using dosEvAPI.Service;
+using Models;
 
 namespace dosEvAPI.Controllers{
     [Route("api/[controller]")]
