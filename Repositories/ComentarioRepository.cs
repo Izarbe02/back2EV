@@ -71,23 +71,23 @@ namespace dosEvAPI.Repositories{
             }
             return comentario;
         }
-
-        public async Task AddAsync(Comentario comentario)
+public async Task  AddAsync(Comentario comentario)
+{
+    using (var connection = new SqlConnection(_connectionString))
+    {
+        await connection.OpenAsync();
+        string query = "INSERT INTO Comentarios (idUsuario, idEvento, comentario, fecha) VALUES (@IdUsuario, @IdEvento, @Comentario, @Fecha)";
+        using (var command = new SqlCommand(query, connection))
         {
-            using (var connection = new SqlConnection(_connectionString))
-            {
-                await connection.OpenAsync();
-                string query = "INSERT INTO Comentarios (idUsuario, idEvento, comentario, fecha) VALUES (@IdUsuario, @IdEvento, @Comentario, @Fecha)";
-                using (var command = new SqlCommand(query, connection))
-                {
-                    command.Parameters.AddWithValue("@IdUsuario", comentario.IdUsuario);
-                    command.Parameters.AddWithValue("@IdEvento", comentario.IdEvento);
-                    command.Parameters.AddWithValue("@Comentario", comentario.Contenido);
-                    command.Parameters.AddWithValue("@Fecha", comentario.Fecha ?? (object)DBNull.Value);
-                    await command.ExecuteNonQueryAsync();
-                }
-            }
+            command.Parameters.AddWithValue("@IdUsuario", comentario.IdUsuario);
+            command.Parameters.AddWithValue("@IdEvento", comentario.IdEvento);
+            command.Parameters.AddWithValue("@Comentario", comentario.Contenido);
+            command.Parameters.AddWithValue("@Fecha", comentario.Fecha);
+            await command.ExecuteNonQueryAsync();
         }
+    }
+}
+
 
         public async Task UpdateAsync(Comentario comentario)
         {
@@ -101,7 +101,7 @@ namespace dosEvAPI.Repositories{
                     command.Parameters.AddWithValue("@IdUsuario", comentario.IdUsuario);
                     command.Parameters.AddWithValue("@IdEvento", comentario.IdEvento);
                     command.Parameters.AddWithValue("@Comentario", comentario.Contenido);
-                    command.Parameters.AddWithValue("@Fecha", comentario.Fecha ?? (object)DBNull.Value);
+                    command.Parameters.AddWithValue("@Fecha", comentario.Fecha );
                     await command.ExecuteNonQueryAsync();
                 }
             }
@@ -135,14 +135,14 @@ namespace dosEvAPI.Repositories{
                 {
                     command.Parameters.AddWithValue("@IdUsuario1", 1);
                     command.Parameters.AddWithValue("@IdEvento1", 1);
-                    command.Parameters.AddWithValue("@Comentario1", "Gran evento, me encantó!");
+                    command.Parameters.AddWithValue("@Comentario1", "Gran evento, barrabasada!");
                     command.Parameters.AddWithValue("@Fecha1", DateTime.UtcNow);
 
                     command.Parameters.AddWithValue("@IdUsuario2", 2);
                     command.Parameters.AddWithValue("@IdEvento2", 1);
-                    command.Parameters.AddWithValue("@Comentario2", "No estuvo mal, pero esperaba más.");
+                    command.Parameters.AddWithValue("@Comentario2", "Ruinón.");
                     command.Parameters.AddWithValue("@Fecha2", DateTime.UtcNow);
-                    //utc tiempo unniversal coordinado
+                    //utc tiempo universal coordinado
                     
                     await command.ExecuteNonQueryAsync();
                 }
