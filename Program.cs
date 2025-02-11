@@ -34,8 +34,6 @@ var connectionString = builder.Configuration.GetConnectionString("dosEvBack");
     builder.Services.AddScoped<IEventoRepository, EventoRepository>(provider =>
         new EventoRepository(connectionString));
 
-
-
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 
@@ -52,11 +50,6 @@ builder.Services.AddScoped<IUsuarioService, UsuarioService>();
 builder.Services.AddScoped<IRolService, RolService>();
 builder.Services.AddScoped<ITematicaService, TematicaService>();
 builder.Services.AddScoped<IEventoService, EventoService>();
-
-
-
-
-
 
 builder.Services.AddOpenApi();
 
