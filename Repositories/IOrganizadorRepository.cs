@@ -2,6 +2,8 @@ using Models;
 using Microsoft.Data.SqlClient;
 
 
+
+
 namespace dosEvAPI.Repositories{
     public interface IOrganizadorRepository
     {

@@ -253,5 +253,38 @@ namespace dosEvAPI.Repositories
                 }
             }
         }
+
+
+        public async Task<List<BuscadorEventoDTO?>> GetInfoEventoBuscadorsync(string busqueda){
+            var eventos = new List<BuscadorEventoDTO?>();
+
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                string query = @"SELECT e.nombre , e.enlace , e.fecha_inicio , o.nombre from Eventos 
+                e INNER JOIN Organizador o ON e.idOrganizador = o.ID 
+                WHERE e.nombre LIKE @busqueda
+                or WHERE o.nombre LIKE @busqueda";
+                using (var command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@busqueda" ,busqueda);
+                    using (var reader = await command.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            var evento = new BuscadorEventoDTO
+                            {
+                              NombreOrg = reader.GetString(0),
+                                NombreEvento = reader.GetString(1),
+                                FechaInicio = reader.GetDateTime(2),
+                                Enlace = reader.GetString(3)
+                            };
+                            eventos.Add(evento);
+                        }
+                    }
+                }
+            }
+            return eventos;
+        }
     }
 }

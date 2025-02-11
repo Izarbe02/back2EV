@@ -3,7 +3,8 @@ using dosEvAPI.Repositories;
 using dosEvAPI.Service;
 using Models;
 
-namespace dosEvAPI.Controllers{
+namespace dosEvAPI.Controllers
+{
     [Route("api/[controller]")]
     [ApiController]
     public class EventoController : ControllerBase
@@ -21,6 +22,10 @@ namespace dosEvAPI.Controllers{
             var eventos = await _serviceEvento.GetAllAsync();
             return Ok(eventos);
         }
+
+
+
+
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Evento>> GetEvento(int id)
@@ -45,6 +50,27 @@ namespace dosEvAPI.Controllers{
             return Ok(evento);
         }
 
+        [HttpGet("{DetalleEvento}")]
+        public async Task<ActionResult<EventoInfoDTO>> GetInfoEvento(int id)
+        {
+            var evento = await _serviceEvento.GetInfoEventoAsync(id);
+            if (evento == null)
+            {
+                return NotFound();
+            }
+            return Ok(evento);
+        }
+
+        [HttpGet("{BuscadorEvento}")]
+        public async Task<ActionResult<List<BuscadorEventoDTO>>> GetInfoEventoBuscador(string busqueda)
+        {
+            var evento = await _serviceEvento.GetInfoEventoBuscadorsync(busqueda);
+            if (evento == null)
+            {
+                return NotFound();
+            }
+            return Ok(evento);
+        }
 
         [HttpGet("{categoria}")]
         public async Task<ActionResult<Evento>> GetEventoPorCategoria(string categoria)

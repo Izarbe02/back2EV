@@ -53,5 +53,16 @@ namespace dosEvAPI.Service
         {
             await _eventoRepository.DeleteAsync(id);
         }
+                // Detalle total evento 
+            public async Task<EventoInfoDTO?>  GetInfoEventoAsync(int id)
+        {
+           return  await _eventoRepository.GetInfoEventoAsync(id);
+        }
+
+    //info del buscador
+           public async Task<List<BuscadorEventoDTO?>> GetInfoEventoBuscadorsync(string nombre)
+        {
+            return await _eventoRepository.GetInfoEventoBuscadorsync(nombre);
+        }
     }
 }

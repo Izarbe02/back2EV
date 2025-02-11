@@ -12,5 +12,10 @@ namespace dosEvAPI.Service
         Task AddAsync(Evento evento);
         Task UpdateAsync(Evento evento);
         Task DeleteAsync(int id);
+
+          Task<EventoInfoDTO?>  GetInfoEventoAsync(int id);
+
+        Task<List<BuscadorEventoDTO?>> GetInfoEventoBuscadorsync(string nombre);
+
     }
 }
