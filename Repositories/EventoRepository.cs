@@ -221,7 +221,7 @@ namespace dosEvAPI.Repositories
                         if (await reader.ReadAsync())
                         {
                             eventoInfo = new EventoInfoDTO
-                            {
+                            {       
                                 NombreOrg = reader.GetString(0),
                                 NombreEvento = reader.GetString(1),
                                 Descripcion = reader.GetString(2),

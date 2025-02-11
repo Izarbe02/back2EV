@@ -25,4 +25,9 @@ public class EventoInfoDTO{
 
         }
 
+        
+        public EventoInfoDTO(){
+        
+        }
+
 }

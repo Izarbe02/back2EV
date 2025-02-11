@@ -1,5 +1,6 @@
 namespace Models;
 
+
 public class Organizador : Usuario
 {
     public string Descripcion { get; set; }
