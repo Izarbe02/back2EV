@@ -1,6 +1,7 @@
 using Models;
 using Microsoft.Data.SqlClient;
-namespace dosEvAPI.Repositories{
+namespace dosEvAPI.Repositories
+{
     public class OrganizadorRepository : IOrganizadorRepository
     {
         private readonly string _connectionString;
@@ -32,7 +33,7 @@ namespace dosEvAPI.Repositories{
                                 Descripcion = reader.GetString(3),
                                 Enlace = reader.GetString(4),
                                 Email = reader.GetString(5),
-                                Contraseña = reader.GetString(6),
+                                Contrasenia = reader.GetString(6),
                                 Telefono = reader.GetString(7),
                                 IdRol = reader.GetInt32(8)
                             };
@@ -67,7 +68,7 @@ namespace dosEvAPI.Repositories{
                                 Descripcion = reader.GetString(3),
                                 Enlace = reader.GetString(4),
                                 Email = reader.GetString(5),
-                                Contraseña = reader.GetString(6),
+                                Contrasenia = reader.GetString(6),
                                 Telefono = reader.GetString(7),
                                 IdRol = reader.GetInt32(8)
                             };
@@ -78,12 +79,12 @@ namespace dosEvAPI.Repositories{
             return organizador;
         }
 
-        public async Task AddAsync(Organizador organizador)
+        public async Task<Organizador> AddAsync(Organizador organizador)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
-                string query = "INSERT INTO Organizador (nombre, ubicacion, descripcion, enlace, email, contraseña, telefono, idRol) VALUES (@Nombre, @Ubicacion, @Descripcion, @Enlace, @Email, @Contraseña, @Telefono, @IdRol)";
+                string query = "INSERT INTO Organizador (nombre, ubicacion, descripcion, enlace, email, contraseña, telefono, idRol) VALUES (@Nombre, @Ubicacion, @Descripcion, @Enlace, @Email, @Contrasenia, @Telefono, @IdRol)";
                 using (var command = new SqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@Nombre", organizador.Nombre);
@@ -91,20 +92,21 @@ namespace dosEvAPI.Repositories{
                     command.Parameters.AddWithValue("@Descripcion", organizador.Descripcion);
                     command.Parameters.AddWithValue("@Enlace", organizador.Enlace);
                     command.Parameters.AddWithValue("@Email", organizador.Email);
-                    command.Parameters.AddWithValue("@Contraseña", organizador.Contraseña);
+                    command.Parameters.AddWithValue("@Contrasenia", organizador.Contrasenia);
                     command.Parameters.AddWithValue("@Telefono", organizador.Telefono);
                     command.Parameters.AddWithValue("@IdRol", organizador.IdRol);
                     await command.ExecuteNonQueryAsync();
                 }
             }
+            return organizador;
         }
 
-        public async Task UpdateAsync(Organizador organizador)
+        public async Task<Organizador> UpdateAsync(Organizador organizador)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
-                string query = "UPDATE Organizador SET nombre = @Nombre, ubicacion = @Ubicacion, descripcion = @Descripcion, enlace = @Enlace, email = @Email, contraseña = @Contraseña, telefono = @Telefono, idRol = @IdRol WHERE ID = @Id";
+                string query = "UPDATE Organizador SET nombre = @Nombre, ubicacion = @Ubicacion, descripcion = @Descripcion, enlace = @Enlace, email = @Email, contraseña = @Contrasenia, telefono = @Telefono, idRol = @IdRol WHERE ID = @Id";
                 using (var command = new SqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@Id", organizador.Id);
@@ -113,12 +115,13 @@ namespace dosEvAPI.Repositories{
                     command.Parameters.AddWithValue("@Descripcion", organizador.Descripcion);
                     command.Parameters.AddWithValue("@Enlace", organizador.Enlace);
                     command.Parameters.AddWithValue("@Email", organizador.Email);
-                    command.Parameters.AddWithValue("@Contraseña", organizador.Contraseña);
+                    command.Parameters.AddWithValue("@Contrasenia", organizador.Contrasenia);
                     command.Parameters.AddWithValue("@Telefono", organizador.Telefono);
                     command.Parameters.AddWithValue("@IdRol", organizador.IdRol);
                     await command.ExecuteNonQueryAsync();
                 }
             }
+            return organizador;
         }
 
         public async Task DeleteAsync(int id)

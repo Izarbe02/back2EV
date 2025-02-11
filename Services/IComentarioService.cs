@@ -9,7 +9,6 @@ namespace dosEvAPI.Service
         Task<List<Comentario>> GetAllAsync();
         Task<Comentario?> GetByIdAsync(int id);
         Task AddAsync(Comentario comentario);
-        Task UpdateAsync(Comentario comentario);
         Task DeleteAsync(int id);
     }
 }
