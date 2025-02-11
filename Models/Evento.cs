@@ -13,10 +13,10 @@ public class Evento
     public int IdTematica { get; set; }
     public string Enlace { get; set; }
     public int IdCategoria { get; set; }
-    public int IdEstablecimientoColaborador { get; set; }
+    public int IdOrganizador { get; set; }
 
     public Evento(string nombre,string descripcion,string ubicacion,DateTime fechaInicio,DateTime fechaFin,int idTematica,
-        string enlace,int idCategoria,int idEstablecimientoColaborador)
+        string enlace,int idCategoria,int idOrganizador)
     {
         Nombre = nombre;
         Descripcion = descripcion;
@@ -26,7 +26,7 @@ public class Evento
         IdTematica = idTematica;
         Enlace = enlace;
         IdCategoria = idCategoria;
-        IdEstablecimientoColaborador = idEstablecimientoColaborador;
+        IdOrganizador = idOrganizador;
     }
 
     public Evento() { }

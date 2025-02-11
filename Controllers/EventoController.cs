@@ -34,9 +34,9 @@ namespace dosEvAPI.Controllers{
 
 
         [HttpGet("{organizador}")]
-        public async Task<ActionResult<Evento>> GetEvento(string organizador)
+        public async Task<ActionResult<Evento>> GetEventoPorOrganizador(string organizador)
         {
-            var evento = await _serviceEvento.GetByIdAsync(organizador);
+            var evento = await _serviceEvento.GetByOrganizadorAsync(organizador);
             if (evento == null)
             {
                 return NotFound();
@@ -46,7 +46,7 @@ namespace dosEvAPI.Controllers{
 
 
         [HttpGet("{categoria}")]
-        public async Task<ActionResult<Evento>> GetEvento(string categoria)
+        public async Task<ActionResult<Evento>> GetEventoPorCategoria(string categoria)
         {
             var evento = await _serviceEvento.GetByCategoriaAsync(categoria);
             if (evento == null)
