@@ -3,12 +3,12 @@ using Microsoft.Data.SqlClient;
 
 
 namespace dosEvAPI.Repositories{
-    public interface ICategoriaProductoRepository
+    public interface ICategoriaEventoRepository
     {
-        Task<List<CategoriaProducto>> GetAllAsync();
-        Task<CategoriaProducto?> GetByIdAsync(int id);
-        Task AddAsync(CategoriaProducto categoria);
-        Task UpdateAsync(CategoriaProducto categoria);
+        Task<List<CategoriaEvento>> GetAllAsync();
+        Task<CategoriaEvento?> GetByIdAsync(int id);
+        Task AddAsync(CategoriaEvento categoria);
+        Task UpdateAsync(CategoriaEvento categoria);
         Task DeleteAsync(int id);
         Task InicializarDatosAsync();
     }

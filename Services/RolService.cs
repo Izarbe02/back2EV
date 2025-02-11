@@ -1,6 +1,6 @@
 
 using Models;
-
+using dosEvAPI.Repositories;
 
 namespace dosEvAPI.Service
 {

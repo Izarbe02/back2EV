@@ -3,23 +3,7 @@ using Microsoft.Data.SqlClient;
 
 
 namespace dosEvAPI.Repositories{
-
-    using Models;
-using Microsoft.Data.SqlClient;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-
-namespace RestauranteAPI.Repositories
-    {
-        public interface IUsuarioRepository
-        {
-            Task<List<Usuario>> GetAllAsync();
-            Task<Usuario?> GetByIdAsync(int id);
-            Task AddAsync(Usuario usuario);
-            Task UpdateAsync(Usuario usuario);
-            Task DeleteAsync(int id);
-        }
-
+     
         public class UsuarioRepository : IUsuarioRepository
         {
             private readonly string _connectionString;
@@ -143,4 +127,3 @@ namespace RestauranteAPI.Repositories
             }
         }
     }
-}

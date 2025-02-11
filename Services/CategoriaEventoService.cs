@@ -1,7 +1,9 @@
 using dosEvAPI.Repositories;
 using Models;
-
+using dosEvAPI.Repositories;
 namespace dosEvAPI.Service
+{  
+    public class CategoriaEventoService : ICategoriaEventoService
 {
         private readonly ICategoriaEventoRepository _categoriaEventoRepository;
 
@@ -41,4 +43,5 @@ namespace dosEvAPI.Service
             //return NoContent();
         }
     }
+}
 

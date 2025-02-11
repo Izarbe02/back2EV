@@ -4,7 +4,7 @@ using Models;
 namespace dosEvAPI.Service
 {
 
-    public interface IComentarioRepository
+    public interface IComentarioService
     {
         Task<List<Comentario>> GetAllAsync();
         Task<Comentario?> GetByIdAsync(int id);
