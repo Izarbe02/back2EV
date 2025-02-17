@@ -1,0 +1,36 @@
+networks:
+  backend:
+    driver: bridge
+
+volumes:
+  sqlserver-data:
+    driver: local
+
+services:
+  bbdd:
+    container_name: dbContainer
+    image: mcr.microsoft.com/mssql/server:2022-CU11-ubuntu-20.04
+    ports:
+      - "1433:1433"
+    networks:
+      - backend
+    volumes:
+      - sqlserver-data:/var/opt/mssql
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: "pUt0d0cK3R!"
+
+  api:
+    container_name: apiContainer
+    image: dosevback:1.0  
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8888:80"
+    networks:
+      - backend
+    depends_on:
+      - bbdd
+    environment:
+      ConnectionStrings__DefaultConnection: "Server=dbContainer,1433;Database=dosEvBack;User Id=sa;Password=pUt0d0cK3R!;TrustServerCertificate=True"
