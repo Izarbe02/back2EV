@@ -6,6 +6,8 @@ namespace dosEvAPI.Service
     {
         Task<List<Usuario>> GetAllAsync();
         Task<Usuario?> GetByIdAsync(int id);
+        Task<Usuario> GetByUsernameAsync(string username);
+
         Task AddAsync(Usuario usuario);
         Task UpdateAsync(Usuario usuario);
         Task DeleteAsync(int id);

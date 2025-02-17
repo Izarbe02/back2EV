@@ -8,7 +8,7 @@ CREATE TABLE Usuarios (
     nombre NVARCHAR(50) NOT NULL,
     email NVARCHAR(50) UNIQUE,
     ubicacion NVARCHAR(255),
-    contraseña NVARCHAR(255) NOT NULL
+    contrasenia NVARCHAR(255) NOT NULL
 );
 
 -- Roles

@@ -33,6 +33,20 @@ namespace dosEvAPI.Controllers{
             return Ok(usuario);
         }
 
+
+         [HttpGet("username/{username}")]
+        public async Task<ActionResult<Usuario>> GetUsuarioByUsername(string username)
+        {
+            var usuario = await _serviceUsuario.GetByUsernameAsync(username);
+            if (usuario == null)
+            {
+                return NotFound();
+            }
+            return Ok(usuario);
+        }
+
+
+
         [HttpPost]
         public async Task<ActionResult<Usuario>> CreateUsuario(Usuario usuario)
         {
