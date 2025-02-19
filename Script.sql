@@ -1,7 +1,8 @@
+-- Creación de la base de datos
 CREATE DATABASE dosEvBack;
 USE dosEvBack;
 
--- Usuarios
+-- Tabla Usuarios
 CREATE TABLE Usuarios (
     ID INT IDENTITY(1,1) PRIMARY KEY,
     username NVARCHAR(50) UNIQUE NOT NULL,
@@ -11,31 +12,31 @@ CREATE TABLE Usuarios (
     contraseña NVARCHAR(255) NOT NULL
 );
 
--- Roles
+-- Tabla Roles
 CREATE TABLE Roles (
     ID INT IDENTITY(1,1) PRIMARY KEY,
     nombre NVARCHAR(50) NOT NULL
 );
 
--- CategoríasEventos
+-- Tabla Categorías de Eventos
 CREATE TABLE CategoriasEventos (
     ID INT IDENTITY(1,1) PRIMARY KEY,
     nombre NVARCHAR(100) NOT NULL UNIQUE
 );
 
--- CategoríasProductos
+-- Tabla Categorías de Productos
 CREATE TABLE CategoriasProductos (
     ID INT IDENTITY(1,1) PRIMARY KEY,
     nombre NVARCHAR(100) NOT NULL UNIQUE
 );
 
--- Temáticas
+-- Tabla Temáticas
 CREATE TABLE Tematica (
     ID INT IDENTITY(1,1) PRIMARY KEY,
     nombre NVARCHAR(100) NOT NULL UNIQUE
 );
 
--- Organizador 
+-- Tabla Organizador
 CREATE TABLE Organizador (
     ID INT IDENTITY(1,1) PRIMARY KEY,
     nombre NVARCHAR(50) NOT NULL,
@@ -49,7 +50,7 @@ CREATE TABLE Organizador (
     FOREIGN KEY (idRol) REFERENCES Roles(ID) ON DELETE CASCADE
 );
 
--- Eventos
+-- Tabla Eventos (Corrección en las claves foráneas)
 CREATE TABLE Eventos (
     ID INT IDENTITY(1,1) PRIMARY KEY,
     nombre NVARCHAR(100) NOT NULL,
@@ -57,16 +58,16 @@ CREATE TABLE Eventos (
     ubicacion NVARCHAR(255) NOT NULL,
     fecha_inicio DATETIME NOT NULL,
     fecha_fin DATETIME NOT NULL,
-    idTematica INT NOT NULL,
+    idTematica INT NULL,  -- Permitir NULL para usar ON DELETE SET NULL
     enlace NVARCHAR(255),
-    idCategoria INT NOT NULL,
+    idCategoria INT NULL, -- Permitir NULL para usar ON DELETE SET NULL
     idOrganizador INT NOT NULL,
     FOREIGN KEY (idTematica) REFERENCES Tematica(ID) ON DELETE SET NULL,
     FOREIGN KEY (idCategoria) REFERENCES CategoriasEventos(ID) ON DELETE SET NULL,
     FOREIGN KEY (idOrganizador) REFERENCES Organizador(ID) ON DELETE CASCADE
 );
 
--- Comentarios
+-- Tabla Comentarios
 CREATE TABLE Comentarios (
     ID INT IDENTITY(1,1) PRIMARY KEY,
     idUsuario INT NOT NULL,
@@ -77,7 +78,7 @@ CREATE TABLE Comentarios (
     FOREIGN KEY (idEvento) REFERENCES Eventos(ID) ON DELETE CASCADE
 );
 
--- Posts
+-- Tabla Posts
 CREATE TABLE Posts (
     ID INT IDENTITY(1,1) PRIMARY KEY,
     idUsuario INT NOT NULL,
@@ -87,7 +88,7 @@ CREATE TABLE Posts (
     FOREIGN KEY (idUsuario) REFERENCES Usuarios(ID) ON DELETE CASCADE
 );
 
--- Productos
+-- Tabla Productos
 CREATE TABLE Productos (
     ID INT IDENTITY(1,1) PRIMARY KEY,
     nombre NVARCHAR(100) NOT NULL,
