@@ -1,3 +1,6 @@
+
+version: '3.4'
+
 networks:
   backend:
     driver: bridge
@@ -8,29 +11,37 @@ volumes:
 
 services:
   bbdd:
-    container_name: dbContainer
-    image: mcr.microsoft.com/mssql/server:2022-CU11-ubuntu-20.04
+    container_name: contenedorBD
+    image: mcr.microsoft.com/mssql/server:2022-CU11-ubuntu-20.04  
     ports:
-      - "1433:1433"
+      - "1433:1433"  
     networks:
       - backend
     volumes:
-      - sqlserver-data:/var/opt/mssql
+      - sqlserver-data:/var/opt/mssql 
     environment:
       ACCEPT_EULA: "Y"
       MSSQL_SA_PASSWORD: "pUt0d0cK3R!"
+    healthcheck:
+      test: ["CMD", "bash", "-c", "until /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P 'pUt0d0cK3R!' -Q 'SELECT 1' &>/dev/null; do sleep 1; done"]
+      interval: 10s
+      retries: 5
+      start_period: 10s
 
   api:
-    container_name: apiContainer
-    image: dosevback:1.0  
+    container_name: contenedorAPI
+    image: reto2_api:1.0  
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile  
     ports:
-      - "8888:8080"
+      - "8888:80" 
     networks:
       - backend
     depends_on:
-      - bbdd
+      bbdd:
+        condition: service_healthy
     environment:
-      ConnectionStrings__DefaultConnection: "Server=dbContainer,1433;Database=dosEvBack;User Id=sa;Password=pUt0d0cK3R!;TrustServerCertificate=True"
+      ASPNETCORE_HTTP_PORTS: "80"
+      ConnectionStrings__VideojuegosDB: "Server=contenedorBD,1433;Database=dosEvBack;User Id=sa;Password=pUt0d0cK3R!;TrustServerCertificate=True"
+

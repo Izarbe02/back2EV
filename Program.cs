@@ -40,6 +40,12 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddCors(options =>
+    {
+        options.AddPolicy("AllowAllOrigins",
+            builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+    });
+
 
 builder.Services.AddScoped<IComentarioService, ComentarioService>();
 builder.Services.AddScoped<ICategoriaEventoService, CategoriaEventoService>();
@@ -54,7 +60,7 @@ builder.Services.AddScoped<IEventoService, EventoService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+
 {
 app.UseSwagger();
     app.UseSwaggerUI();
@@ -63,6 +69,8 @@ app.UseSwagger();
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+app.UseCors("AllowAllOrigins");
 
 app.MapControllers();
 
