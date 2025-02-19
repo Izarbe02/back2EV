@@ -9,7 +9,7 @@ CREATE TABLE Usuarios (
     nombre NVARCHAR(50) NOT NULL,
     email NVARCHAR(50) UNIQUE,
     ubicacion NVARCHAR(255),
-    contraseña NVARCHAR(255) NOT NULL
+    contraseniia NVARCHAR(255) NOT NULL
 );
 
 -- Tabla Roles
@@ -44,13 +44,13 @@ CREATE TABLE Organizador (
     descripcion NVARCHAR(MAX),
     enlace NVARCHAR(255), 
     email NVARCHAR(50) UNIQUE,
-    contraseña NVARCHAR(255) NOT NULL,
+    contrasenia NVARCHAR(255) NOT NULL,
     telefono NVARCHAR(20),
     idRol INT NOT NULL,
     FOREIGN KEY (idRol) REFERENCES Roles(ID) ON DELETE CASCADE
 );
 
--- Tabla Eventos (Corrección en las claves foráneas)
+-- Tabla Eventos 
 CREATE TABLE Eventos (
     ID INT IDENTITY(1,1) PRIMARY KEY,
     nombre NVARCHAR(100) NOT NULL,
@@ -58,9 +58,9 @@ CREATE TABLE Eventos (
     ubicacion NVARCHAR(255) NOT NULL,
     fecha_inicio DATETIME NOT NULL,
     fecha_fin DATETIME NOT NULL,
-    idTematica INT NULL,  -- Permitir NULL para usar ON DELETE SET NULL
+    idTematica INT NULL, 
     enlace NVARCHAR(255),
-    idCategoria INT NULL, -- Permitir NULL para usar ON DELETE SET NULL
+    idCategoria INT NULL,
     idOrganizador INT NOT NULL,
     FOREIGN KEY (idTematica) REFERENCES Tematica(ID) ON DELETE SET NULL,
     FOREIGN KEY (idCategoria) REFERENCES CategoriasEventos(ID) ON DELETE SET NULL,
