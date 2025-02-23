@@ -27,13 +27,13 @@ namespace dosEvAPI.Service
 
 
         // Funcion para filtrar por categoria
-        public async Task<Evento?> GetByCategoriaAsync(string categoria)
+        public async  Task<List<Evento>>  GetByCategoriaAsync(string categoria)
         {
             return await _eventoRepository.GetByCategoriaAsync(categoria);
         }
 
         // Funcion para filtrar por organizador
-        public async Task<Evento?> GetByOrganizadorAsync(string organizador)
+        public async  Task<List<Evento>>  GetByOrganizadorAsync(string organizador)
         {
             return await _eventoRepository.GetByOrganizadorAsync(organizador);
         }

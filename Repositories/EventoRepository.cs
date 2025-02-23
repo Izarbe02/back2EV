@@ -83,22 +83,25 @@ namespace dosEvAPI.Repositories
         }
 
         // Funcion para filtrar por categoria
-        public async Task<Evento?> GetByCategoriaAsync(string categoria)
+        public async Task<List<Evento>> GetByCategoriaAsync(string categoria)
         {
-            Evento? evento = null;
+            var eventos = new List<Evento>();
 
             using (var connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
-                string query = "SELECT e.ID, e.nombre, e.descripcion, e.ubicacion, e.fecha_inicio, e.fecha_fin, e.idTematica, e.enlace, e.idCategoria, e.idOrganizador FROM Eventos e INNER JOIN CategoriasEventos c ON e.idCategoria=c.ID WHERE c.nombre = @categoria";
+                string query = @"SELECT e.ID, e.nombre, e.descripcion, e.ubicacion, e.fecha_inicio, e.fecha_fin, e.idTematica, e.enlace, e.idCategoria, e.idOrganizador 
+                                 FROM Eventos e 
+                                 INNER JOIN CategoriasEventos c ON e.idCategoria = c.ID 
+                                 WHERE c.nombre = @categoria";
                 using (var command = new SqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@categoria", categoria);
                     using (var reader = await command.ExecuteReaderAsync())
                     {
-                        if (await reader.ReadAsync())
+                        while (await reader.ReadAsync())
                         {
-                            evento = new Evento
+                            eventos.Add(new Evento
                             {
                                 Id = reader.GetInt32(0),
                                 Nombre = reader.GetString(1),
@@ -110,32 +113,33 @@ namespace dosEvAPI.Repositories
                                 Enlace = reader.GetString(7),
                                 IdCategoria = reader.GetInt32(8),
                                 IdOrganizador = reader.GetInt32(9)
-                            };
+                            });
                         }
                     }
                 }
             }
-            return evento;
+            return eventos;
         }
-        
 
-        // Funcion para filtrar por organizador
-        public async Task<Evento?> GetByOrganizadorAsync(string organizador)
+        public async Task<List<Evento>> GetByOrganizadorAsync(string organizador)
         {
-            Evento? evento = null;
+            var eventos = new List<Evento>();
 
             using (var connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
-                string query = "SELECT e.ID, e.nombre, e.descripcion, e.ubicacion, e.fecha_inicio, e.fecha_fin, e.idTematica, e.enlace, e.idCategoria, e.idOrganizador FROM Eventos e INNER JOIN Organizador o ON e.idOrganizador=o.ID WHERE o.nombre = @organizador";
+                string query = @"SELECT e.ID, e.nombre, e.descripcion, e.ubicacion, e.fecha_inicio, e.fecha_fin, e.idTematica, e.enlace, e.idCategoria, e.idOrganizador 
+                                 FROM Eventos e 
+                                 INNER JOIN Organizador o ON e.idOrganizador = o.ID 
+                                 WHERE o.nombre = @organizador";
                 using (var command = new SqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@organizador", organizador);
                     using (var reader = await command.ExecuteReaderAsync())
                     {
-                        if (await reader.ReadAsync())
+                        while (await reader.ReadAsync())
                         {
-                            evento = new Evento
+                            eventos.Add(new Evento
                             {
                                 Id = reader.GetInt32(0),
                                 Nombre = reader.GetString(1),
@@ -147,13 +151,14 @@ namespace dosEvAPI.Repositories
                                 Enlace = reader.GetString(7),
                                 IdCategoria = reader.GetInt32(8),
                                 IdOrganizador = reader.GetInt32(9)
-                            };
+                            });
                         }
                     }
                 }
             }
-            return evento;
+            return eventos;
         }
+    
 
         public async Task AddAsync(Evento evento)
         {
@@ -255,7 +260,7 @@ namespace dosEvAPI.Repositories
         }
 
 
-        public async Task<List<BuscadorEventoDTO?>> GetInfoEventoBuscadorsync(string busqueda){
+        public async Task<List<BuscadorEventoDTO>> GetInfoEventoBuscadorsync(string busqueda){
             var eventos = new List<BuscadorEventoDTO?>();
 
             using (var connection = new SqlConnection(_connectionString))
