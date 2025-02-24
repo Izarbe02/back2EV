@@ -92,7 +92,7 @@ namespace dosEvAPI.Repositories
                 await connection.OpenAsync();
                 string query = @"SELECT e.ID, e.nombre, e.descripcion, e.ubicacion, e.fecha_inicio, e.fecha_fin, e.idTematica, e.enlace, e.idCategoria, e.idOrganizador 
                                  FROM Eventos e 
-                                 INNER JOIN CategoriasEventos c ON e.idCategoria = c.ID 
+                                 INNER JOIN CategoriaEvento c ON e.idCategoria = c.ID 
                                  WHERE c.nombre = @categoria";
                 using (var command = new SqlCommand(query, connection))
                 {
@@ -215,7 +215,7 @@ namespace dosEvAPI.Repositories
                 await connection.OpenAsync();
                 string query =@"SELECT o.nombre, e.nombre, e.descripcion, e.fecha_inicio, e.fecha_fin, e.ubicacion, c.nombre, t.nombre, e.enlace
                 FROM Eventos e INNER JOIN Organizador o 
-                ON e.idOrganizador=o.ID INNER JOIN CategoriasEventos c
+                ON e.idOrganizador=o.ID INNER JOIN CategoriaEvento c
                  ON e.idCategoria=c.ID INNER JOIN Tematicas t
                   ON e.idTematica=t.ID WHERE e.ID = @Id";
                 using (var command = new SqlCommand(query, connection))

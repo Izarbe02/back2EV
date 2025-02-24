@@ -18,7 +18,7 @@ namespace dosEvAPI.Repositories
             using (var connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
-                string query = "SELECT ID, nombre, ubicacion, descripcion, enlace, email, contraseña, telefono, idRol FROM Organizador";
+                string query = "SELECT ID, nombre, ubicacion, descripcion, enlace, email, contrasenia, telefono, idRol FROM Organizador";
                 using (var command = new SqlCommand(query, connection))
                 {
                     using (var reader = await command.ExecuteReaderAsync())
@@ -52,7 +52,7 @@ namespace dosEvAPI.Repositories
             using (var connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
-                string query = "SELECT ID, nombre, ubicacion, descripcion, enlace, email, contraseña, telefono, idRol FROM Organizador WHERE ID = @Id";
+                string query = "SELECT ID, nombre, ubicacion, descripcion, enlace, email, contrasenia, telefono, idRol FROM Organizador WHERE ID = @Id";
                 using (var command = new SqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@Id", id);
@@ -84,7 +84,7 @@ namespace dosEvAPI.Repositories
             using (var connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
-                string query = "INSERT INTO Organizador (nombre, ubicacion, descripcion, enlace, email, contraseña, telefono, idRol) VALUES (@Nombre, @Ubicacion, @Descripcion, @Enlace, @Email, @Contrasenia, @Telefono, @IdRol)";
+                string query = "INSERT INTO Organizador (nombre, ubicacion, descripcion, enlace, email, contrasenia, telefono, idRol) VALUES (@Nombre, @Ubicacion, @Descripcion, @Enlace, @Email, @Contrasenia, @Telefono, @IdRol)";
                 using (var command = new SqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@Nombre", organizador.Nombre);
@@ -106,7 +106,7 @@ namespace dosEvAPI.Repositories
             using (var connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
-                string query = "UPDATE Organizador SET nombre = @Nombre, ubicacion = @Ubicacion, descripcion = @Descripcion, enlace = @Enlace, email = @Email, contraseña = @Contrasenia, telefono = @Telefono, idRol = @IdRol WHERE ID = @Id";
+                string query = "UPDATE Organizador SET nombre = @Nombre, ubicacion = @Ubicacion, descripcion = @Descripcion, enlace = @Enlace, email = @Email, contrasenia = @Contrasenia, telefono = @Telefono, idRol = @IdRol WHERE ID = @Id";
                 using (var command = new SqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@Id", organizador.Id);

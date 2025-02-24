@@ -9,7 +9,7 @@ CREATE TABLE Usuarios (
     nombre NVARCHAR(50) NOT NULL,
     email NVARCHAR(50) UNIQUE,
     ubicacion NVARCHAR(255),
-    contraseniia NVARCHAR(255) NOT NULL
+    contrasenia NVARCHAR(255) NOT NULL
 );
 
 -- Tabla Roles
@@ -19,13 +19,13 @@ CREATE TABLE Roles (
 );
 
 -- Tabla Categorías de Eventos
-CREATE TABLE CategoriasEventos (
+CREATE TABLE CategoriaEvento (
     ID INT IDENTITY(1,1) PRIMARY KEY,
     nombre NVARCHAR(100) NOT NULL UNIQUE
 );
 
 -- Tabla Categorías de Productos
-CREATE TABLE CategoriasProductos (
+CREATE TABLE CategoriaProducto (
     ID INT IDENTITY(1,1) PRIMARY KEY,
     nombre NVARCHAR(100) NOT NULL UNIQUE
 );
@@ -63,7 +63,7 @@ CREATE TABLE Eventos (
     idCategoria INT NULL,
     idOrganizador INT NOT NULL,
     FOREIGN KEY (idTematica) REFERENCES Tematica(ID) ON DELETE SET NULL,
-    FOREIGN KEY (idCategoria) REFERENCES CategoriasEventos(ID) ON DELETE SET NULL,
+    FOREIGN KEY (idCategoria) REFERENCES CategoriaEvento(ID) ON DELETE SET NULL,
     FOREIGN KEY (idOrganizador) REFERENCES Organizador(ID) ON DELETE CASCADE
 );
 
@@ -98,7 +98,7 @@ CREATE TABLE Productos (
     idUsuario INT NOT NULL,
     idCategoria INT NOT NULL,
     FOREIGN KEY (idUsuario) REFERENCES Usuarios(ID) ON DELETE CASCADE,
-    FOREIGN KEY (idCategoria) REFERENCES CategoriasProductos(ID) ON DELETE CASCADE
+    FOREIGN KEY (idCategoria) REFERENCES CategoriaProducto(ID) ON DELETE CASCADE
 );
 
 
@@ -112,20 +112,20 @@ INSERT INTO Roles (nombre) VALUES ('Organizador');
 INSERT INTO Roles (nombre) VALUES ('Usuario');
 
 -- Insertar Usuarios
-INSERT INTO Usuarios (username, nombre, email, ubicacion, contraseniia)
+INSERT INTO Usuarios (username, nombre, email, ubicacion, contrasenia)
 VALUES ('zaragozano1', 'Carlos Zaragoza', 'carlos@local.com', 'Zaragoza, España', 'clave123');
-INSERT INTO Usuarios (username, nombre, email, ubicacion, contraseniia)
+INSERT INTO Usuarios (username, nombre, email, ubicacion, contrasenia)
 VALUES ('localcomunidad', 'Ana Comunidad', 'ana@local.com', 'Zaragoza, España', 'clave456');
 
 -- Insertar Categorías de Eventos
-INSERT INTO CategoriasEventos (nombre) VALUES ('Cultural');
-INSERT INTO CategoriasEventos (nombre) VALUES ('Fiesta Popular');
-INSERT INTO CategoriasEventos (nombre) VALUES ('Jornada');
+INSERT INTO CategoriaEvento (nombre) VALUES ('Cultural');
+INSERT INTO CategoriaEvento (nombre) VALUES ('Fiesta Popular');
+INSERT INTO CategoriaEvento (nombre) VALUES ('Jornada');
 
 -- Insertar Categorías de Productos
-INSERT INTO CategoriasProductos (nombre) VALUES ('Arte y Cultura');
-INSERT INTO CategoriasProductos (nombre) VALUES ('Artesanía Local');
-INSERT INTO CategoriasProductos (nombre) VALUES ('Recuerdos');
+INSERT INTO CategoriaProducto (nombre) VALUES ('Arte y Cultura');
+INSERT INTO CategoriaProducto (nombre) VALUES ('Artesanía Local');
+INSERT INTO CategoriaProducto (nombre) VALUES ('Recuerdos');
 
 -- Insertar Temáticas
 INSERT INTO Tematica (nombre) VALUES ('Agenda Local Autogestionada');
@@ -162,3 +162,17 @@ VALUES ('Libro de Tradiciones Aragonesas', 'Recopilación de recetas y leyendas 
 INSERT INTO Productos (nombre, descripcion, ubicacion, imagen, idUsuario, idCategoria)
 VALUES ('Artesanía en Barro', 'Pieza única de artesanía local, perfecta para decorar y llevar un pedazo de Zaragoza a casa.', 'Taller Artesanal, Zaragoza', 'artesania_barro.jpg', 2, 2);
 
+
+
+--DROP TABLE
+
+DROP TABLE Productos;
+DROP TABLE Posts;
+DROP TABLE Comentarios;
+DROP TABLE Eventos;
+DROP TABLE Organizador;
+DROP TABLE Tematica;
+DROP TABLE CategoriasProductos;
+DROP TABLE CategoriaEvento;
+DROP TABLE Roles;
+DROP TABLE Usuarios;

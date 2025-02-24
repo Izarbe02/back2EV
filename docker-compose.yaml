@@ -43,5 +43,5 @@ services:
         condition: service_healthy
     environment:
       ASPNETCORE_HTTP_PORTS: "80"
-      ConnectionStrings__VideojuegosDB: "Server=contenedorBD,1433;Database=dosEvBack;User Id=sa;Password=pUt0d0cK3R!;TrustServerCertificate=True"
+      ConnectionStrings__DB: "Server=contenedorBD,1433;Database=dosEvBack;User Id=sa;Password=pUt0d0cK3R!;TrustServerCertificate=True"
 

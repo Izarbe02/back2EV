@@ -39,7 +39,7 @@ namespace dosEvAPI.Controllers
         }
 
 
-        [HttpGet("{organizador}")]
+        [HttpGet("organizador/{organizador}")]
         public async Task<ActionResult<Evento>> GetEventoPorOrganizador(string organizador)
         {
             var evento = await _serviceEvento.GetByOrganizadorAsync(organizador);
@@ -50,7 +50,7 @@ namespace dosEvAPI.Controllers
             return Ok(evento);
         }
 
-        [HttpGet("{DetalleEvento}")]
+        [HttpGet("DetalleEvento")]
         public async Task<ActionResult<EventoInfoDTO>> GetInfoEvento(int id)
         {
             var evento = await _serviceEvento.GetInfoEventoAsync(id);
@@ -61,7 +61,7 @@ namespace dosEvAPI.Controllers
             return Ok(evento);
         }
 
-        [HttpGet("{BuscadorEvento}")]
+        [HttpGet("BuscadorEvento/{BuscadorEvento}")]
         public async Task<ActionResult<List<BuscadorEventoDTO>>> GetInfoEventoBuscador(string busqueda)
         {
             var evento = await _serviceEvento.GetInfoEventoBuscadorsync(busqueda);
@@ -72,7 +72,7 @@ namespace dosEvAPI.Controllers
             return Ok(evento);
         }
 
-        [HttpGet("{categoria}")]
+        [HttpGet("categoria/{categoria}")]
         public async Task<ActionResult<Evento>> GetEventoPorCategoria(string categoria)
         {
             var evento = await _serviceEvento.GetByCategoriaAsync(categoria);

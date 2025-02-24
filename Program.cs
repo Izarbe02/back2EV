@@ -31,6 +31,9 @@ var connectionString = builder.Configuration.GetConnectionString("dosEvBack");
     builder.Services.AddScoped<ITematicaRepository, TematicaRepository>(provider =>
         new TematicaRepository(connectionString));
 
+    builder.Services.AddScoped<IPostRepository, PostRepository>(provider =>
+        new PostRepository(connectionString));
+
     builder.Services.AddScoped<IEventoRepository, EventoRepository>(provider =>
         new EventoRepository(connectionString));
 
@@ -54,6 +57,7 @@ builder.Services.AddScoped<IOrganizadorService, OrganizadorService>();
 builder.Services.AddScoped<IProductoService, ProductoService>();
 builder.Services.AddScoped<IUsuarioService, UsuarioService>();
 builder.Services.AddScoped<IRolService, RolService>();
+builder.Services.AddScoped<IPostService, PostService>();
 builder.Services.AddScoped<ITematicaService, TematicaService>();
 builder.Services.AddScoped<IEventoService, EventoService>();
 
