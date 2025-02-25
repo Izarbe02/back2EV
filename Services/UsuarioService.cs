@@ -40,7 +40,9 @@ namespace dosEvAPI.Service
                 //return NotFound();
             }
             await _usuarioRepository.DeleteAsync(id);
-            //return NoContent();
+            //
+            // return NoContent();
+     
         }
     }
 }

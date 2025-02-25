@@ -1,5 +1,6 @@
 using Models;
 using Microsoft.Data.SqlClient;
+using dosEvAPI.DTOs;
 
 
 namespace dosEvAPI.Repositories{
@@ -12,5 +13,6 @@ namespace dosEvAPI.Repositories{
         Task AddAsync(Usuario usuario);
         Task UpdateAsync(Usuario usuario);
         Task DeleteAsync(int id);
+        Task <GetUserFromCredentials>(LoginDTO loginDTO);
     }
 }

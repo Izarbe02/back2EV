@@ -1,8 +1,10 @@
+using System.Text;
 using dosEvAPI.Repositories;
 using dosEvAPI.Service;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 
- 
+
 var builder = WebApplication.CreateBuilder(args);
 //!!Database
 var connectionString = builder.Configuration.GetConnectionString("dosEvBack");
@@ -62,11 +64,9 @@ builder.Services.AddScoped<ITematicaService, TematicaService>();
 builder.Services.AddScoped<IEventoService, EventoService>();
 
 
-builder.Services.AddAuthentication(JwtBearerDefaults.AddAuthenticationScheme)
-
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 .AddJwtBearer(options =>
 {
-
     options.RequireHttpsMetadata = false; // Cambiar a true si se necesita HTTPS
     options.SaveToken = true;
     options.TokenValidationParameters = new TokenValidationParameters
@@ -75,9 +75,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AddAuthenticationScheme)
         ValidateAudience = true,
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
-        ValidIssuer = Configuration["Jwt:Issuer"],
-        ValidAudience = Configuration["Jwt:Audience"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"])),
+        ValidIssuer = builder.Configuration["Jwt:Issuer"],
+        ValidAudience = builder.Configuration["Jwt:Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"])),
         
     };
 

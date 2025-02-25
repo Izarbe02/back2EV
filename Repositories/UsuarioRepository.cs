@@ -1,5 +1,6 @@
 using Models;
 using Microsoft.Data.SqlClient;
+using dosEvAPI.DTOs;
 
 
 namespace dosEvAPI.Repositories{
@@ -123,6 +124,16 @@ namespace dosEvAPI.Repositories{
                         command.Parameters.AddWithValue("@Id", id);
                         await command.ExecuteNonQueryAsync();
                     }
+                }
+            }
+
+            public async Task<usuarioDTOOut>  GetUserFromCredentials(LoginDTO loginDTO)
+            {
+                usuarioDTOOut loginuser = null ;
+                string contrasenia = null;
+                using (SqlConnection connection = new SqlConnection(_connectionString)){
+                    await connection.OpenAsync();
+                    string query = @"SELECT ID, email , contrasenia  FROM Usuarios WHERE email = @email";
                 }
             }
         }
