@@ -1,5 +1,7 @@
 using dosEvAPI.Repositories;
 using dosEvAPI.Service;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+
  
 var builder = WebApplication.CreateBuilder(args);
 //!!Database
@@ -34,6 +36,8 @@ var connectionString = builder.Configuration.GetConnectionString("dosEvBack");
     builder.Services.AddScoped<IEventoRepository, EventoRepository>(provider =>
         new EventoRepository(connectionString));
 
+
+
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 
@@ -57,9 +61,34 @@ builder.Services.AddScoped<IRolService, RolService>();
 builder.Services.AddScoped<ITematicaService, TematicaService>();
 builder.Services.AddScoped<IEventoService, EventoService>();
 
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AddAuthenticationScheme)
+
+.AddJwtBearer(options =>
+{
+
+    options.RequireHttpsMetadata = false; // Cambiar a true si se necesita HTTPS
+    options.SaveToken = true;
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = Configuration["Jwt:Issuer"],
+        ValidAudience = Configuration["Jwt:Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"])),
+        
+    };
+
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
+
+
+
 
 {
 app.UseSwagger();
