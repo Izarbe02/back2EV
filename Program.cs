@@ -62,6 +62,8 @@ builder.Services.AddScoped<IUsuarioService, UsuarioService>();
 builder.Services.AddScoped<IRolService, RolService>();
 builder.Services.AddScoped<ITematicaService, TematicaService>();
 builder.Services.AddScoped<IEventoService, EventoService>();
+builder.Services.AddScoped<ITokenService, TokenService>();
+
 
 
 //dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer

@@ -51,40 +51,16 @@ namespace dosEvAPI.Service
                 await _usuarioRepository.DeleteAsync(id);
             }
         }
-
-        private string GenerateToken(UsuarioDTOOut usuarioDTOOut)
-        {
-            var key = Encoding.UTF8.GetBytes(_configuration["JwtSettings:SecretKey"]);
-            SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Issuer = _configuration["JwtSettings:ValidIssuer"],
-                Audience = _configuration["JwtSettings:ValidAudience"],
-                Subject = new ClaimsIdentity(new Claim[]
-                {
-                    new Claim(ClaimTypes.NameIdentifier, usuarioDTOOut.Id.ToString()),
-                    new Claim(ClaimTypes.Email, usuarioDTOOut.email)
-                }),
-                Expires = DateTime.UtcNow.AddDays(7),
-                SigningCredentials = new SigningCredentials(
-                    new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-            };
-
-            JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
-            SecurityToken token = tokenHandler.CreateToken(tokenDescriptor);
-            string tokenString = tokenHandler.WriteToken(token);
-            return tokenString;
-        }
-
-        public async Task<string> Login(LoginDTO loginDTO)
+         public async Task<string> Login(LoginDTO loginDTO)
         {
             UsuarioDTOOut user = await _usuarioRepository.GetUserFromCredentials(loginDTO);
-            return /*await*/  GenerateToken(user);
-
+            return _tokenService.GenerateToken(user);
         }
 
-        public async Task<string> Register(LoginDTO loginDTO){
-            UsuarioDTOOut user  = await _usuarioRepository.AddUserFromCredentials(loginDTO);
-            return /*await*/ GenerateToken(user);
+        public async Task<string> Register(LoginDTO loginDTO)
+        {
+            UsuarioDTOOut user = await _usuarioRepository.AddUserFromCredentials(loginDTO);
+            return _tokenService.GenerateToken(user);
         }
     }
-}
+    }

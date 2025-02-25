@@ -9,7 +9,7 @@ namespace dosEvAPI.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly IUsuarioService _service;
+        private readonly IUsuarioService _usuarioService;
 
         public AuthController(IUsuarioService service)
         {
@@ -26,7 +26,7 @@ namespace dosEvAPI.Controllers
                     return BadRequest(ModelState);
                 }
 
-                string token = await UsuarioService.(cuenta);
+                string token = await _usuarioService.Login(cuenta);
                 return Ok(token);
             }
             catch (KeyNotFoundException )
@@ -40,7 +40,7 @@ namespace dosEvAPI.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult> Register(LoginDTO loginDTO)
+        public async Task<ActionResult> Register(Usuario usuario)
         {
             try
             {
@@ -49,8 +49,8 @@ namespace dosEvAPI.Controllers
                     return BadRequest(ModelState);
                 }
 
-                string token = await _service.Register(loginDTO);
-                return Ok(new { Token = token });
+                string token = await _usuarioService.Register(usuario);
+                return Ok(token);
             }
             catch (KeyNotFoundException)
             {
