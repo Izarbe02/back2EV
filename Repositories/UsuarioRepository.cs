@@ -127,14 +127,45 @@ namespace dosEvAPI.Repositories{
                 }
             }
 
-            public async Task<usuarioDTOOut>  GetUserFromCredentials(LoginDTO loginDTO)
+
+   public async Task<UsuarioDTOOut> GetUserFromCredentials(LoginDTO loginDTO)
+        {
+            UsuarioDTOOut? loginUser = null;
+            string? contrasenia = null;
+
+            using (SqlConnection connection = new SqlConnection(_connectionString))
             {
-                usuarioDTOOut loginuser = null ;
-                string contrasenia = null;
-                using (SqlConnection connection = new SqlConnection(_connectionString)){
-                    await connection.OpenAsync();
-                    string query = @"SELECT ID, email , contrasenia  FROM Usuarios WHERE email = @email";
+                await connection.OpenAsync();
+                string query = @"SELECT ID, email, contrasenia FROM Usuarios WHERE email = @Email;";
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@Email", loginDTO.email);
+                    using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                    {
+                        if (await reader.ReadAsync())
+                        {
+                            loginUser = new UsuarioDTOOut
+                            {
+                                Id = reader.GetInt32(0),
+                                email = reader.GetString(1)
+                            };
+                            contrasenia = reader.GetString(2);
+                        }
+                    }
                 }
             }
+
+            if (loginUser == null || contrasenia != loginDTO.contrasenia)
+            {
+                throw new Exception("Correo o contraseña incorrectos");
+            }
+
+            return loginUser;
+        }
+
+        public Task<UsuarioDTOOut> AddUserFromCredentials(LoginDTO loginDTO)
+        {
+            throw new NotImplementedException();
         }
     }
+}

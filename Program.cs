@@ -64,6 +64,9 @@ builder.Services.AddScoped<ITematicaService, TematicaService>();
 builder.Services.AddScoped<IEventoService, EventoService>();
 
 
+//dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer
+
+
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 .AddJwtBearer(options =>
 {

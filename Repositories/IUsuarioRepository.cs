@@ -1,11 +1,10 @@
 using Models;
-using Microsoft.Data.SqlClient;
 using dosEvAPI.DTOs;
+using System.Threading.Tasks;
+using System.Collections.Generic;
 
-
-namespace dosEvAPI.Repositories{
-
-
+namespace dosEvAPI.Repositories
+{
     public interface IUsuarioRepository
     {
         Task<List<Usuario>> GetAllAsync();
@@ -13,6 +12,7 @@ namespace dosEvAPI.Repositories{
         Task AddAsync(Usuario usuario);
         Task UpdateAsync(Usuario usuario);
         Task DeleteAsync(int id);
-        Task <GetUserFromCredentials>(LoginDTO loginDTO);
+         Task<UsuarioDTOOut> GetUserFromCredentials(LoginDTO loginDTO);
+        Task<UsuarioDTOOut> AddUserFromCredentials(LoginDTO loginDTO);
     }
 }
