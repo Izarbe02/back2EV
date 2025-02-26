@@ -206,14 +206,15 @@ namespace dosEvAPI.Repositories
         }
 
 
-        public async Task<EventoInfoDTO> GetInfoEventoAsync (int id )
+   public async Task<EventoInfoDTO?> GetInfoEventoAsync(int id) // Agregar "?"
+
         {
             EventoInfoDTO eventoInfo = null;
 
             using (var connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
-                string query =@"SELECT o.nombre, e.nombre, e.descripcion, e.fecha_inicio, e.fecha_fin, e.ubicacion, c.nombre, t.nombre, e.enlace
+                string query = @"SELECT o.nombre, e.nombre, e.descripcion, e.fecha_inicio, e.fecha_fin, e.ubicacion, c.nombre, t.nombre, e.enlace
                 FROM Eventos e INNER JOIN Organizador o 
                 ON e.idOrganizador=o.ID INNER JOIN CategoriaEvento c
                  ON e.idCategoria=c.ID INNER JOIN Tematicas t

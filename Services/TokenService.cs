@@ -1,7 +1,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using dosEvAPI.DTOs;
+
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Extensions.Configuration;
 

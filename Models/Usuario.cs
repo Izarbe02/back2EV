@@ -11,7 +11,7 @@ public class Usuario
     public string Ubicacion { get; set; }
     public string Contrasenia { get; set; }
 
-    public Usuario(string username, string nombre, string contrasenia, string email = null, string ubicacion = null)
+    public Usuario(string username, string nombre, string contrasenia, string email , string ubicacion)
     {
         Username = username;
         Nombre = nombre;
