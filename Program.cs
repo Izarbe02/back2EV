@@ -1,5 +1,9 @@
 using dosEvAPI.Repositories;
 using dosEvAPI.Service;
+using dosEvAPI.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
  
 var builder = WebApplication.CreateBuilder(args);
 //!!Database
@@ -36,6 +40,7 @@ var connectionString = builder.Configuration.GetConnectionString("dosEvBack");
 
     builder.Services.AddScoped<IEventoRepository, EventoRepository>(provider =>
         new EventoRepository(connectionString));
+        
 
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
@@ -60,6 +65,40 @@ builder.Services.AddScoped<IRolService, RolService>();
 builder.Services.AddScoped<IPostService, PostService>();
 builder.Services.AddScoped<ITematicaService, TematicaService>();
 builder.Services.AddScoped<IEventoService, EventoService>();
+builder.Services.AddSingleton<IConfiguration>();
+builder.Services.AddScoped<IAuthService, AuthService>();
+
+
+
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+.AddJwtBearer(options =>
+{
+    options.RequireHttpsMetadata = false; // Cambiar a true si se necesita HTTPS
+    options.SaveToken = true;
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = builder.Configuration["Jwt:Issuer"],
+        ValidAudience = builder.Configuration["Jwt:Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"])),
+        
+    };
+
+});
+
+  // Agregar la configuración de la cadena de conexión
+
+    // Inyectar UsuarioRepository
+    builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+
+    // Inyectar AuthService
+
+
+    builder.Services.AddControllers();
 
 var app = builder.Build();
 

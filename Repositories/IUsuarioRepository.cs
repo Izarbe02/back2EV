@@ -1,10 +1,9 @@
 using Models;
-using Microsoft.Data.SqlClient;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
-
-namespace dosEvAPI.Repositories{
-
-
+namespace dosEvAPI.Repositories
+{
     public interface IUsuarioRepository
     {
         Task<List<Usuario>> GetAllAsync();
@@ -12,5 +11,9 @@ namespace dosEvAPI.Repositories{
         Task AddAsync(Usuario usuario);
         Task UpdateAsync(Usuario usuario);
         Task DeleteAsync(int id);
+          Task<UsuarioDTOOut> GetUserFromCredentials(LoginDTO loginDTO);
+        /// Registra un nuevo usuario en la base de datos.
+        Task<UsuarioDTOOut> AddUserFromCredentials(LoginDTO loginDTO);
+    
     }
 }

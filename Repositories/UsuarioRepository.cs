@@ -8,6 +8,15 @@ namespace dosEvAPI.Repositories{
         {
             private readonly string _connectionString;
 
+
+
+    public UsuarioRepository(IConfiguration configuration)
+    {
+        _connectionString = configuration.GetConnectionString("DefaultConnection");
+    }
+
+
+
             public UsuarioRepository(string connectionString)
             {
                 _connectionString = connectionString;
@@ -125,5 +134,103 @@ namespace dosEvAPI.Repositories{
                     }
                 }
             }
+
+
+        //TokenFunc
+ public async Task<UsuarioDTOOut> GetUserFromCredentials(LoginDTO loginDTO)
+        {
+            UsuarioDTOOut? loginUser = null;
+            string? contrasenia = null;
+
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                string query = @"SELECT ID, email, contrasenia FROM Usuarios WHERE email = @Email;";
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@Email", loginDTO._email);
+                    using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                    {
+                        if (await reader.ReadAsync())
+                        {
+                            loginUser = new UsuarioDTOOut
+                            {
+                                _idUSuario = reader.GetInt32(0),
+                                _correo = reader.GetString(1)
+                            };
+                            contrasenia = reader.GetString(2);
+                        }
+                    }
+                }
+            }
+
+            if (loginDTO._password != contrasenia || loginDTO ._email != loginUser._correo)
+            {
+                throw new Exception("Correo o contraseña incorrectos");
+            }
+        else {
+            return loginUser;
+        }
+  
+    }
+
+
+    public async Task<UsuarioDTOOut> AddUserFromCredentials(LoginDTO loginDTO)
+{
+    UsuarioDTOOut? newUser = null;
+
+    using (SqlConnection connection = new SqlConnection(_connectionString))
+    {
+        await connection.OpenAsync();
+        
+        // Verificar si el usuario ya existe
+        string checkUserQuery = "SELECT COUNT(*) FROM Usuarios WHERE email = @Email";
+        using (SqlCommand checkCommand = new SqlCommand(checkUserQuery, connection))
+        {
+            checkCommand.Parameters.AddWithValue("@Email", loginDTO._email);
+            int userExists = (int)await checkCommand.ExecuteScalarAsync();
+
+            if (userExists > 0)
+            {
+                throw new Exception("El usuario ya existe con este correo electrónico.");
+            }
+        }
+
+        // Insertar nuevo usuario
+        string insertQuery = @"INSERT INTO Usuarios (username, email, contrasenia) 
+                               OUTPUT INSERTED.ID, INSERTED.email
+                               VALUES (@Username, @Email, @Contrasenia)";
+
+        using (SqlCommand command = new SqlCommand(insertQuery, connection))
+        {
+            command.Parameters.AddWithValue("@Username", loginDTO._username);
+            command.Parameters.AddWithValue("@Contrasenia", loginDTO._password); // Asegúrate de encriptar antes de guardar
+
+            using (SqlDataReader reader = await command.ExecuteReaderAsync())
+            {
+                if (await reader.ReadAsync())
+                {
+                    newUser = new UsuarioDTOOut
+                    {
+                        _idUSuario = reader.GetInt32(0),
+                        _correo = reader.GetString(1)
+                    };
+                }
+            }
         }
     }
+
+    if (newUser == null)
+    {
+        throw new Exception("Error al registrar el usuario.");
+    }
+
+    return newUser;
+}
+
+}
+
+
+
+}
+
