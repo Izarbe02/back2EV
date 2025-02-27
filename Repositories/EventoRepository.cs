@@ -1,6 +1,10 @@
 using Models;
 using Microsoft.Data.SqlClient;
 
+using dosEvAPI.DTOs;
+
+
+
 namespace dosEvAPI.Repositories
 {
     public class EventoRepository : IEventoRepository

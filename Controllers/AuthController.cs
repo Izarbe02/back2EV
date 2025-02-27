@@ -1,24 +1,23 @@
 using Microsoft.AspNetCore.Mvc;
-using dosEvAPI.Services;
-using Models;
-using System;
-using System.Collections.Generic;
+using dosEvAPI.DTOs;
+using dosEvAPI.Service;
 using System.Threading.Tasks;
+using dosEvAPI.Models;
 
 namespace dosEvAPI.Controllers
 {
-    [ApiController]
     [Route("api/auth")]
+    [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly IAuthService _service;
+        private readonly IUsuarioService _usuarioService;
 
-        public AuthController(IAuthService service)
+        public AuthController(IUsuarioService service)
         {
-            _service = service;
+            _usuarioService = service;
         }
 
-        [HttpPost("Login")]
+        [HttpPost("login")]
         public async Task<ActionResult> Login(LoginDTO cuenta)
         {
             try
@@ -28,21 +27,21 @@ namespace dosEvAPI.Controllers
                     return BadRequest(ModelState);
                 }
 
-                string token = await _service.Login(cuenta);
+                string token = await _usuarioService.Login(cuenta);
                 return Ok(token);
             }
-            catch (KeyNotFoundException ex)
+            catch (KeyNotFoundException )
             {
-                return Unauthorized(ex);
+                return Unauthorized("Credenciales inválidas");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return BadRequest("Error al generar el token");
             }
         }
 
-        [HttpPost("Register")]
-        public async Task<ActionResult> Register(LoginDTO usuario)
+        [HttpPost("register")]
+        public async Task<ActionResult> Register(Usuario usuario)
         {
             try
             {
@@ -51,17 +50,19 @@ namespace dosEvAPI.Controllers
                     return BadRequest(ModelState);
                 }
 
-                string token = await _service.Register(usuario);
+                string token = await _usuarioService.Register(usuario);
                 return Ok(token);
             }
-            catch (KeyNotFoundException ex)
+            catch (KeyNotFoundException)
             {
-                return Unauthorized(ex);
+                return Unauthorized("Error al registrar usuario");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return BadRequest("Error al generar el token");
             }
         }
     }
 }
+
+

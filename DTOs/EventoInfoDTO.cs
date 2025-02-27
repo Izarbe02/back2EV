@@ -1,6 +1,8 @@
 using System.Diagnostics;
 using Models;
+using dosEvAPI.Models;
 
+namespace  dosEvAPI.DTOs{
 public class EventoInfoDTO{
         public string NombreOrg {get; set;} 
         public string NombreEvento {get; set;}
@@ -30,4 +32,5 @@ public class EventoInfoDTO{
         
         }
 
+}
 }

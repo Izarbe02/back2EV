@@ -1,15 +1,15 @@
 using System.Diagnostics;
 using Models;
-
+namespace dosEvAPI.Models;
 
 public class Usuario
 {
-    public int Id { get; set; }
-    public string Username { get; set; }
-    public string Nombre { get; set; }
-    public string Email { get; set; }
-    public string Ubicacion { get; set; }
-    public string Contrasenia { get; set; }
+    public required int Id { get; set; }
+    public  required string Username { get; set; }
+    public  required string  Nombre { get; set; }
+    public  required string  Email { get; set; }
+    public  required string  Ubicacion { get; set; }
+    public  required string  Contrasenia { get; set; }
 
     public Usuario(string username, string nombre, string contrasenia, string email , string ubicacion)
     {

@@ -1,4 +1,8 @@
 using Models;
+using dosEvAPI.DTOs;
+using dosEvAPI.Models;
+
+
 
 namespace dosEvAPI.Services
 {
@@ -18,5 +22,8 @@ namespace dosEvAPI.Services
         /// Registra un nuevo usuario y genera un token.
 
         Task<string> Register(LoginDTO loginDTO);
+
+       
+        
     }
 }

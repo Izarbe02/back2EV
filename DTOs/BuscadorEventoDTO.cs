@@ -1,5 +1,8 @@
 using System.Diagnostics;
 using Models;
+using dosEvAPI.Models;
+
+namespace  dosEvAPI.DTOs{
 
 public class BuscadorEventoDTO
 {
@@ -24,4 +27,5 @@ public class BuscadorEventoDTO
 
     }
 
+}
 }

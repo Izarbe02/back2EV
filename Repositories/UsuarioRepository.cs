@@ -1,5 +1,8 @@
 using Models;
 using Microsoft.Data.SqlClient;
+using dosEvAPI.DTOs;
+using dosEvAPI.Models;
+
 
 
 namespace dosEvAPI.Repositories{
@@ -137,7 +140,7 @@ namespace dosEvAPI.Repositories{
 
 
         //TokenFunc
- public async Task<UsuarioDTOOut> GetUserFromCredentials(LoginDTO loginDTO)
+ public async Task<UsuarioDTOOut?> GetUserFromCredentials(LoginDTO loginDTO)
         {
             UsuarioDTOOut? loginUser = null;
             string? contrasenia = null;

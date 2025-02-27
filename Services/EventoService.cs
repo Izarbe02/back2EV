@@ -1,5 +1,9 @@
 using Models;
 using dosEvAPI.Repositories;
+using dosEvAPI.DTOs;
+
+using dosEvAPI.Models;
+
 
 namespace dosEvAPI.Service
 {

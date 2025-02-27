@@ -1,6 +1,5 @@
-using Models;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+using dosEvAPI.DTOs;
+using dosEvAPI.Models;
 
 namespace dosEvAPI.Repositories
 {
@@ -11,9 +10,9 @@ namespace dosEvAPI.Repositories
         Task AddAsync(Usuario usuario);
         Task UpdateAsync(Usuario usuario);
         Task DeleteAsync(int id);
-          Task<UsuarioDTOOut> GetUserFromCredentials(LoginDTO loginDTO);
-        /// Registra un nuevo usuario en la base de datos.
+
+        // Métodos para autenticación
+        Task<UsuarioDTOOut?> GetUserFromCredentials(LoginDTO loginDTO);
         Task<UsuarioDTOOut> AddUserFromCredentials(LoginDTO loginDTO);
-    
     }
 }

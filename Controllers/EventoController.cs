@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using dosEvAPI.Repositories;
 using dosEvAPI.Service;
 using Models;
+using dosEvAPI.DTOs;
 
 namespace dosEvAPI.Controllers
 {

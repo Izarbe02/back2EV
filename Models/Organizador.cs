@@ -1,4 +1,5 @@
 namespace Models;
+using dosEvAPI.Models;
 
 
 public class Organizador : Usuario

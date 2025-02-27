@@ -1,25 +1,21 @@
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
 using dosEvAPI.Repositories;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.Extensions.Configuration;
-using Models;
-using System.Threading.Tasks;
+using dosEvAPI.Models;
+using dosEvAPI.DTOs;
 using System.Collections.Generic;
-using Microsoft.Identity.Client;
+using System.Threading.Tasks;
+using dosEvAPI.Services;
 
 namespace dosEvAPI.Service
 {
     public class UsuarioService : IUsuarioService
     {
         private readonly IUsuarioRepository _usuarioRepository;
-  
+        private readonly IAuthService _authService; // Inyección de dependencia para autenticación
 
-        public UsuarioService(IUsuarioRepository usuarioRepository)
+        public UsuarioService(IUsuarioRepository usuarioRepository, IAuthService authService)
         {
             _usuarioRepository = usuarioRepository;
- 
+            _authService = authService;
         }
 
         public async Task<List<Usuario>> GetAllAsync()
@@ -42,29 +38,28 @@ namespace dosEvAPI.Service
             await _usuarioRepository.UpdateAsync(usuario);
         }
 
-        public Task DeleteAsync(int id)
+        public async Task DeleteAsync(int id)
         {
-            throw new NotImplementedException();
+            await _usuarioRepository.DeleteAsync(id);
         }
 
-        // public async Task DeleteAsync(int id)
-        // {
-        //     var usuario = await _usuarioRepository.GetByIdAsync(id);
-        //     if (usuario != null)
-        //     {
-        //         await _usuarioRepository.DeleteAsync(id);
-        //     }
-        // }
-        //  public async Task<string> Login(LoginDTO loginDTO)
-        // {
-        //     UsuarioDTOOut user = await _usuarioRepository.GetUserFromCredentials(loginDTO);
-        //     return _tokenService.GenerateToken(user);
-        // }
+        // 🔹 Métodos de autenticación delegados a `AuthService`
+        public async Task<string> Login(LoginDTO loginDTO)
+        {
+            return await _authService.Login(loginDTO);
+        }
+public async Task<string> Register(Usuario usuario)
+{
+    // Convertir Usuario a LoginDTO antes de pasarlo a AuthService
+    var loginDTO = new LoginDTO
+    {
+        _username = usuario.Username,
+        _email = usuario.Email,
+        _password = usuario.Contrasenia
+    };
 
-        // public async Task<string> Register(LoginDTO loginDTO)
-        // {
-        //     UsuarioDTOOut user = await _usuarioRepository.AddUserFromCredentials(loginDTO);
-        //     return _okenService.GenerateToken(user);
-        // }
+    return await _authService.Register(loginDTO);
+}
+
     }
 }

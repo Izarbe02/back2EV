@@ -1,5 +1,9 @@
 using System.Diagnostics;
 using Models;
+using dosEvAPI.Models;
+
+namespace  dosEvAPI.DTOs{
+
 
 public class LoginDTO{
      public string _username {get; set;} 
@@ -17,4 +21,5 @@ _password = password;
         
         }
 
+}
 }
