@@ -172,7 +172,7 @@ DROP TABLE Comentarios;
 DROP TABLE Eventos;
 DROP TABLE Organizador;
 DROP TABLE Tematica;
-DROP TABLE CategoriasProductos;
+DROP TABLE CategoriaProducto;
 DROP TABLE CategoriaEvento;
 DROP TABLE Roles;
 DROP TABLE Usuarios;
