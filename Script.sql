@@ -97,7 +97,7 @@ CREATE TABLE Comentarios (
     comentario NVARCHAR(MAX) NOT NULL,
     fecha DATETIME DEFAULT GETDATE(),
     FOREIGN KEY (idUsuario) REFERENCES Usuarios(ID) ON DELETE CASCADE,
-    FOREIGN KEY (idEvento) REFERENCES Eventos(ID) ON DELETE CASCADE
+    FOREIGN KEY (idEvento) REFERENCES Eventos(ID) ON DELETE NO ACTION 
 );
 
 -- Tabla Posts
