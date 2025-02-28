@@ -143,6 +143,8 @@ INSERT INTO Roles (ID, nombre) VALUES
 SET IDENTITY_INSERT Roles OFF;
 
 -- Insertar Usuarios
+SET IDENTITY_INSERT Usuarios ON;
+
 INSERT INTO Usuarios (ID, username, nombre, email, ubicacion, contrasenia, idRol)
 VALUES
 (1, 'admin1', 'Administrador Principal', 'admin1@agendazgz.com', 'Zaragoza, España', 'claveadmin1', 1),
@@ -152,6 +154,8 @@ VALUES
 (5, 'usuario3', 'Laura Garcia', 'laura@agendazgz.com', 'Zaragoza', 'claveusuario3', 3),
 (6, 'usuario4', 'Carlos Fernandez', 'carlos@agendazgz.com', 'España', 'claveusuario4', 3),
 (7, 'usuario5', 'Ana Martínez', 'ana@agendazgz.com', 'Zaragoza', 'claveusuario5', 3);
+
+SET IDENTITY_INSERT Usuarios OFF;
 
 -- Insertar Organizadores
 INSERT INTO Organizador (ID, nombre, ubicacion, descripcion, enlace, email, contrasenia, telefono, idRol) VALUES 
