@@ -148,8 +148,7 @@ VALUES
 -- Administradores (idRol = 1)
 (1, 'admin1', 'Administrador Principal', 'admin1@agendazgz.com', 'Zaragoza, España', 'claveadmin1', 1),
 (2, 'admin2', 'Administrador Secundario', 'admin2@agendazgz.com', 'Zaragoza, España', 'claveadmin2', 1),
-
--- Usuarios normales (idRol = 3)
+--(idRol = 3)
 (3, 'usuario1', 'Maria Perez', 'maria@agendazgz.com', 'Zaragoza', 'claveusuario1', 3),
 (4, 'usuario2', 'Jorge Lopez', 'jorge@agendazgz.com', 'Zaragoza', 'claveusuario2', 3),
 (5, 'usuario3', 'Laura Garcia', 'laura@agendazgz.com', 'Zaragoza', 'claveusuario3', 3),
@@ -168,9 +167,27 @@ INSERT INTO CategoriaProducto (nombre) VALUES ('Artesanía Local');
 INSERT INTO CategoriaProducto (nombre) VALUES ('Recuerdos');
 
 -- Insertar Temáticas
-INSERT INTO Tematica (nombre) VALUES ('Agenda Local Autogestionada');
-INSERT INTO Tematica (nombre) VALUES ('Difusión Comunitaria');
-INSERT INTO Tematica (nombre) VALUES ('Participación Ciudadana');
+INSERT INTO Tematica (ID, nombre) VALUES (1, 'Anticarcelario');
+INSERT INTO Tematica (ID, nombre) VALUES (2, 'Arte y Cultura Comunitaria');
+INSERT INTO Tematica (ID, nombre) VALUES (3, 'Autogestión Colectiva');
+INSERT INTO Tematica (ID, nombre) VALUES (4, 'Feminismo y Diversidad');
+INSERT INTO Tematica (ID, nombre) VALUES (5, 'Fiestas Populares');
+INSERT INTO Tematica (ID, nombre) VALUES (6, 'Derechos Humanos y Lucha Social');
+INSERT INTO Tematica (ID, nombre) VALUES (7, 'Sindicalismo');
+INSERT INTO Tematica (ID, nombre) VALUES (8, 'Reparación y Autogestión');
+INSERT INTO Tematica (ID, nombre) VALUES (9, 'Música y Cultura');
+INSERT INTO Tematica (ID, nombre) VALUES (10, 'Eventos Deportivos');
+INSERT INTO Tematica (ID, nombre) VALUES (11, 'Antirrepresión');
+INSERT INTO Tematica (ID, nombre) VALUES (12, 'Educación Alternativa');
+INSERT INTO Tematica (ID, nombre) VALUES (13, 'Limpieza y Cuidados');
+INSERT INTO Tematica (ID, nombre) VALUES (14, 'Luchas Internacionalistas');
+INSERT INTO Tematica (ID, nombre) VALUES (15, 'Hacktivismo y Ciberseguridad');
+INSERT INTO Tematica (ID, nombre) VALUES (16, 'Economía Social y Solidaria');
+INSERT INTO Tematica (ID, nombre) VALUES (17, 'Manifestaciones');
+INSERT INTO Tematica (ID, nombre) VALUES (18, 'Presentaciones y Charlas');
+INSERT INTO Tematica (ID, nombre) VALUES (19, 'Participación Ciudadana');
+INSERT INTO Tematica (ID, nombre) VALUES (20, 'Ecologismo y Medio Ambiente');
+
 
 -- Insertar Organizador
 INSERT INTO Organizador (nombre, ubicacion, descripcion, enlace, email, contrasenia, telefono, idRol)
