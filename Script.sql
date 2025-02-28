@@ -2,6 +2,12 @@
 CREATE DATABASE dosEvBack;
 USE dosEvBack;
 
+-- Tabla Roles
+CREATE TABLE Roles (
+    ID INT IDENTITY(1,1) PRIMARY KEY,
+    nombre NVARCHAR(50) NOT NULL
+);
+
 -- Tabla Usuarios
 CREATE TABLE Usuarios (
     ID INT IDENTITY(1,1) PRIMARY KEY,
@@ -9,13 +15,9 @@ CREATE TABLE Usuarios (
     nombre NVARCHAR(50) NOT NULL,
     email NVARCHAR(50) UNIQUE,
     ubicacion NVARCHAR(255),
-    contrasenia NVARCHAR(255) NOT NULL
-);
-
--- Tabla Roles
-CREATE TABLE Roles (
-    ID INT IDENTITY(1,1) PRIMARY KEY,
-    nombre NVARCHAR(50) NOT NULL
+    contrasenia NVARCHAR(255) NOT NULL,
+    idRol INT NOT NULL,
+    FOREIGN KEY (idRol) REFERENCES Roles(ID) ON DELETE CASCADE
 );
 
 -- Tabla Categorías de Eventos
@@ -58,13 +60,27 @@ CREATE TABLE Eventos (
     ubicacion NVARCHAR(255) NOT NULL,
     fecha_inicio DATETIME NOT NULL,
     fecha_fin DATETIME NOT NULL,
-    idTematica INT NULL, 
     enlace NVARCHAR(255),
-    idCategoria INT NULL,
     idOrganizador INT NOT NULL,
-    FOREIGN KEY (idTematica) REFERENCES Tematica(ID) ON DELETE SET NULL,
-    FOREIGN KEY (idCategoria) REFERENCES CategoriaEvento(ID) ON DELETE SET NULL,
     FOREIGN KEY (idOrganizador) REFERENCES Organizador(ID) ON DELETE CASCADE
+);
+
+-- Tabla Intermedia: Eventos_Tematica (N-M)
+CREATE TABLE Eventos_Tematica (
+    idEvento INT NOT NULL,
+    idTematica INT NOT NULL,
+    PRIMARY KEY (idEvento, idTematica),
+    FOREIGN KEY (idEvento) REFERENCES Eventos(ID) ON DELETE CASCADE,
+    FOREIGN KEY (idTematica) REFERENCES Tematica(ID) ON DELETE CASCADE
+);
+
+-- Tabla Intermedia: Eventos_Categoria (N-M)
+CREATE TABLE Eventos_Categoria (
+    idEvento INT NOT NULL,
+    idCategoria INT NOT NULL,
+    PRIMARY KEY (idEvento, idCategoria),
+    FOREIGN KEY (idEvento) REFERENCES Eventos(ID) ON DELETE CASCADE,
+    FOREIGN KEY (idCategoria) REFERENCES CategoriaEvento(ID) ON DELETE CASCADE
 );
 
 -- Tabla Comentarios
@@ -96,8 +112,15 @@ CREATE TABLE Productos (
     ubicacion NVARCHAR(255) NOT NULL,
     imagen NVARCHAR(255) NOT NULL,
     idUsuario INT NOT NULL,
+    FOREIGN KEY (idUsuario) REFERENCES Usuarios(ID) ON DELETE CASCADE
+);
+
+-- Tabla Intermedia: Productos_Categoria (N-M)
+CREATE TABLE Productos_Categoria (
+    idProducto INT NOT NULL,
     idCategoria INT NOT NULL,
-    FOREIGN KEY (idUsuario) REFERENCES Usuarios(ID) ON DELETE CASCADE,
+    PRIMARY KEY (idProducto, idCategoria),
+    FOREIGN KEY (idProducto) REFERENCES Productos(ID) ON DELETE CASCADE,
     FOREIGN KEY (idCategoria) REFERENCES CategoriaProducto(ID) ON DELETE CASCADE
 );
 
@@ -107,15 +130,32 @@ CREATE TABLE Productos (
 USE dosEvBack;
 
 -- Insertar Roles
-INSERT INTO Roles (nombre) VALUES ('Administrador');
-INSERT INTO Roles (nombre) VALUES ('Organizador');
-INSERT INTO Roles (nombre) VALUES ('Usuario');
+-- Habilitar la inserción en columnas IDENTITY
+SET IDENTITY_INSERT Roles ON;
+
+-- Insertar Roles asegurando que Administrador sea 1, Organizador 2 y Usuario 3
+INSERT INTO Roles (ID, nombre) VALUES (1, 'Administrador');
+INSERT INTO Roles (ID, nombre) VALUES (2, 'Organizador');
+INSERT INTO Roles (ID, nombre) VALUES (3, 'Usuario');
+-- Deshabilitar la inserción en columnas IDENTITY
+SET IDENTITY_INSERT Roles OFF;
 
 -- Insertar Usuarios
-INSERT INTO Usuarios (username, nombre, email, ubicacion, contrasenia)
-VALUES ('zaragozano1', 'Carlos Zaragoza', 'carlos@local.com', 'Zaragoza, España', 'clave123');
-INSERT INTO Usuarios (username, nombre, email, ubicacion, contrasenia)
-VALUES ('localcomunidad', 'Ana Comunidad', 'ana@local.com', 'Zaragoza, España', 'clave456');
+-- Campos: username (NVARCHAR(50), UNIQUE, NOT NULL), nombre (NVARCHAR(50), NOT NULL), 
+-- email (NVARCHAR(50), UNIQUE), ubicacion (NVARCHAR(255)), contrasenia (NVARCHAR(255), NOT NULL)
+INSERT INTO Usuarios (ID, username, nombre, email, ubicacion, contrasenia, idRol) 
+VALUES 
+-- Administradores (idRol = 1)
+(1, 'admin1', 'Administrador Principal', 'admin1@agendazgz.com', 'Zaragoza, España', 'claveadmin1', 1),
+(2, 'admin2', 'Administrador Secundario', 'admin2@agendazgz.com', 'Zaragoza, España', 'claveadmin2', 1),
+
+-- Usuarios normales (idRol = 3)
+(3, 'usuario1', 'Maria Perez', 'maria@agendazgz.com', 'Zaragoza', 'claveusuario1', 3),
+(4, 'usuario2', 'Jorge Lopez', 'jorge@agendazgz.com', 'Zaragoza', 'claveusuario2', 3),
+(5, 'usuario3', 'Laura Garcia', 'laura@agendazgz.com', 'Zaragoza', 'claveusuario3', 3),
+(6, 'usuario4', 'Carlos Fernandez', 'carlos@agendazgz.com', 'España', 'claveusuario4', 3),
+(7, 'usuario5', 'Ana Martínez', 'ana@agendazgz.com', 'Zaragoza', 'claveusuario5', 3);
+
 
 -- Insertar Categorías de Eventos
 INSERT INTO CategoriaEvento (nombre) VALUES ('Cultural');
