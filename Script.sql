@@ -158,6 +158,9 @@ VALUES
 SET IDENTITY_INSERT Usuarios OFF;
 
 -- Insertar Organizadores
+
+SET IDENTITY_INSERT Organizador ON;
+
 INSERT INTO Organizador (ID, nombre, ubicacion, descripcion, enlace, email, contrasenia, telefono, idRol) VALUES 
 (1, 'ZaragozaConecta', 'Zaragoza, España', 'Organizador de eventos comunitarios', 'http://zaragoconecta.es', 'info@zaragoconecta.es', 'claveorg1', '976123456', 2),
 (2, 'Colectivo Feminista', 'Zaragoza, España', 'Organización feminista autogestionada', 'http://feminismo.es', 'contacto@feminismo.es', 'claveorg2', '976789123', 2),
@@ -167,6 +170,7 @@ INSERT INTO Organizador (ID, nombre, ubicacion, descripcion, enlace, email, cont
 (6, 'Arrebato', 'Zaragoza, España', 'Sala de conciertos autogestionada con programación cultural y artística independiente.', 'http://arrebato.es', 'contacto@arrebato.es', 'claveorg6', '976222888', 2),
 (7, 'Kike Mur', 'Zaragoza, España', 'Centro social autogestionado con actividades comunitarias, culturales y sociales.', 'http://kikemur.es', 'contacto@kikemur.es', 'claveorg7', '976111777', 2),
 (8, 'Centro Social Librería La Pantera Rossa', 'Zaragoza, España', 'Centro social librería. Pensamiento crítico+autoorganización', 'http://kikemur.es', 'contacto@pantera.es', 'claveorg8', '976111777', 2);
+SET IDENTITY_INSERT Organizador OFF;
 
 -- Insertar Comentarios
 INSERT INTO Comentarios (idUsuario, idEvento, comentario)
