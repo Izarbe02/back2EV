@@ -172,10 +172,7 @@ INSERT INTO Organizador (ID, nombre, ubicacion, descripcion, enlace, email, cont
 (8, 'Centro Social Librería La Pantera Rossa', 'Zaragoza, España', 'Centro social librería. Pensamiento crítico+autoorganización', 'http://kikemur.es', 'contacto@pantera.es', 'claveorg8', '976111777', 2);
 SET IDENTITY_INSERT Organizador OFF;
 
--- Insertar Comentarios
-INSERT INTO Comentarios (idUsuario, idEvento, comentario)
-VALUES (1, 1, 'Gran oportunidad para conocer el talento local y apoyar a los artesanos.'),
-(2, 2, 'Una jornada inspiradora que fortaleció la participación ciudadana en nuestra comunidad.');
+
 
 -- Insertar Posts
 INSERT INTO Posts (idUsuario, titulo, contenido)
@@ -218,39 +215,87 @@ INSERT INTO Tematica (nombre) VALUES
 ('Ecologismo y Medio Ambiente');
 
 -- Insertar Eventos
+
+
+
+SET DATEFORMAT YMD;
+SET IDENTITY_INSERT Eventos ON;
+
 INSERT INTO Eventos (ID, nombre, descripcion, ubicacion, fecha_inicio, fecha_fin, enlace, idOrganizador)
 VALUES 
-(1, 'La primera vez que bailamos', 'Exposición de collages de la artista Laura Miqueo.', 'La Pantera Rossa', '2025-02-20 10:00', '2025-03-09 18:00', 'http://lapanterarossa.es/expo', 5),
-(2, 'Por unos parques y jardines dignos', 'Concentración por el mantenimiento adecuado de espacios verdes.', 'Plaza Ontonar', '2025-02-28 17:00', '2025-02-28 18:00', 'http://zaragoconecta.es/parques', 1),
-(3, 'Alimentación sana y agricultura ecológica', 'Charla sobre hábitos saludables y sostenibilidad.', 'La Pantera Rossa', '2025-02-28 18:00', '2025-02-28 20:00', 'http://lapanterarossa.es/alimentacion', 5),
-(4, 'Cine por la paz: Parar las guerras', 'Proyección de documentales sobre conflictos bélicos y pacifismo.', 'Filmoteca de Zaragoza', '2025-02-28 18:00', '2025-02-28 20:00', 'http://filmotecazaragoza.es/cinepaz', 1),
-(5, 'Cadena humana por los seis de Zaragoza', 'Movilización en solidaridad con los seis de Zaragoza.', 'Delegación del Gobierno', '2025-02-28 18:30', '2025-02-28 19:30', 'http://zaragoconecta.es/solidaridad6', 1),
-(6, 'Concierto: Sal del coche + Muelles', 'Noche de música independiente.', 'A.VV. Arrebato', '2025-02-28 20:00', '2025-02-28 22:00', 'http://arrebato.es/concierto', 6),
-(7, 'Facharnaval', 'Vermú carnavalero en apoyo a las radios libres.', 'CSO La Fábrica de Chocolate', '2025-03-01 12:00', '2025-03-01 18:00', 'http://lafabricadechocolate.es/vermucarnaval', 5),
-(8, 'Presentación de "Mauro"', 'Novela sobre una de las mayores evasiones carcelarias de Europa.', 'La Pantera Rossa', '2025-03-01 12:00', '2025-03-01 14:00', 'http://lapanterarossa.es/mauro', 5),
-(9, 'Taller: Desmontando al facha de tu clase + Fiesta', 'Debate y análisis crítico del auge de la extrema derecha.', 'Centro Cultural Socialista La Comuna', '2025-03-01 17:00', '2025-03-01 00:00', 'http://lacomuna.es/taller', 1),
-(10, 'Cine por la paz 2', 'Segunda jornada de proyección de documentales.', 'Filmoteca de Zaragoza', '2025-03-01 18:00', '2025-03-01 20:00', 'http://filmotecazaragoza.es/cinepaz2', 1),
-(11, 'Concierto Apoyo XXII Marcha Zuera', 'Concierto solidario en apoyo a la marcha anual a la cárcel de Zuera.', 'A.VV. Arrebato', '2025-03-01 20:00', '2025-03-01 22:00', 'http://arrebato.es/marchazuera', 6),
-(12, 'Torneo de ajedrez "Por la paz en Palestina"', 'Competencia amistosa con enfoque en la justicia social.', 'Casa Palestina de Aragón', '2025-03-02 16:00', '2025-03-02 18:00', 'http://casapalestina.es/ajedrez', 1),
-(13, 'Taller de lectura', 'Espacio de lectura y análisis del libro "La llamada" de Leila Guerriero.', 'La Pantera Rossa', '2025-03-03 19:00', '2025-03-03 21:00', 'http://lapanterarossa.es/tallerlectura', 5),
-(14, 'Charla: Mujeres, disidencias y revolución', 'Conversación sobre feminismo y luchas sociales.', 'Unizar, Aula 4.5', '2025-03-06 19:00', '2025-03-06 20:30', 'http://unizar.es/charlafeminismo', 2),
-(15, 'Huelga y manifestación estudiantil 7M', 'Marcha por los derechos estudiantiles.', 'Plaza San Francisco', '2025-03-07 12:00', '2025-03-07 14:00', 'http://zaragoconecta.es/estudiantes7m', 1),
-(16, 'Concierto: Disciplina Limitar + Guiñote de Qontaqto', 'Noche de punk y rock alternativo.', 'A.VV. Arrebato', '2025-03-14 20:00', '2025-03-14 22:00', 'http://arrebato.es/disciplina', 6),
-(17, 'Presentación del libro "Vértebras"', 'La poeta Pilar Roig Ferreruela presenta su nuevo poemario.', 'La Pantera Rossa', '2025-03-15 12:00', '2025-03-15 14:00', 'http://lapanterarossa.es/vertebras', 5),
-(18, 'Asesoría laboral', 'Sesión de asesoramiento gratuito sobre derechos laborales.', 'AAVV Venecia/Torrero', '2025-03-26 18:00', '2025-03-26 20:00', 'http://venecia-torrero.es/asesorialaboral', 1),
-(19, 'Concierto solidario con la PAH', 'Evento musical para recaudar fondos.', 'CSP Amapola', '2025-03-29 19:00', '2025-03-29 21:00', 'http://cspamapola.es/conciertopah', 1),
-(20, 'XXII Marcha a la macrocárcel de Zuera', 'Movilización anual contra la represión y el sistema carcelario.', 'Macrocárcel de Zuera', '2025-03-30 11:00', '2025-03-30 18:00', 'http://zaragoconecta.es/marchazuera', 1),
-(21, 'Tatu Circus Zgz', 'Festival de tatuajes solidario con eventos culturales.', 'CSO Kike Mur', '2025-05-02 10:00', '2025-05-04 22:00', 'http://kikemur.es/tatucircus', 7),
-(22, 'Pasacalles por la convivencia en Delicias', 'Desfile y actividades para fomentar la integración y diversidad.', 'Calles de Delicias', '2025-05-09 17:00', '2025-05-09 19:00', 'http://zaragoconecta.es/pasacalles', 1),
-(23, 'Fiesta del Sol', 'Celebración al aire libre con música y talleres de concienciación ecológica.', 'Parque Emilio Lacambra', '2025-05-10 11:00', '2025-05-10 00:00', 'http://zaragoconecta.es/fiestadelsol', 5), 
-(24, 'Mundialito Antirracista de Zaragoza 2025', 'Torneo de fútbol contra la discriminación.', 'CDM La Granja', '2025-05-17 09:00', '2025-05-17 19:00', 'http://zaragoconecta.es/mundialito', 1),
-(25, '25º aniversario CSA La Revuelta', 'Jornada con debates, conciertos y exposiciones.', 'CSA La Revuelta', '2025-09-13 12:00', '2025-09-13 23:00', 'http://revuelta.es/25aniversario', 1);
+(1, 'La primera vez que bailamos', 'Exposición de collages de la artista Laura Miqueo.', 'La Pantera Rossa', 
+ '2025-02-20 10:00:00', '2025-03-09 18:00:00', 'http://lapanterarossa.es/expo', 5),
 
+(2, 'Por unos parques y jardines dignos', 'Concentración por el mantenimiento adecuado de espacios verdes.', 'Plaza Ontonar', 
+ '2025-02-28 17:00:00', '2025-02-28 18:00:00', 'http://zaragoconecta.es/parques', 1),
+
+(3, 'Alimentación sana y agricultura ecológica', 'Charla sobre hábitos saludables y sostenibilidad.', 'La Pantera Rossa', 
+ '2025-02-28 18:00:00', '2025-02-28 20:00:00', 'http://lapanterarossa.es/alimentacion', 5),
+
+(4, 'Cine por la paz: Parar las guerras', 'Proyección de documentales sobre conflictos bélicos y pacifismo.', 'Filmoteca de Zaragoza', 
+ '2025-02-28 18:00:00', '2025-02-28 20:00:00', 'http://filmotecazaragoza.es/cinepaz', 1),
+
+(5, 'Cadena humana por los seis de Zaragoza', 'Movilización en solidaridad con los seis de Zaragoza.', 'Delegación del Gobierno', 
+ '2025-02-28 18:30:00', '2025-02-28 19:30:00', 'http://zaragoconecta.es/solidaridad6', 1),
+
+(6, 'Concierto: Sal del coche + Muelles', 'Noche de música independiente.', 'A.VV. Arrebato', 
+ '2025-02-28 20:00:00', '2025-02-28 22:00:00', 'http://arrebato.es/concierto', 6),
+
+(7, 'Facharnaval', 'Vermú carnavalero en apoyo a las radios libres.', 'CSO La Fábrica de Chocolate', 
+ '2025-03-01 12:00:00', '2025-03-01 18:00:00', 'http://lafabricadechocolate.es/vermucarnaval', 5),
+
+(8, 'Presentación de "Mauro"', 'Novela sobre una de las mayores evasiones carcelarias de Europa.', 'La Pantera Rossa', 
+ '2025-03-01 12:00:00', '2025-03-01 14:00:00', 'http://lapanterarossa.es/mauro', 5),
+
+(9, 'Taller: Desmontando al facha de tu clase + Fiesta', 'Debate y análisis crítico del auge de la extrema derecha.', 'Centro Cultural Socialista La Comuna', 
+ '2025-03-01 17:00:00', '2025-03-01 23:59:59', 'http://lacomuna.es/taller', 1),
+
+(10, 'Cine por la paz 2', 'Segunda jornada de proyección de documentales.', 'Filmoteca de Zaragoza', 
+ '2025-03-01 18:00:00', '2025-03-01 20:00:00', 'http://filmotecazaragoza.es/cinepaz2', 1),
+
+(11, 'Concierto Apoyo XXII Marcha Zuera', 'Concierto solidario en apoyo a la marcha anual a la cárcel de Zuera.', 'A.VV. Arrebato', 
+ '2025-03-01 20:00:00', '2025-03-01 22:00:00', 'http://arrebato.es/marchazuera', 6),
+
+(12, 'Torneo de ajedrez "Por la paz en Palestina"', 'Competencia amistosa con enfoque en la justicia social.', 'Casa Palestina de Aragón', 
+ '2025-03-02 16:00:00', '2025-03-02 18:00:00', 'http://casapalestina.es/ajedrez', 1),
+
+(13, 'Taller de lectura', 'Espacio de lectura y análisis del libro "La llamada" de Leila Guerriero.', 'La Pantera Rossa', 
+ '2025-03-03 19:00:00', '2025-03-03 21:00:00', 'http://lapanterarossa.es/tallerlectura', 5),
+
+(14, 'Charla: Mujeres, disidencias y revolución', 'Conversación sobre feminismo y luchas sociales.', 'Unizar, Aula 4.5', 
+ '2025-03-06 19:00:00', '2025-03-06 20:30:00', 'http://unizar.es/charlafeminismo', 2),
+
+(15, 'Huelga y manifestación estudiantil 7M', 'Marcha por los derechos estudiantiles.', 'Plaza San Francisco', 
+ '2025-03-07 12:00:00', '2025-03-07 14:00:00', 'http://zaragoconecta.es/estudiantes7m', 1),
+
+(16, 'Concierto: Disciplina Limitar + Guiñote de Qontaqto', 'Noche de punk y rock alternativo.', 'A.VV. Arrebato', 
+ '2025-03-14 20:00:00', '2025-03-14 22:00:00', 'http://arrebato.es/disciplina', 6),
+
+(17, 'Presentación del libro "Vértebras"', 'La poeta Pilar Roig Ferreruela presenta su nuevo poemario.', 'La Pantera Rossa', 
+ '2025-03-15 12:00:00', '2025-03-15 14:00:00', 'http://lapanterarossa.es/vertebras', 5);
+
+SET IDENTITY_INSERT Eventos OFF;
+
+
+
+
+
+
+
+
+
+-- Insertar Comentarios
+INSERT INTO Comentarios (idUsuario, idEvento, comentario)
+VALUES (1, 1, 'Gran oportunidad para conocer el talento local y apoyar a los artesanos.'),
+(2, 2, 'Una jornada inspiradora que fortaleció la participación ciudadana en nuestra comunidad.');
 -- Insertar Productos
 INSERT INTO Productos (nombre, descripcion, ubicacion, imagen, idUsuario, idCategoria)
 VALUES 
 ('Libro de Tradiciones Aragonesas', 'Recopilación de recetas y leyendas locales, ideal para conocer la cultura de Aragón.', 'Librería Central, Zaragoza', 'libro_tradiciones.jpg', 1, 1),
 ('Artesanía en Barro', 'Pieza única de artesanía local, perfecta para decorar y llevar un pedazo de Zaragoza a casa.', 'Taller Artesanal, Zaragoza', 'artesania_barro.jpg', 2, 2);
+--El nombre de columna 'idCategoria' no es válido.
+
+
 
 -- Insertar relaciones Productos_Categoria
 INSERT INTO Productos_Categoria (idProducto, idCategoria)
