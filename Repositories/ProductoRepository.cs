@@ -20,7 +20,7 @@ namespace dosEvAPI.Repositories{
             using (var connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
-                string query = "SELECT ID, nombre, descripcion, ubicacion, imagen, idUsuario, idCategoria FROM Productos";
+                string query = "SELECT ID, nombre, descripcion, ubicacion, imagen, idOrganizador, idCategoria FROM Productos";
                 using (var command = new SqlCommand(query, connection))
                 {
                     using (var reader = await command.ExecuteReaderAsync())
@@ -34,7 +34,7 @@ namespace dosEvAPI.Repositories{
                                 Descripcion = reader.GetString(2),
                                 Ubicacion = reader.GetString(3),
                                 Imagen = reader.GetString(4),
-                                IdUsuario = reader.GetInt32(5),
+                                IdOrganizador = reader.GetInt32(5),
                                 IdCategoria = reader.GetInt32(6)
                             };
                             productos.Add(producto);
@@ -52,7 +52,7 @@ namespace dosEvAPI.Repositories{
             using (var connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
-                string query = "SELECT ID, nombre, descripcion, ubicacion, imagen, idUsuario, idCategoria FROM Productos WHERE ID = @Id";
+                string query = "SELECT ID, nombre, descripcion, ubicacion, imagen, idOrganizador, idCategoria FROM Productos WHERE ID = @Id";
                 using (var command = new SqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@Id", id);
@@ -67,7 +67,7 @@ namespace dosEvAPI.Repositories{
                                 Descripcion = reader.GetString(2),
                                 Ubicacion = reader.GetString(3),
                                 Imagen = reader.GetString(4),
-                                IdUsuario = reader.GetInt32(5),
+                                IdOrganizador = reader.GetInt32(5),
                                 IdCategoria = reader.GetInt32(6)
                             };
                         }
@@ -82,14 +82,14 @@ namespace dosEvAPI.Repositories{
             using (var connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
-                string query = "INSERT INTO Productos (nombre, descripcion, ubicacion, imagen, idUsuario, idCategoria) VALUES (@Nombre, @Descripcion, @Ubicacion, @Imagen, @IdUsuario, @IdCategoria)";
+                string query = "INSERT INTO Productos (nombre, descripcion, ubicacion, imagen, IdOrganizador, idCategoria) VALUES (@Nombre, @Descripcion, @Ubicacion, @Imagen, @Idorganizador, @IdCategoria)";
                 using (var command = new SqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@Nombre", producto.Nombre);
                     command.Parameters.AddWithValue("@Descripcion", producto.Descripcion);
                     command.Parameters.AddWithValue("@Ubicacion", producto.Ubicacion);
                     command.Parameters.AddWithValue("@Imagen", producto.Imagen);
-                    command.Parameters.AddWithValue("@IdUsuario", producto.IdUsuario);
+                    command.Parameters.AddWithValue("@Idorganizador", producto.IdOrganizador);
                     command.Parameters.AddWithValue("@IdCategoria", producto.IdCategoria);
                     await command.ExecuteNonQueryAsync();
                 }
@@ -101,7 +101,7 @@ namespace dosEvAPI.Repositories{
             using (var connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
-                string query = "UPDATE Productos SET nombre = @Nombre, descripcion = @Descripcion, ubicacion = @Ubicacion, imagen = @Imagen, idUsuario = @IdUsuario, idCategoria = @IdCategoria WHERE ID = @Id";
+                string query = "UPDATE Productos SET nombre = @Nombre, descripcion = @Descripcion, ubicacion = @Ubicacion, imagen = @Imagen, idOrganizador = @idorganizador, idCategoria = @IdCategoria WHERE ID = @Id";
                 using (var command = new SqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@Id", producto.Id);
@@ -109,7 +109,7 @@ namespace dosEvAPI.Repositories{
                     command.Parameters.AddWithValue("@Descripcion", producto.Descripcion);
                     command.Parameters.AddWithValue("@Ubicacion", producto.Ubicacion);
                     command.Parameters.AddWithValue("@Imagen", producto.Imagen);
-                    command.Parameters.AddWithValue("@IdUsuario", producto.IdUsuario);
+                    command.Parameters.AddWithValue("@idorganizador", producto.IdOrganizador);
                     command.Parameters.AddWithValue("@IdCategoria", producto.IdCategoria);
                     await command.ExecuteNonQueryAsync();
                 }

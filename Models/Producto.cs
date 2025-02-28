@@ -9,12 +9,12 @@ public class Producto
     public string Descripcion { get; set; }
     public string Ubicacion { get; set; }
     public string Imagen { get; set; }
-    public int IdUsuario { get; set; }
+    public int IdOrganizador { get; set; }
     public int IdCategoria { get; set; }
 
-    public Producto(int idUsuario, string nombre, string descripcion, string ubicacion, string imagen, int idCategoria)
+    public Producto(int idOrganizador, string nombre, string descripcion, string ubicacion, string imagen, int idCategoria)
     {
-        IdUsuario = idUsuario;
+        IdOrganizador = idOrganizador;
         Nombre = nombre;
         Descripcion = descripcion;
         Ubicacion = ubicacion;

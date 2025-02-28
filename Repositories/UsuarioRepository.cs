@@ -20,7 +20,7 @@ namespace dosEvAPI.Repositories{
                 using (var connection = new SqlConnection(_connectionString))
                 {
                     await connection.OpenAsync();
-                    string query = "SELECT ID, username, nombre, email, ubicacion, contrasenia FROM Usuarios";
+                    string query = "SELECT ID, username, nombre, email, ubicacion, contrasenia, idrol FROM Usuarios";
                     using (var command = new SqlCommand(query, connection))
                     {
                         using (var reader = await command.ExecuteReaderAsync())
@@ -51,7 +51,7 @@ namespace dosEvAPI.Repositories{
                 using (var connection = new SqlConnection(_connectionString))
                 {
                     await connection.OpenAsync();
-                    string query = "SELECT ID, username, nombre, email, ubicacion, contrasenia FROM Usuarios WHERE ID = @Id";
+                    string query = "SELECT ID, username, nombre, email, ubicacion, contrasenia, idrol FROM Usuarios WHERE ID = @Id";
                     using (var command = new SqlCommand(query, connection))
                     {
                         command.Parameters.AddWithValue("@Id", id);
@@ -80,7 +80,7 @@ namespace dosEvAPI.Repositories{
                 using (var connection = new SqlConnection(_connectionString))
                 {
                     await connection.OpenAsync();
-                    string query = "INSERT INTO Usuarios (username, nombre, email, ubicacion, contrasenia) VALUES (@Username, @Nombre, @Email, @Ubicacion, @Contrasenia)";
+                    string query = "INSERT INTO Usuarios (username, nombre, email, ubicacion, contrasenia, idrol) VALUES (@Username, @Nombre, @Email, @Ubicacion, @Contrasenia, @idrol)";
                     using (var command = new SqlCommand(query, connection))
                     {
                         command.Parameters.AddWithValue("@Username", usuario.Username);
@@ -88,6 +88,7 @@ namespace dosEvAPI.Repositories{
                         command.Parameters.AddWithValue("@Email", (object?)usuario.Email ?? DBNull.Value);
                         command.Parameters.AddWithValue("@Ubicacion", (object?)usuario.Ubicacion ?? DBNull.Value);
                         command.Parameters.AddWithValue("@Contrasenia", usuario.Contrasenia);
+                        command.Parameters.AddWithValue("@idrol", usuario.IdRol);
                         await command.ExecuteNonQueryAsync();
                     }
                 }
@@ -98,7 +99,7 @@ namespace dosEvAPI.Repositories{
                 using (var connection = new SqlConnection(_connectionString))
                 {
                     await connection.OpenAsync();
-                    string query = "UPDATE Usuarios SET username = @Username, nombre = @Nombre, email = @Email, ubicacion = @Ubicacion, contrasenia = @Contrasenia WHERE ID = @Id";
+                    string query = "UPDATE Usuarios SET username = @Username, nombre = @Nombre, email = @Email, ubicacion = @Ubicacion, contrasenia = @Contrasenia, idrol = @idrol WHERE ID = @Id";
                     using (var command = new SqlCommand(query, connection))
                     {
                         command.Parameters.AddWithValue("@Id", usuario.Id);
@@ -107,6 +108,7 @@ namespace dosEvAPI.Repositories{
                         command.Parameters.AddWithValue("@Email", (object?)usuario.Email ?? DBNull.Value);
                         command.Parameters.AddWithValue("@Ubicacion", (object?)usuario.Ubicacion ?? DBNull.Value);
                         command.Parameters.AddWithValue("@Contrasenia", usuario.Contrasenia);
+                        command.Parameters.AddWithValue("@idrol", usuario.IdRol);
                         await command.ExecuteNonQueryAsync();
                     }
                 }
