@@ -1,12 +1,9 @@
--- ==============================
+
 -- CREACIÓN DE LA BASE DE DATOS
--- ==============================
 CREATE DATABASE dosEvBack;
 USE dosEvBack;
 
--- ==============================
 -- CREACIÓN DE TABLAS
--- ==============================
 
 -- Tabla Roles
 CREATE TABLE Roles (
@@ -117,8 +114,9 @@ CREATE TABLE Productos (
     descripcion NVARCHAR(150) NOT NULL,
     ubicacion NVARCHAR(255) NOT NULL,
     imagen NVARCHAR(255) NOT NULL,
-    idUsuario INT NOT NULL,
-    FOREIGN KEY (idUsuario) REFERENCES Usuarios(ID) ON DELETE CASCADE
+   -- idCategoria NVARCHAR(255) NOT NULL,
+    idOrganizador INT NOT NULL,
+    FOREIGN KEY (idOrganizador) REFERENCES Organizador(ID) ON DELETE CASCADE
 );
 
 -- Tabla Intermedia: Productos_Categoria
@@ -130,9 +128,7 @@ CREATE TABLE Productos_Categoria (
     FOREIGN KEY (idCategoria) REFERENCES CategoriaProducto(ID) ON DELETE CASCADE
 );
 
--- ==============================
 -- INSERCIÓN DE DATOS
--- ==============================
 
 -- Insertar Roles
 SET IDENTITY_INSERT Roles ON;
@@ -144,7 +140,6 @@ SET IDENTITY_INSERT Roles OFF;
 
 -- Insertar Usuarios
 SET IDENTITY_INSERT Usuarios ON;
-
 INSERT INTO Usuarios (ID, username, nombre, email, ubicacion, contrasenia, idRol)
 VALUES
 (1, 'admin1', 'Administrador Principal', 'admin1@agendazgz.com', 'Zaragoza, España', 'claveadmin1', 1),
@@ -154,13 +149,11 @@ VALUES
 (5, 'usuario3', 'Laura Garcia', 'laura@agendazgz.com', 'Zaragoza', 'claveusuario3', 3),
 (6, 'usuario4', 'Carlos Fernandez', 'carlos@agendazgz.com', 'España', 'claveusuario4', 3),
 (7, 'usuario5', 'Ana Martínez', 'ana@agendazgz.com', 'Zaragoza', 'claveusuario5', 3);
-
 SET IDENTITY_INSERT Usuarios OFF;
 
 -- Insertar Organizadores
 
 SET IDENTITY_INSERT Organizador ON;
-
 INSERT INTO Organizador (ID, nombre, ubicacion, descripcion, enlace, email, contrasenia, telefono, idRol) VALUES 
 (1, 'ZaragozaConecta', 'Zaragoza, España', 'Organizador de eventos comunitarios', 'http://zaragoconecta.es', 'info@zaragoconecta.es', 'claveorg1', '976123456', 2),
 (2, 'Colectivo Feminista', 'Zaragoza, España', 'Organización feminista autogestionada', 'http://feminismo.es', 'contacto@feminismo.es', 'claveorg2', '976789123', 2),
@@ -256,26 +249,29 @@ INSERT INTO Comentarios (idUsuario, idEvento, comentario)
 VALUES (1, 1, 'Gran oportunidad para conocer el talento local y apoyar a los artesanos.'),
 (2, 2, 'Una jornada inspiradora que fortaleció la participación ciudadana en nuestra comunidad.');
 -- Insertar Productos
-INSERT INTO Productos (nombre, descripcion, ubicacion, imagen, idUsuario, idCategoria)
+INSERT INTO Productos (nombre, descripcion, ubicacion, imagen, idOrganizador)
 VALUES 
-('Libro de Tradiciones Aragonesas', 'Recopilación de recetas y leyendas locales, ideal para conocer la cultura de Aragón.', 'Librería Central, Zaragoza', 'libro_tradiciones.jpg', 1, 1),
-('Artesanía en Barro', 'Pieza única de artesanía local, perfecta para decorar y llevar un pedazo de Zaragoza a casa.', 'Taller Artesanal, Zaragoza', 'artesania_barro.jpg', 2, 2);
---El nombre de columna 'idCategoria' no es válido.
+('Libro de Tradiciones Aragonesas', 'Recopilación de recetas y leyendas locales, ideal para conocer la cultura de Aragón.', 'Librería Central, Zaragoza', 'libro_tradiciones.jpg', 1),
+('Artesanía en Barro', 'Pieza única de artesanía local, perfecta para decorar y llevar un pedazo de Zaragoza a casa.', 'Taller Artesanal, Zaragoza', 'artesania_barro.jpg', 2);
 
-
+--Insert CategoriaProducto
+INSERT INTO CategoriaProducto (nombre) VALUES
+('Cultural'),
+('Fiesta Popular'); -- Agrega otras categorías necesarias
 
 -- Insertar relaciones Productos_Categoria
 INSERT INTO Productos_Categoria (idProducto, idCategoria)
 VALUES 
 (1, 1),  -- "Libro de Tradiciones Aragonesas" -> Categoría "Cultural"
-(2, 2);  -- "Artesanía en Barro" -> Categoría "Fiesta Popular"
---Instrucción INSERT en conflicto con la restricción FOREIGN KEY 'FK__Productos__idPro__787EE5A0'. El conflicto ha aparecido en la base de datos 'Utilidades', tabla 'dbo.Productos', column 'ID'.
-Se terminó la instrucción.
+(2, 2);  -- "Artesanía en Barro" -> Categoría "Fiesta 
+
+
+
 -- Insertar relaciones Eventos_Categoria
 INSERT INTO Eventos_Categoria (idEvento, idCategoria)
 VALUES 
 -- Cultural
-(1, 1), (8, 1), (17, 1), (25, 1),
+(1, 1), (8, 1), (13, 1), (17, 1), (25, 1),
 -- Ecologismo y Medio Ambiente
 (2, 6), (3, 6), (23, 6),
 -- Derechos Humanos y Luchas Sociales
@@ -287,46 +283,42 @@ VALUES
 -- Música y Cultura DIY
 (6, 1), (11, 1), (16, 1), (19, 1), (21, 1),
 -- Manifestaciones y Movilizaciones Sociales
-(15, 7), (5, 7), (20, 7), (24, 7),
+(15, 7),
 -- Economía Social y Solidaria
 (18, 5),
 -- Tecnología y Hacktivismo
 (21, 5);
---Infracción de la restricción PRIMARY KEY 'PK__Eventos___107FA99A942385D1'. No se puede insertar una clave duplicada en el objeto 'dbo.Eventos_Categoria'. El valor de la clave duplicada es (5, 7).
 
 
 -- Insertar relaciones Eventos_Tematica
-INSERT INTO Eventos_Tematica (idEvento, idTematica)
-VALUES 
--- Arte y Cultura Comunitaria
-(1, 2), (8, 2), (17, 2), (25, 2),  
-
--- Ecologismo y Medio Ambiente
-(2, 8), (3, 8), (23, 8),
-
--- Derechos Humanos y Luchas Sociales
-(4, 7), (5, 7), (10, 7), (12, 7), (20, 7), (24, 7),
-
--- Música y Cultura DIY
-(6, 9), (11, 9), (16, 9), (19, 9), (21, 9),
-
--- Autogestión y Organización Colectiva
-(7, 3), (22, 3), (25, 3),
-
--- Feminismo y Diversidad
-(9, 4), (14, 4),
-
--- Manifestaciones y Movilizaciones Sociales
-(15, 7), (5, 7), (20, 7), (24, 7),
-
--- Economía Social y Solidaria
+INSERT INTO Eventos_Tematica (idEvento, idTematica) VALUES
+(1, 2),
+(8, 2),
+(17, 2),
+(25, 2),
+(2, 8),
+(3, 8),
+(23, 8),
+(4, 7),
+(5, 7),
+(10, 7),
+(12, 7),
+(20, 7),
+(24, 7),
+(6, 9),
+(11, 9),
+(16, 9),
+(19, 9),
+(21, 9),
+(7, 3),
+(22, 3),
+(25, 3),
+(9, 4),
+(14, 4),
+(15, 7),
 (18, 6),
-
--- Tecnología y Hacktivismo
-(21, 5);
---Infracción de la restricción PRIMARY KEY 'PK__Eventos___D3ED5FD447BAA890'. No se puede insertar una clave duplicada en el objeto 'dbo.Eventos_Tematica'. El valor de la clave duplicada es (5, 7).
-
-
+(21, 5),
+(13, 1); -- Evento 13 asignado a "Cultural" para cubrir todos los eventos
 
 
 
