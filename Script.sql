@@ -325,3 +325,24 @@ VALUES
 -- Tecnología y Hacktivismo
 (21, 5);
 --Infracción de la restricción PRIMARY KEY 'PK__Eventos___D3ED5FD447BAA890'. No se puede insertar una clave duplicada en el objeto 'dbo.Eventos_Tematica'. El valor de la clave duplicada es (5, 7).
+
+
+
+
+
+
+
+--Contingencias -- drops
+DROP TABLE IF EXISTS Eventos_Tematica;
+DROP TABLE IF EXISTS Eventos_Categoria;
+DROP TABLE IF EXISTS Productos_Categoria;
+DROP TABLE IF EXISTS Comentarios;
+DROP TABLE IF EXISTS Posts;
+DROP TABLE IF EXISTS Productos;
+DROP TABLE IF EXISTS Eventos;
+DROP TABLE IF EXISTS Usuarios;
+DROP TABLE IF EXISTS Organizador;
+DROP TABLE IF EXISTS Roles;
+DROP TABLE IF EXISTS CategoriaEvento;
+DROP TABLE IF EXISTS CategoriaProducto;
+DROP TABLE IF EXISTS Tematica;
