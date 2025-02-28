@@ -1,6 +1,12 @@
--- Creación de la base de datos
+-- ==============================
+-- CREACIÓN DE LA BASE DE DATOS
+-- ==============================
 CREATE DATABASE dosEvBack;
 USE dosEvBack;
+
+-- ==============================
+-- CREACIÓN DE TABLAS
+-- ==============================
 
 -- Tabla Roles
 CREATE TABLE Roles (
@@ -38,7 +44,7 @@ CREATE TABLE Tematica (
     nombre NVARCHAR(100) NOT NULL UNIQUE
 );
 
--- Tabla Organizador
+-- Tabla Organizadores
 CREATE TABLE Organizador (
     ID INT IDENTITY(1,1) PRIMARY KEY,
     nombre NVARCHAR(50) NOT NULL,
@@ -115,7 +121,7 @@ CREATE TABLE Productos (
     FOREIGN KEY (idUsuario) REFERENCES Usuarios(ID) ON DELETE CASCADE
 );
 
--- Tabla Intermedia: Productos_Categoria (N-M)
+-- Tabla Intermedia: Productos_Categoria
 CREATE TABLE Productos_Categoria (
     idProducto INT NOT NULL,
     idCategoria INT NOT NULL,
@@ -124,112 +130,174 @@ CREATE TABLE Productos_Categoria (
     FOREIGN KEY (idCategoria) REFERENCES CategoriaProducto(ID) ON DELETE CASCADE
 );
 
-
-
---Inserts 
-USE dosEvBack;
+-- ==============================
+-- INSERCIÓN DE DATOS
+-- ==============================
 
 -- Insertar Roles
--- Habilitar la inserción en columnas IDENTITY
 SET IDENTITY_INSERT Roles ON;
-
--- Insertar Roles asegurando que Administrador sea 1, Organizador 2 y Usuario 3
-INSERT INTO Roles (ID, nombre) VALUES (1, 'Administrador');
-INSERT INTO Roles (ID, nombre) VALUES (2, 'Organizador');
-INSERT INTO Roles (ID, nombre) VALUES (3, 'Usuario');
--- Deshabilitar la inserción en columnas IDENTITY
+INSERT INTO Roles (ID, nombre) VALUES 
+(1, 'Administrador'),
+(2, 'Organizador'),
+(3, 'Usuario');
 SET IDENTITY_INSERT Roles OFF;
 
 -- Insertar Usuarios
--- Campos: username (NVARCHAR(50), UNIQUE, NOT NULL), nombre (NVARCHAR(50), NOT NULL), 
--- email (NVARCHAR(50), UNIQUE), ubicacion (NVARCHAR(255)), contrasenia (NVARCHAR(255), NOT NULL)
-INSERT INTO Usuarios (ID, username, nombre, email, ubicacion, contrasenia, idRol) 
-VALUES 
--- Administradores (idRol = 1)
+INSERT INTO Usuarios (ID, username, nombre, email, ubicacion, contrasenia, idRol)
+VALUES
 (1, 'admin1', 'Administrador Principal', 'admin1@agendazgz.com', 'Zaragoza, España', 'claveadmin1', 1),
 (2, 'admin2', 'Administrador Secundario', 'admin2@agendazgz.com', 'Zaragoza, España', 'claveadmin2', 1),
---(idRol = 3)
 (3, 'usuario1', 'Maria Perez', 'maria@agendazgz.com', 'Zaragoza', 'claveusuario1', 3),
 (4, 'usuario2', 'Jorge Lopez', 'jorge@agendazgz.com', 'Zaragoza', 'claveusuario2', 3),
 (5, 'usuario3', 'Laura Garcia', 'laura@agendazgz.com', 'Zaragoza', 'claveusuario3', 3),
 (6, 'usuario4', 'Carlos Fernandez', 'carlos@agendazgz.com', 'España', 'claveusuario4', 3),
 (7, 'usuario5', 'Ana Martínez', 'ana@agendazgz.com', 'Zaragoza', 'claveusuario5', 3);
 
-
--- Insertar Categorías de Eventos
-INSERT INTO CategoriaEvento (nombre) VALUES ('Cultural');
-INSERT INTO CategoriaEvento (nombre) VALUES ('Fiesta Popular');
-INSERT INTO CategoriaEvento (nombre) VALUES ('Jornada');
-
--- Insertar Categorías de Productos
-INSERT INTO CategoriaProducto (nombre) VALUES ('Arte y Cultura');
-INSERT INTO CategoriaProducto (nombre) VALUES ('Artesanía Local');
-INSERT INTO CategoriaProducto (nombre) VALUES ('Recuerdos');
-
--- Insertar Temáticas
-INSERT INTO Tematica (ID, nombre) VALUES (1, 'Anticarcelario');
-INSERT INTO Tematica (ID, nombre) VALUES (2, 'Arte y Cultura Comunitaria');
-INSERT INTO Tematica (ID, nombre) VALUES (3, 'Autogestión Colectiva');
-INSERT INTO Tematica (ID, nombre) VALUES (4, 'Feminismo y Diversidad');
-INSERT INTO Tematica (ID, nombre) VALUES (5, 'Fiestas Populares');
-INSERT INTO Tematica (ID, nombre) VALUES (6, 'Derechos Humanos y Lucha Social');
-INSERT INTO Tematica (ID, nombre) VALUES (7, 'Sindicalismo');
-INSERT INTO Tematica (ID, nombre) VALUES (8, 'Reparación y Autogestión');
-INSERT INTO Tematica (ID, nombre) VALUES (9, 'Música y Cultura');
-INSERT INTO Tematica (ID, nombre) VALUES (10, 'Eventos Deportivos');
-INSERT INTO Tematica (ID, nombre) VALUES (11, 'Antirrepresión');
-INSERT INTO Tematica (ID, nombre) VALUES (12, 'Educación Alternativa');
-INSERT INTO Tematica (ID, nombre) VALUES (13, 'Limpieza y Cuidados');
-INSERT INTO Tematica (ID, nombre) VALUES (14, 'Luchas Internacionalistas');
-INSERT INTO Tematica (ID, nombre) VALUES (15, 'Hacktivismo y Ciberseguridad');
-INSERT INTO Tematica (ID, nombre) VALUES (16, 'Economía Social y Solidaria');
-INSERT INTO Tematica (ID, nombre) VALUES (17, 'Manifestaciones');
-INSERT INTO Tematica (ID, nombre) VALUES (18, 'Presentaciones y Charlas');
-INSERT INTO Tematica (ID, nombre) VALUES (19, 'Participación Ciudadana');
-INSERT INTO Tematica (ID, nombre) VALUES (20, 'Ecologismo y Medio Ambiente');
-
-
--- Insertar Organizador
-INSERT INTO Organizador (nombre, ubicacion, descripcion, enlace, email, contrasenia, telefono, idRol)
-VALUES ('ZaragozaConecta', 'Zaragoza, España', 'Organizador de eventos y actividades locales autogestionados, promoviendo la comunicación de colectivos y pequeños comercios.', 'http://zaragoconecta.es', 'info@zaragoconecta.es', 'orgzarago', '976123456', 2);
-
--- Insertar Eventos
-INSERT INTO Eventos (nombre, descripcion, ubicacion, fecha_inicio, fecha_fin, idTematica, enlace, idCategoria, idOrganizador)
-VALUES ('Feria de Artesanía Zaragoza', 'Feria gratuita que reúne a artesanos locales para difundir productos culturales y artesanales en la ciudad.', 'Plaza del Pilar, Zaragoza, España', '2025-06-15 10:00', '2025-06-15 18:00', 1, 'http://zaragoconecta.es/feriaartesanias', 1, 1);
-INSERT INTO Eventos (nombre, descripcion, ubicacion, fecha_inicio, fecha_fin, idTematica, enlace, idCategoria, idOrganizador)
-VALUES ('Jornada de Participación Ciudadana', 'Jornada de varios días dedicada a la discusión, el debate y la implicación en temas locales.', 'Centro de Convenciones, Zaragoza, España', '2025-07-20 09:00', '2025-07-22 17:00', 3, 'http://zaragoconecta.es/jornada', 3, 1);
-INSERT INTO Eventos (nombre, descripcion, ubicacion, fecha_inicio, fecha_fin, idTematica, enlace, idCategoria, idOrganizador)
-VALUES ('Fiesta Popular de Zaragoza', 'Fiesta local con música, comida y actividades para todos los públicos, fomentando el tejido social.', 'Casco Histórico, Zaragoza, España', '2025-08-05 18:00', '2025-08-06 02:00', 2, 'http://zaragoconecta.es/fiestapopular', 2, 1);
+-- Insertar Organizadores
+INSERT INTO Organizador (ID, nombre, ubicacion, descripcion, enlace, email, contrasenia, telefono, idRol) VALUES 
+(1, 'ZaragozaConecta', 'Zaragoza, España', 'Organizador de eventos comunitarios', 'http://zaragoconecta.es', 'info@zaragoconecta.es', 'claveorg1', '976123456', 2),
+(2, 'Colectivo Feminista', 'Zaragoza, España', 'Organización feminista autogestionada', 'http://feminismo.es', 'contacto@feminismo.es', 'claveorg2', '976789123', 2),
+(3, 'Asamblea de Vecinos', 'Zaragoza, España', 'Colectivo vecinal que organiza actividades culturales y de barrio.', 'http://vecinoszgz.com', 'vecinos@zgz.com', 'claveorg3', '976456789', 2),
+(4, 'Red de Apoyo Mutuo', 'Zaragoza, España', 'Grupo que organiza encuentros y charlas sobre autogestión.', 'http://apoyomutuo.org', 'apoyomutuo@zgz.com', 'claveorg4', '976654321', 2),
+(5, 'CSO La Fábrica de Chocolate', 'Zaragoza, España', 'Centro social autogestionado que organiza múltiples actividades culturales, políticas y sociales.', 'http://lafabricadechocolate.es', 'contacto@lafabricadechocolate.es', 'claveorg5', '976333111', 2),
+(6, 'Arrebato', 'Zaragoza, España', 'Sala de conciertos autogestionada con programación cultural y artística independiente.', 'http://arrebato.es', 'contacto@arrebato.es', 'claveorg6', '976222888', 2),
+(7, 'Kike Mur', 'Zaragoza, España', 'Centro social autogestionado con actividades comunitarias, culturales y sociales.', 'http://kikemur.es', 'contacto@kikemur.es', 'claveorg7', '976111777', 2),
+(8, 'Centro Social Librería La Pantera Rossa', 'Zaragoza, España', 'Centro social librería. Pensamiento crítico+autoorganización', 'http://kikemur.es', 'contacto@pantera.es', 'claveorg8', '976111777', 2);
 
 -- Insertar Comentarios
 INSERT INTO Comentarios (idUsuario, idEvento, comentario)
-VALUES (1, 1, 'Gran oportunidad para conocer el talento local y apoyar a los artesanos.');
-INSERT INTO Comentarios (idUsuario, idEvento, comentario)
-VALUES (2, 2, 'Una jornada inspiradora que fortaleció la participación ciudadana en nuestra comunidad.');
+VALUES (1, 1, 'Gran oportunidad para conocer el talento local y apoyar a los artesanos.'),
+(2, 2, 'Una jornada inspiradora que fortaleció la participación ciudadana en nuestra comunidad.');
 
 -- Insertar Posts
 INSERT INTO Posts (idUsuario, titulo, contenido)
-VALUES (1, 'Impulso a la cultura local', 'La feria de artesanía es un ejemplo de cómo nuestra agenda promueve la cultura y el trabajo artesanal.');
-INSERT INTO Posts (idUsuario, titulo, contenido)
-VALUES (2, 'Participación ciudadana en acción', 'La jornada de participación ciudadana fue un éxito en fomentar el debate y la colaboración en Zaragoza.');
+VALUES (1, 'Impulso a la cultura local', 'La feria de artesanía es un ejemplo de cómo nuestra agenda promueve la cultura y el trabajo artesanal.'),
+(2, 'Participación ciudadana en acción', 'La jornada de participación ciudadana fue un éxito en fomentar el debate y la colaboración en Zaragoza.');
+
+-- Insertar Categorías de Eventos
+INSERT INTO CategoriaEvento (nombre) VALUES 
+('Cultural'),
+('Fiesta Popular'),
+('Manifestaciones y Protestas'),
+('Ecologismo y Medio Ambiente'),
+('Derechos Humanos y Luchas Sociales'),
+('Feminismo y Diversidad'),
+('Música y Cultura DIY'),
+('Economía Social y Solidaria'),
+('Tecnología y Hacktivismo');
+
+-- Insertar Temáticas
+INSERT INTO Tematica (nombre) VALUES 
+('Anticarcelario'),
+('Arte y Cultura Comunitaria'),
+('Autogestión Colectiva'),
+('Feminismo y Diversidad'),
+('Fiestas Populares'),
+('Derechos Humanos y Lucha Social'),
+('Sindicalismo'),
+('Reparación y Autogestión'),
+('Música y Cultura'),
+('Eventos Deportivos'),
+('Antirrepresión'),
+('Educación Alternativa'),
+('Limpieza y Cuidados'),
+('Luchas Internacionalistas'),
+('Hacktivismo y Ciberseguridad'),
+('Economía Social y Solidaria'),
+('Manifestaciones'),
+('Presentaciones y Charlas'),
+('Participación Ciudadana'),
+('Ecologismo y Medio Ambiente');
+
+-- Insertar Eventos
+INSERT INTO Eventos (ID, nombre, descripcion, ubicacion, fecha_inicio, fecha_fin, enlace, idOrganizador)
+VALUES 
+(1, 'La primera vez que bailamos', 'Exposición de collages de la artista Laura Miqueo.', 'La Pantera Rossa', '2025-02-20 10:00', '2025-03-09 18:00', 'http://lapanterarossa.es/expo', 5),
+(2, 'Por unos parques y jardines dignos', 'Concentración por el mantenimiento adecuado de espacios verdes.', 'Plaza Ontonar', '2025-02-28 17:00', '2025-02-28 18:00', 'http://zaragoconecta.es/parques', 1),
+(3, 'Alimentación sana y agricultura ecológica', 'Charla sobre hábitos saludables y sostenibilidad.', 'La Pantera Rossa', '2025-02-28 18:00', '2025-02-28 20:00', 'http://lapanterarossa.es/alimentacion', 5),
+(4, 'Cine por la paz: Parar las guerras', 'Proyección de documentales sobre conflictos bélicos y pacifismo.', 'Filmoteca de Zaragoza', '2025-02-28 18:00', '2025-02-28 20:00', 'http://filmotecazaragoza.es/cinepaz', 1),
+(5, 'Cadena humana por los seis de Zaragoza', 'Movilización en solidaridad con los seis de Zaragoza.', 'Delegación del Gobierno', '2025-02-28 18:30', '2025-02-28 19:30', 'http://zaragoconecta.es/solidaridad6', 1),
+(6, 'Concierto: Sal del coche + Muelles', 'Noche de música independiente.', 'A.VV. Arrebato', '2025-02-28 20:00', '2025-02-28 22:00', 'http://arrebato.es/concierto', 6),
+(7, 'Facharnaval', 'Vermú carnavalero en apoyo a las radios libres.', 'CSO La Fábrica de Chocolate', '2025-03-01 12:00', '2025-03-01 18:00', 'http://lafabricadechocolate.es/vermucarnaval', 5),
+(8, 'Presentación de "Mauro"', 'Novela sobre una de las mayores evasiones carcelarias de Europa.', 'La Pantera Rossa', '2025-03-01 12:00', '2025-03-01 14:00', 'http://lapanterarossa.es/mauro', 5),
+(9, 'Taller: Desmontando al facha de tu clase + Fiesta', 'Debate y análisis crítico del auge de la extrema derecha.', 'Centro Cultural Socialista La Comuna', '2025-03-01 17:00', '2025-03-01 00:00', 'http://lacomuna.es/taller', 1),
+(10, 'Cine por la paz 2', 'Segunda jornada de proyección de documentales.', 'Filmoteca de Zaragoza', '2025-03-01 18:00', '2025-03-01 20:00', 'http://filmotecazaragoza.es/cinepaz2', 1),
+(11, 'Concierto Apoyo XXII Marcha Zuera', 'Concierto solidario en apoyo a la marcha anual a la cárcel de Zuera.', 'A.VV. Arrebato', '2025-03-01 20:00', '2025-03-01 22:00', 'http://arrebato.es/marchazuera', 6),
+(12, 'Torneo de ajedrez "Por la paz en Palestina"', 'Competencia amistosa con enfoque en la justicia social.', 'Casa Palestina de Aragón', '2025-03-02 16:00', '2025-03-02 18:00', 'http://casapalestina.es/ajedrez', 1),
+(13, 'Taller de lectura', 'Espacio de lectura y análisis del libro "La llamada" de Leila Guerriero.', 'La Pantera Rossa', '2025-03-03 19:00', '2025-03-03 21:00', 'http://lapanterarossa.es/tallerlectura', 5),
+(14, 'Charla: Mujeres, disidencias y revolución', 'Conversación sobre feminismo y luchas sociales.', 'Unizar, Aula 4.5', '2025-03-06 19:00', '2025-03-06 20:30', 'http://unizar.es/charlafeminismo', 2),
+(15, 'Huelga y manifestación estudiantil 7M', 'Marcha por los derechos estudiantiles.', 'Plaza San Francisco', '2025-03-07 12:00', '2025-03-07 14:00', 'http://zaragoconecta.es/estudiantes7m', 1),
+(16, 'Concierto: Disciplina Limitar + Guiñote de Qontaqto', 'Noche de punk y rock alternativo.', 'A.VV. Arrebato', '2025-03-14 20:00', '2025-03-14 22:00', 'http://arrebato.es/disciplina', 6),
+(17, 'Presentación del libro "Vértebras"', 'La poeta Pilar Roig Ferreruela presenta su nuevo poemario.', 'La Pantera Rossa', '2025-03-15 12:00', '2025-03-15 14:00', 'http://lapanterarossa.es/vertebras', 5),
+(18, 'Asesoría laboral', 'Sesión de asesoramiento gratuito sobre derechos laborales.', 'AAVV Venecia/Torrero', '2025-03-26 18:00', '2025-03-26 20:00', 'http://venecia-torrero.es/asesorialaboral', 1),
+(19, 'Concierto solidario con la PAH', 'Evento musical para recaudar fondos.', 'CSP Amapola', '2025-03-29 19:00', '2025-03-29 21:00', 'http://cspamapola.es/conciertopah', 1),
+(20, 'XXII Marcha a la macrocárcel de Zuera', 'Movilización anual contra la represión y el sistema carcelario.', 'Macrocárcel de Zuera', '2025-03-30 11:00', '2025-03-30 18:00', 'http://zaragoconecta.es/marchazuera', 1),
+(21, 'Tatu Circus Zgz', 'Festival de tatuajes solidario con eventos culturales.', 'CSO Kike Mur', '2025-05-02 10:00', '2025-05-04 22:00', 'http://kikemur.es/tatucircus', 7),
+(22, 'Pasacalles por la convivencia en Delicias', 'Desfile y actividades para fomentar la integración y diversidad.', 'Calles de Delicias', '2025-05-09 17:00', '2025-05-09 19:00', 'http://zaragoconecta.es/pasacalles', 1),
+(23, 'Fiesta del Sol', 'Celebración al aire libre con música y talleres de concienciación ecológica.', 'Parque Emilio Lacambra', '2025-05-10 11:00', '2025-05-10 00:00', 'http://zaragoconecta.es/fiestadelsol', 5), 
+(24, 'Mundialito Antirracista de Zaragoza 2025', 'Torneo de fútbol contra la discriminación.', 'CDM La Granja', '2025-05-17 09:00', '2025-05-17 19:00', 'http://zaragoconecta.es/mundialito', 1),
+(25, '25º aniversario CSA La Revuelta', 'Jornada con debates, conciertos y exposiciones.', 'CSA La Revuelta', '2025-09-13 12:00', '2025-09-13 23:00', 'http://revuelta.es/25aniversario', 1);
 
 -- Insertar Productos
 INSERT INTO Productos (nombre, descripcion, ubicacion, imagen, idUsuario, idCategoria)
-VALUES ('Libro de Tradiciones Aragonesas', 'Recopilación de recetas y leyendas locales, ideal para conocer la cultura de Aragón.', 'Librería Central, Zaragoza', 'libro_tradiciones.jpg', 1, 1);
-INSERT INTO Productos (nombre, descripcion, ubicacion, imagen, idUsuario, idCategoria)
-VALUES ('Artesanía en Barro', 'Pieza única de artesanía local, perfecta para decorar y llevar un pedazo de Zaragoza a casa.', 'Taller Artesanal, Zaragoza', 'artesania_barro.jpg', 2, 2);
+VALUES 
+('Libro de Tradiciones Aragonesas', 'Recopilación de recetas y leyendas locales, ideal para conocer la cultura de Aragón.', 'Librería Central, Zaragoza', 'libro_tradiciones.jpg', 1, 1),
+('Artesanía en Barro', 'Pieza única de artesanía local, perfecta para decorar y llevar un pedazo de Zaragoza a casa.', 'Taller Artesanal, Zaragoza', 'artesania_barro.jpg', 2, 2);
 
+-- Insertar relaciones Productos_Categoria
+INSERT INTO Productos_Categoria (idProducto, idCategoria)
+VALUES 
+(1, 1),  -- "Libro de Tradiciones Aragonesas" -> Categoría "Cultural"
+(2, 2);  -- "Artesanía en Barro" -> Categoría "Fiesta Popular"
 
+-- Insertar relaciones Eventos_Categoria
+INSERT INTO Eventos_Categoria (idEvento, idCategoria)
+VALUES 
+-- Cultural
+(1, 1), (8, 1), (17, 1), (25, 1),
+-- Ecologismo y Medio Ambiente
+(2, 6), (3, 6), (23, 6),
+-- Derechos Humanos y Luchas Sociales
+(4, 7), (5, 7), (10, 7), (12, 7), (20, 7), (24, 7),
+-- Fiesta Popular
+(7, 3), (22, 3), (25, 3),
+-- Feminismo y Diversidad
+(9, 4), (14, 4),
+-- Música y Cultura DIY
+(6, 1), (11, 1), (16, 1), (19, 1), (21, 1),
+-- Manifestaciones y Movilizaciones Sociales
+(15, 7), (5, 7), (20, 7), (24, 7),
+-- Economía Social y Solidaria
+(18, 5),
+-- Tecnología y Hacktivismo
+(21, 5);
 
---DROP TABLE
+-- Insertar relaciones Eventos_Tematica
+INSERT INTO Eventos_Tematica (idEvento, idTematica)
+VALUES 
+-- Arte y Cultura Comunitaria
+(1, 2), (8, 2), (17, 2), (25, 2),  
 
-DROP TABLE Productos;
-DROP TABLE Posts;
-DROP TABLE Comentarios;
-DROP TABLE Eventos;
-DROP TABLE Organizador;
-DROP TABLE Tematica;
-DROP TABLE CategoriaProducto;
-DROP TABLE CategoriaEvento;
-DROP TABLE Roles;
-DROP TABLE Usuarios;
+-- Ecologismo y Medio Ambiente
+(2, 8), (3, 8), (23, 8),
+
+-- Derechos Humanos y Luchas Sociales
+(4, 7), (5, 7), (10, 7), (12, 7), (20, 7), (24, 7),
+
+-- Música y Cultura DIY
+(6, 9), (11, 9), (16, 9), (19, 9), (21, 9),
+
+-- Autogestión y Organización Colectiva
+(7, 3), (22, 3), (25, 3),
+
+-- Feminismo y Diversidad
+(9, 4), (14, 4),
+
+-- Manifestaciones y Movilizaciones Sociales
+(15, 7), (5, 7), (20, 7), (24, 7),
+
+-- Economía Social y Solidaria
+(18, 6),
+
+-- Tecnología y Hacktivismo
+(21, 5);
