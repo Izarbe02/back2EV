@@ -53,7 +53,7 @@ namespace dosEvAPI.Controllers{
             existingProducto.Descripcion = updatedProducto.Descripcion;
             existingProducto.Ubicacion = updatedProducto.Ubicacion;
             existingProducto.Imagen = updatedProducto.Imagen;
-            existingProducto.IdUsuario = updatedProducto.IdUsuario;
+            existingProducto.IdOrganizador = updatedProducto.IdOrganizador;
             existingProducto.IdCategoria = updatedProducto.IdCategoria;
 
             await _serviceProducto.UpdateAsync(existingProducto);

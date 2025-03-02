@@ -19,7 +19,7 @@ namespace dosEvAPI.Repositories
             using (var connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
-                string query = "SELECT ID, nombre, descripcion, ubicacion, fecha_inicio, fecha_fin, idTematica, enlace, idCategoria, idOrganizador FROM Eventos";
+                string query = "SELECT ID, nombre, descripcion, ubicacion, fecha_inicio, fecha_fin, enlace, idOrganizador FROM Eventos";
                 using (var command = new SqlCommand(query, connection))
                 {
                     using (var reader = await command.ExecuteReaderAsync())
@@ -34,10 +34,8 @@ namespace dosEvAPI.Repositories
                                 Ubicacion = reader.GetString(3),
                                 FechaInicio = reader.GetDateTime(4),
                                 FechaFin = reader.GetDateTime(5),
-                                IdTematica = reader.GetInt32(6),
-                                Enlace = reader.GetString(7),
-                                IdCategoria = reader.GetInt32(8),
-                                IdOrganizador = reader.GetInt32(9)
+                                Enlace = reader.GetString(6),
+                                IdOrganizador = reader.GetInt32(7)
                             };
                             eventos.Add(evento);
                         }
@@ -47,14 +45,12 @@ namespace dosEvAPI.Repositories
             return eventos;
         }
 
-        public async Task<Evento?> GetByIdAsync(int id)
+         public async Task<Evento?> GetByIdAsync(int id)
         {
-            Evento? evento = null;
-
             using (var connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
-                string query = "SELECT ID, nombre, descripcion, ubicacion, fecha_inicio, fecha_fin, idTematica, enlace, idCategoria, idOrganizador FROM Eventos WHERE ID = @Id";
+                string query = "SELECT ID, nombre, descripcion, ubicacion, fecha_inicio, fecha_fin, enlace, idOrganizador FROM Eventos WHERE ID = @Id";
                 using (var command = new SqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@Id", id);
@@ -62,7 +58,7 @@ namespace dosEvAPI.Repositories
                     {
                         if (await reader.ReadAsync())
                         {
-                            evento = new Evento
+                            return new Evento
                             {
                                 Id = reader.GetInt32(0),
                                 Nombre = reader.GetString(1),
@@ -70,16 +66,14 @@ namespace dosEvAPI.Repositories
                                 Ubicacion = reader.GetString(3),
                                 FechaInicio = reader.GetDateTime(4),
                                 FechaFin = reader.GetDateTime(5),
-                                IdTematica = reader.GetInt32(6),
-                                Enlace = reader.GetString(7),
-                                IdCategoria = reader.GetInt32(8),
-                                IdOrganizador = reader.GetInt32(9)
+                                Enlace = reader.GetString(6),
+                                IdOrganizador = reader.GetInt32(7)
                             };
                         }
                     }
                 }
             }
-            return evento;
+            return null;
         }
 
         // Funcion para filtrar por categoria
@@ -90,9 +84,9 @@ namespace dosEvAPI.Repositories
             using (var connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
-                string query = @"SELECT e.ID, e.nombre, e.descripcion, e.ubicacion, e.fecha_inicio, e.fecha_fin, e.idTematica, e.enlace, e.idCategoria, e.idOrganizador 
+                string query = @"SELECT e.ID, e.nombre, e.descripcion, e.ubicacion, e.fecha_inicio, e.fecha_fin, e.enlace, e.idOrganizador 
                                  FROM Eventos e 
-                                 INNER JOIN CategoriaEvento c ON e.idCategoria = c.ID 
+                                 INNER JOIN CategoriaEvento c ON e.idOrganizador = c.ID 
                                  WHERE c.nombre = @categoria";
                 using (var command = new SqlCommand(query, connection))
                 {
@@ -109,10 +103,8 @@ namespace dosEvAPI.Repositories
                                 Ubicacion = reader.GetString(3),
                                 FechaInicio = reader.GetDateTime(4),
                                 FechaFin = reader.GetDateTime(5),
-                                IdTematica = reader.GetInt32(6),
-                                Enlace = reader.GetString(7),
-                                IdCategoria = reader.GetInt32(8),
-                                IdOrganizador = reader.GetInt32(9)
+                                Enlace = reader.GetString(6),
+                                IdOrganizador = reader.GetInt32(7)
                             });
                         }
                     }
@@ -128,7 +120,7 @@ namespace dosEvAPI.Repositories
             using (var connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
-                string query = @"SELECT e.ID, e.nombre, e.descripcion, e.ubicacion, e.fecha_inicio, e.fecha_fin, e.idTematica, e.enlace, e.idCategoria, e.idOrganizador 
+                string query = @"SELECT e.ID, e.nombre, e.descripcion, e.ubicacion, e.fecha_inicio, e.fecha_fin, e.enlace, e.idOrganizador 
                                  FROM Eventos e 
                                  INNER JOIN Organizador o ON e.idOrganizador = o.ID 
                                  WHERE o.nombre = @organizador";
@@ -147,10 +139,8 @@ namespace dosEvAPI.Repositories
                                 Ubicacion = reader.GetString(3),
                                 FechaInicio = reader.GetDateTime(4),
                                 FechaFin = reader.GetDateTime(5),
-                                IdTematica = reader.GetInt32(6),
-                                Enlace = reader.GetString(7),
-                                IdCategoria = reader.GetInt32(8),
-                                IdOrganizador = reader.GetInt32(9)
+                                Enlace = reader.GetString(6),
+                                IdOrganizador = reader.GetInt32(7)
                             });
                         }
                     }
@@ -165,7 +155,7 @@ namespace dosEvAPI.Repositories
             using (var connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
-                string query = "INSERT INTO Eventos (nombre, descripcion, ubicacion, fecha_inicio, fecha_fin, idTematica, enlace, idCategoria, idOrganizador) VALUES (@Nombre, @Descripcion, @Ubicacion, @FechaInicio, @FechaFin, @IdTematica, @Enlace, @IdCategoria, @IdOrganizador)";
+                string query = "INSERT INTO Eventos (nombre, descripcion, ubicacion, fecha_inicio, fecha_fin, enlace, idOrganizador) VALUES (@Nombre, @Descripcion, @Ubicacion, @FechaInicio, @FechaFin, @Enlace, @IdOrganizador)";
                 using (var command = new SqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@Nombre", evento.Nombre);
@@ -173,9 +163,7 @@ namespace dosEvAPI.Repositories
                     command.Parameters.AddWithValue("@Ubicacion", evento.Ubicacion);
                     command.Parameters.AddWithValue("@FechaInicio", evento.FechaInicio);
                     command.Parameters.AddWithValue("@FechaFin", evento.FechaFin);
-                    command.Parameters.AddWithValue("@IdTematica", evento.IdTematica);
                     command.Parameters.AddWithValue("@Enlace", evento.Enlace);
-                    command.Parameters.AddWithValue("@IdCategoria", evento.IdCategoria);
                     command.Parameters.AddWithValue("@IdOrganizador", evento.IdOrganizador);
                     await command.ExecuteNonQueryAsync();
                 }
@@ -187,7 +175,7 @@ namespace dosEvAPI.Repositories
             using (var connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
-                string query = "UPDATE Eventos SET nombre = @Nombre, descripcion = @Descripcion, ubicacion = @Ubicacion, fecha_inicio = @FechaInicio, fecha_fin = @FechaFin, idTematica = @IdTematica, enlace = @Enlace, idCategoria = @IdCategoria, idOrganizador = @IdOrganizador WHERE ID = @Id";
+                string query = "UPDATE Eventos SET nombre = @Nombre, descripcion = @Descripcion, ubicacion = @Ubicacion, fecha_inicio = @FechaInicio, fecha_fin = @FechaFin, enlace = @Enlace, idOrganizador = @IdOrganizador WHERE ID = @Id";
                 using (var command = new SqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@Id", evento.Id);
@@ -196,9 +184,7 @@ namespace dosEvAPI.Repositories
                     command.Parameters.AddWithValue("@Ubicacion", evento.Ubicacion);
                     command.Parameters.AddWithValue("@FechaInicio", evento.FechaInicio);
                     command.Parameters.AddWithValue("@FechaFin", evento.FechaFin);
-                    command.Parameters.AddWithValue("@IdTematica", evento.IdTematica);
                     command.Parameters.AddWithValue("@Enlace", evento.Enlace);
-                    command.Parameters.AddWithValue("@IdCategoria", evento.IdCategoria);
                     command.Parameters.AddWithValue("@IdOrganizador", evento.IdOrganizador);
                     await command.ExecuteNonQueryAsync();
                 }
@@ -213,11 +199,10 @@ namespace dosEvAPI.Repositories
             using (var connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
-                string query =@"SELECT o.nombre, e.nombre, e.descripcion, e.fecha_inicio, e.fecha_fin, e.ubicacion, c.nombre, t.nombre, e.enlace
-                FROM Eventos e INNER JOIN Organizador o 
-                ON e.idOrganizador=o.ID INNER JOIN CategoriaEvento c
-                 ON e.idCategoria=c.ID INNER JOIN Tematicas t
-                  ON e.idTematica=t.ID WHERE e.ID = @Id";
+                string query =@"SELECT o.nombre, e.nombre, e.descripcion, e.fecha_inicio, e.fecha_fin, e.ubicacion, e.enlace
+                FROM Eventos e INNER JOIN Organizador o
+                ON e.idOrganizador=o.ID 
+                WHERE e.ID = @Id";
                 using (var command = new SqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@Id", id);
@@ -233,13 +218,15 @@ namespace dosEvAPI.Repositories
                                 FechaInicio = reader.GetDateTime(3),
                                 FechaFin = reader.GetDateTime(4),
                                 Ubicacion = reader.GetString(5),
-                                EventoCategoria = reader.GetString(6),
-                                Tematica = reader.GetString(7),
-                                Enlace = reader.GetString(8)
+                                Enlace = reader.GetString(6)
                             };
                         }
                     }
                 }
+            }
+            if (eventoInfo != null){
+                eventoInfo.Categorias = await GetCategoriaEventoByEventoIdAsync(id);
+                eventoInfo.Tematicas = await GetTematicaByEventoIdAsync(id);
             }
             return eventoInfo;
         }
@@ -291,5 +278,59 @@ namespace dosEvAPI.Repositories
             }
             return eventos;
         }
+
+
+        public async Task<List<CategoriaEvento>> GetCategoriaEventoByEventoIdAsync(int eventoId)
+        {
+            var categoriasevento = new List<CategoriaEvento>();
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                string query = @"SELECT c.Id, c.Nombre 
+                                FROM CategoriaEvento c 
+                                JOIN Eventos_Categoria ec ON c.Id = ec.Idevento
+                                WHERE ec.Idevento = @Idevento";
+                using (var command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@Idevento", eventoId);
+                    using (var reader = await command.ExecuteReaderAsync()){
+                        while (await reader.ReadAsync()){
+                            categoriasevento.Add(new CategoriaEvento{
+                                Id = reader.GetInt32(0),
+                                Nombre = reader.GetString(1)
+                            });
+                        }
+                    }
+                }
+            }
+            return categoriasevento;
+        }
+
+        public async Task<List<Tematica>> GetTematicaByEventoIdAsync(int eventoId)
+        {
+            var tematicasEvento = new List<Tematica>();
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                string query = @"SELECT t.Id, t.Nombre 
+                                FROM Tematica t 
+                                JOIN Eventos_Tematica et ON t.Id = et.Idevento
+                                WHERE et.Idevento = @Idevento";
+                using (var command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@Idevento", eventoId);
+                    using (var reader = await command.ExecuteReaderAsync()){
+                        while (await reader.ReadAsync()){
+                            tematicasEvento.Add(new Tematica{
+                                Id = reader.GetInt32(0),
+                                Nombre = reader.GetString(1)
+                            });
+                        }
+                    }
+                }
+            }
+            return tematicasEvento;
+        }
     }
+    
 }

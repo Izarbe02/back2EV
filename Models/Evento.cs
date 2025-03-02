@@ -10,22 +10,18 @@ public class Evento
     public string Ubicacion { get; set; }
     public DateTime FechaInicio { get; set; }
     public DateTime FechaFin { get; set; }
-    public int IdTematica { get; set; }
     public string Enlace { get; set; }
-    public int IdCategoria { get; set; }
     public int IdOrganizador { get; set; }
 
-    public Evento(string nombre,string descripcion,string ubicacion,DateTime fechaInicio,DateTime fechaFin,int idTematica,
-        string enlace,int idCategoria,int idOrganizador)
+    public Evento(string nombre,string descripcion,string ubicacion,DateTime fechaInicio,DateTime fechaFin,
+        string enlace,int idOrganizador)
     {
         Nombre = nombre;
         Descripcion = descripcion;
         Ubicacion = ubicacion;
         FechaInicio = fechaInicio;
         FechaFin = fechaFin;
-        IdTematica = idTematica;
         Enlace = enlace;
-        IdCategoria = idCategoria;
         IdOrganizador = idOrganizador;
     }
 

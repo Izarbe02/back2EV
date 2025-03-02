@@ -104,9 +104,7 @@ namespace dosEvAPI.Controllers
             existingEvento.Ubicacion = updatedEvento.Ubicacion;
             existingEvento.FechaInicio = updatedEvento.FechaInicio;
             existingEvento.FechaFin = updatedEvento.FechaFin;
-            existingEvento.IdTematica = updatedEvento.IdTematica;
             existingEvento.Enlace = updatedEvento.Enlace;
-            existingEvento.IdCategoria = updatedEvento.IdCategoria;
             existingEvento.IdOrganizador = updatedEvento.IdOrganizador;
 
             await _serviceEvento.UpdateAsync(existingEvento);
