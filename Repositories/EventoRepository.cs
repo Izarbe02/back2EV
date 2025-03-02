@@ -247,16 +247,15 @@ namespace dosEvAPI.Repositories
         }
 
 
-        public async Task<List<BuscadorEventoDTO>> GetInfoEventoBuscadorsync(string busqueda){
-            var eventos = new List<BuscadorEventoDTO?>();
+        public async Task<List<Evento>> GetInfoEventoBuscadorsync(string busqueda){
+            var eventos = new List<Evento?>();
 
             using (var connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
-                string query = @"SELECT o.nombre , e.nombre , e.fecha_inicio , e.enlace from Eventos 
-                e INNER JOIN Organizador o ON e.idOrganizador = o.ID 
+                string query = @"SELECT e.ID, e.nombre, e.descripcion, e.ubicacion, e.fecha_inicio, e.fecha_fin, e.enlace, e.idOrganizador from Eventos e
                 WHERE e.nombre LIKE '%' + @busqueda + '%'
-                or o.nombre LIKE '%' + @busqueda + '%'";
+                or e.ubicacion LIKE '%' + @busqueda + '%'";
                 using (var command = new SqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@busqueda" ,busqueda);
@@ -264,12 +263,16 @@ namespace dosEvAPI.Repositories
                     {
                         while (await reader.ReadAsync())
                         {
-                            var evento = new BuscadorEventoDTO
+                            var evento = new Evento
                             {
-                                NombreOrg = reader.GetString(0),
-                                NombreEvento = reader.GetString(1),
-                                FechaInicio = reader.GetDateTime(2),
-                                Enlace = reader.GetString(3)
+                                Id = reader.GetInt32(0),
+                                Nombre = reader.GetString(1),
+                                Descripcion = reader.GetString(2),
+                                Ubicacion = reader.GetString(3),
+                                FechaInicio = reader.GetDateTime(4),
+                                FechaFin = reader.GetDateTime(5),
+                                Enlace = reader.GetString(6),
+                                IdOrganizador = reader.GetInt32(7)
                             };
                             eventos.Add(evento);
                         }

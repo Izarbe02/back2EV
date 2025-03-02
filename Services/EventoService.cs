@@ -60,7 +60,7 @@ namespace dosEvAPI.Service
         }
 
     //info del buscador
-           public async Task<List<BuscadorEventoDTO?>> GetInfoEventoBuscadorsync(string nombre)
+           public async Task<List<Evento?>> GetInfoEventoBuscadorsync(string nombre)
         {
             return await _eventoRepository.GetInfoEventoBuscadorsync(nombre);
         }

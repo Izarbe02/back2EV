@@ -15,7 +15,7 @@ namespace dosEvAPI.Service
 //por acabar
           Task<EventoInfoDTO?>  GetInfoEventoAsync(int id);
 
-        Task<List<BuscadorEventoDTO?>> GetInfoEventoBuscadorsync(string nombre);
+        Task<List<Evento?>> GetInfoEventoBuscadorsync(string nombre);
 
     }
 }

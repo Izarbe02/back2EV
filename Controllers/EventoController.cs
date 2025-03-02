@@ -62,7 +62,7 @@ namespace dosEvAPI.Controllers
         }
 
         [HttpGet("BuscadorEvento/{busqueda}")]
-        public async Task<ActionResult<List<BuscadorEventoDTO>>> GetInfoEventoBuscador(string busqueda)
+        public async Task<ActionResult<List<Evento>>> GetInfoEventoBuscador(string busqueda)
         {
             var evento = await _serviceEvento.GetInfoEventoBuscadorsync(busqueda);
             if (evento == null)
