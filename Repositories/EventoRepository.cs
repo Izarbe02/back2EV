@@ -253,10 +253,10 @@ namespace dosEvAPI.Repositories
             using (var connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
-                string query = @"SELECT e.nombre , e.enlace , e.fecha_inicio , o.nombre from Eventos 
+                string query = @"SELECT o.nombre , e.nombre , e.fecha_inicio , e.enlace from Eventos 
                 e INNER JOIN Organizador o ON e.idOrganizador = o.ID 
-                WHERE e.nombre LIKE @busqueda
-                or WHERE o.nombre LIKE @busqueda";
+                WHERE e.nombre LIKE '%' + @busqueda + '%'
+                or o.nombre LIKE '%' + @busqueda + '%'";
                 using (var command = new SqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@busqueda" ,busqueda);
@@ -266,7 +266,7 @@ namespace dosEvAPI.Repositories
                         {
                             var evento = new BuscadorEventoDTO
                             {
-                              NombreOrg = reader.GetString(0),
+                                NombreOrg = reader.GetString(0),
                                 NombreEvento = reader.GetString(1),
                                 FechaInicio = reader.GetDateTime(2),
                                 Enlace = reader.GetString(3)
