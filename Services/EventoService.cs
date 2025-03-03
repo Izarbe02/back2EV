@@ -18,6 +18,10 @@ namespace dosEvAPI.Service
             return await _eventoRepository.GetAllAsync();
         }
 
+        public async Task<List<Evento>> GetProximosEventosAsync()
+        {
+            return await _eventoRepository.GetProximosEventosAsync();
+        }
 
         // Funcion para filtrar por ID
         public async Task<Evento?> GetByIdAsync(int id)
