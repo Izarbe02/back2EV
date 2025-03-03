@@ -23,6 +23,12 @@ namespace dosEvAPI.Controllers
             return Ok(eventos);
         }
 
+        [HttpGet("proximos")]
+        public async Task<ActionResult<List<Evento>>> GetProximosEventosAsync()
+        {
+            var eventos = await _serviceEvento.GetProximosEventosAsync();
+            return Ok(eventos);
+        }
 
 
 

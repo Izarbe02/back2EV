@@ -150,6 +150,44 @@ namespace dosEvAPI.Repositories
         }
     
 
+    public async Task<List<Evento>> GetProximosEventosAsync()
+{
+    var eventos = new List<Evento>();
+
+    using (var connection = new SqlConnection(_connectionString))
+    {
+        await connection.OpenAsync();
+        string query = @"
+            SELECT TOP 3 e.ID, e.nombre, e.descripcion, e.ubicacion, e.fecha_inicio, e.fecha_fin, e.enlace, e.idOrganizador 
+            FROM Eventos e 
+            WHERE e.fecha_inicio >= GETDATE()
+            ORDER BY e.fecha_inicio ASC";
+            
+        using (var command = new SqlCommand(query, connection))
+        {
+            using (var reader = await command.ExecuteReaderAsync())
+            {
+                while (await reader.ReadAsync())
+                {
+                    eventos.Add(new Evento
+                    {
+                        Id = reader.GetInt32(0),
+                        Nombre = reader.GetString(1),
+                        Descripcion = reader.GetString(2),
+                        Ubicacion = reader.GetString(3),
+                        FechaInicio = reader.GetDateTime(4),
+                        FechaFin = reader.GetDateTime(5),
+                        Enlace = reader.GetString(6),
+                        IdOrganizador = reader.GetInt32(7)
+                    });
+                }
+            }
+        }
+    }
+    return eventos;
+}
+
+
         public async Task AddAsync(Evento evento)
         {
             using (var connection = new SqlConnection(_connectionString))

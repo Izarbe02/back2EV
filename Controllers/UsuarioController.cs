@@ -54,6 +54,7 @@ namespace dosEvAPI.Controllers{
             existingUsuario.Email = updatedUsuario.Email;
             existingUsuario.Ubicacion = updatedUsuario.Ubicacion;
             existingUsuario.Contrasenia = updatedUsuario.Contrasenia;
+            existingUsuario.IdRol = updatedUsuario.IdRol;
 
             await _serviceUsuario.UpdateAsync(existingUsuario);
             return NoContent();
