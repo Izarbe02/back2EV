@@ -34,7 +34,8 @@ namespace dosEvAPI.Repositories{
                                     Nombre = reader.GetString(2),
                                     Email = reader.IsDBNull(3) ? null : reader.GetString(3),
                                     Ubicacion = reader.IsDBNull(4) ? null : reader.GetString(4),
-                                    Contrasenia = reader.GetString(5)
+                                    Contrasenia = reader.GetString(5),
+                                    IdRol = reader.GetInt32(6)
                                 };
                                 usuarios.Add(usuario);
                             }
@@ -66,7 +67,8 @@ namespace dosEvAPI.Repositories{
                                     Nombre = reader.GetString(2),
                                     Email = reader.IsDBNull(3) ? null : reader.GetString(3),
                                     Ubicacion = reader.IsDBNull(4) ? null : reader.GetString(4),
-                                    Contrasenia = reader.GetString(5)
+                                    Contrasenia = reader.GetString(5),
+                                    IdRol = reader.GetInt32(6)
                                 };
                             }
                         }
