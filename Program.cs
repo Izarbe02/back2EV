@@ -1,11 +1,38 @@
 using dosEvAPI.Repositories;
 using dosEvAPI.Service;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+
  
 var builder = WebApplication.CreateBuilder(args);
 //!!Database
 var connectionString = builder.Configuration.GetConnectionString("dosEvBack");
 // Add services to the container.
+var jwtSecretKey = builder.Configuration["JwtSettings:Key"]
+    ?? throw new InvalidOperationException("JWT Secret Key is missing in configuration.");
 
+
+var key = Encoding.UTF8.GetBytes(jwtSecretKey);
+
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(key),
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidIssuer = builder.Configuration["JwtSettings:Issuer"],
+            ValidAudience = builder.Configuration["JwtSettings:Audience"],
+            ValidateLifetime = true
+        };
+    });
+
+
+builder.Services.AddAuthorization();
 //Inyeccion repo
  builder.Services.AddScoped<IComentarioRepository, ComentarioRepository>(provider =>
         new ComentarioRepository(connectionString));
@@ -37,6 +64,9 @@ var connectionString = builder.Configuration.GetConnectionString("dosEvBack");
     builder.Services.AddScoped<IEventoRepository, EventoRepository>(provider =>
         new EventoRepository(connectionString));
 
+    builder.Services.AddScoped<ITokenRepository, TokenRepository>(provider =>
+        new TokenRepository(connectionString));
+
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 
@@ -60,6 +90,11 @@ builder.Services.AddScoped<IRolService, RolService>();
 builder.Services.AddScoped<IPostService, PostService>();
 builder.Services.AddScoped<ITematicaService, TematicaService>();
 builder.Services.AddScoped<IEventoService, EventoService>();
+builder.Services.AddScoped<TokenService>(provider =>
+{
+    var tokenRepository = provider.GetRequiredService<ITokenRepository>();
+    return new TokenService(tokenRepository, jwtSecretKey);
+});
 
 var app = builder.Build();
 
