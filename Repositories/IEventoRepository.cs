@@ -14,6 +14,7 @@ namespace dosEvAPI.Repositories
         Task<Evento?> GetByIdAsync(int id);
          Task<List<Evento>>  GetByOrganizadorAsync(string organizador);
          Task<List<Evento>>  GetByCategoriaAsync(string categoria);
+         Task<List<Evento>>  GetByOrganizadorIdAsync(int organizadorid);
         Task AddAsync(Evento evento);
         Task UpdateAsync(Evento evento);
         Task DeleteAsync(int id);

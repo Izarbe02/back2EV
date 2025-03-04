@@ -29,7 +29,10 @@ namespace dosEvAPI.Service
             return await _eventoRepository.GetByIdAsync(id);
         }
 
-
+        public async  Task<List<Evento>>  GetByOrganizadorIdAsync(int organizadorid)
+        {
+            return await _eventoRepository.GetByOrganizadorIdAsync(organizadorid);
+        }
         // Funcion para filtrar por categoria
         public async  Task<List<Evento>>  GetByCategoriaAsync(string categoria)
         {

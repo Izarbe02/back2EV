@@ -113,6 +113,41 @@ namespace dosEvAPI.Repositories
             return eventos;
         }
 
+
+        public async Task<List<Evento>> GetByOrganizadorIdAsync(int organizadorid)
+        {
+            var eventos = new List<Evento>();
+
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                string query = @"SELECT e.ID, e.nombre, e.descripcion, e.ubicacion, e.fecha_inicio, e.fecha_fin, e.enlace, e.idOrganizador 
+                                 FROM Eventos e 
+                                 WHERE e.idOrganizador = @organizadorid";
+                using (var command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@organizadorid", organizadorid);
+                    using (var reader = await command.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            eventos.Add(new Evento
+                            {
+                                Id = reader.GetInt32(0),
+                                Nombre = reader.GetString(1),
+                                Descripcion = reader.GetString(2),
+                                Ubicacion = reader.GetString(3),
+                                FechaInicio = reader.GetDateTime(4),
+                                FechaFin = reader.GetDateTime(5),
+                                Enlace = reader.GetString(6),
+                                IdOrganizador = reader.GetInt32(7)
+                            });
+                        }
+                    }
+                }
+            }
+            return eventos;
+        }
         public async Task<List<Evento>> GetByOrganizadorAsync(string organizador)
         {
             var eventos = new List<Evento>();

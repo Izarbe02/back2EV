@@ -45,6 +45,17 @@ namespace dosEvAPI.Controllers
         }
 
 
+        [HttpGet("organizadorid/{organizadorid}")]
+        public async Task<ActionResult<Evento>> GetEventoPorCategoria(int organizadorid)
+        {
+            var evento = await _serviceEvento.GetByOrganizadorIdAsync(organizadorid);
+            if (evento == null)
+            {
+                return NotFound();
+            }
+            return Ok(evento);
+        }
+
         [HttpGet("organizador/{organizador}")]
         public async Task<ActionResult<Evento>> GetEventoPorOrganizador(string organizador)
         {
