@@ -22,6 +22,12 @@ namespace dosEvAPI.Service
             return await _usuarioRepository.GetByIdAsync(id);
         }
 
+        public async Task<Usuario> GetByUsernameAsync(string username)
+        {
+            return await _usuarioRepository.GetByUsernameAsync(username);
+        }
+
+
         public async Task AddAsync(Usuario usuario)
         {
             await _usuarioRepository.AddAsync(usuario);

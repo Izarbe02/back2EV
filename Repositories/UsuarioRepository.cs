@@ -77,6 +77,38 @@ namespace dosEvAPI.Repositories{
                 return usuario;
             }
 
+
+          public async Task<Usuario?> GetByUsernameAsync(string username)
+            {
+                Usuario? usuario = null;
+
+                using (var connection = new SqlConnection(_connectionString))
+                {
+                    await connection.OpenAsync();
+                    string query = "SELECT ID, username, nombre, email, ubicacion, contrasenia FROM Usuarios WHERE username = @Username";
+                    using (var command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@Username", username);
+                        using (var reader = await command.ExecuteReaderAsync())
+                        {
+                            if (await reader.ReadAsync())
+                            {
+                                usuario = new Usuario
+                                {
+                                    Id = reader.GetInt32(0),
+                                    Username = reader.GetString(1),
+                                    Nombre = reader.GetString(2),
+                                    Email = reader.IsDBNull(3) ? null : reader.GetString(3),
+                                    Ubicacion = reader.IsDBNull(4) ? null : reader.GetString(4),
+                                };
+                            }
+                        }
+                    }
+                }
+                return usuario;
+            }
+
+
             public async Task AddAsync(Usuario usuario)
             {
                 using (var connection = new SqlConnection(_connectionString))
