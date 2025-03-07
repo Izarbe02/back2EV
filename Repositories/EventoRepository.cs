@@ -265,7 +265,7 @@ namespace dosEvAPI.Repositories
         }
 
 
-        public async Task<EventoInfoDTO> GetInfoEventoAsync (int id )
+        public async Task<EventoInfoDTO?> GetInfoEventoAsync (int id )
         {
             EventoInfoDTO eventoInfo = null;
 
