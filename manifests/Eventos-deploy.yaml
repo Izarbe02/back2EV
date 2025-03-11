@@ -1,7 +1,7 @@
 apiVersion: apps/v1 
 kind: Deployment
 metadata:
-  name: reto2_api
+  name: reto2-api
   labels: 
      app: api
 
