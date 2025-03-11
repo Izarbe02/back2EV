@@ -30,7 +30,7 @@ services:
 
   api:
     container_name: contenedorAPI
-    image: reto2_api:1.0  
+    image: reto2-apif
     build:
       context: .
       dockerfile: Dockerfile  
