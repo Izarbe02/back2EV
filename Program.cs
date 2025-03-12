@@ -3,6 +3,7 @@ using dosEvAPI.Service;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Microsoft.AspNetCore.HttpOverrides;
 
  
 var builder = WebApplication.CreateBuilder(args);
@@ -100,18 +101,33 @@ var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 
-{
+
+
 app.UseSwagger();
-    app.UseSwaggerUI();
+app.UseSwaggerUI(c =>
+{
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "API ZaragozaConecta V1");
+    c.RoutePrefix = string.Empty;
+});
+
+app.UseForwardedHeaders(new ForwardedHeadersOptions
+{
+    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+});
+
+if (!app.Environment.IsDevelopment())
+{
+    app.Logger.LogInformation("No se usara HTTPS dentro del contenedor.");
+}
+else
+{
+    app.UseHttpsRedirection();
 }
 
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
 app.UseCors("AllowAllOrigins");
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapControllers();
 
 app.Run();
-
