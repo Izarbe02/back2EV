@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: reto2-api
+  name: reto2-api-svc
   labels:
     app: api
 spec:
