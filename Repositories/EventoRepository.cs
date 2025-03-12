@@ -390,7 +390,7 @@ namespace dosEvAPI.Repositories
                 await connection.OpenAsync();
                 string query = @"SELECT t.Id, t.Nombre 
                                 FROM Tematica t 
-                                JOIN Eventos_Tematica et ON t.Id = et.Idevento
+                                JOIN Eventos_Tematica et ON t.Id = et.idtematica
                                 WHERE et.Idevento = @Idevento";
                 using (var command = new SqlCommand(query, connection))
                 {
