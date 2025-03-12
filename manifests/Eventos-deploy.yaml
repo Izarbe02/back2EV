@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       - name: api
-        image: guillermocarrion/reto2_api:02
+        image: guillermocarrion/reto2-api:03
         imagePullPolicy: Always
         ports:
         - containerPort: 80
