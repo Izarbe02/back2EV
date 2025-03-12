@@ -364,7 +364,7 @@ namespace dosEvAPI.Repositories
                 await connection.OpenAsync();
                 string query = @"SELECT c.Id, c.Nombre 
                                 FROM CategoriaEvento c 
-                                JOIN Eventos_Categoria ec ON c.Id = ec.Idevento
+                                JOIN Eventos_Categoria ec ON c.Id = ec.Idcategoria
                                 WHERE ec.Idevento = @Idevento";
                 using (var command = new SqlCommand(query, connection))
                 {
@@ -390,7 +390,7 @@ namespace dosEvAPI.Repositories
                 await connection.OpenAsync();
                 string query = @"SELECT t.Id, t.Nombre 
                                 FROM Tematica t 
-                                JOIN Eventos_Tematica et ON t.Id = et.Idevento
+                                JOIN Eventos_Tematica et ON t.Id = et.idtematica
                                 WHERE et.Idevento = @Idevento";
                 using (var command = new SqlCommand(query, connection))
                 {
