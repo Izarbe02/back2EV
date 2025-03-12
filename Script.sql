@@ -266,59 +266,73 @@ VALUES
 
 
 
--- Insertar relaciones Eventos_Categoria
+-- Insertar relaciones Eventos_Categoria-- Insertar relaciones Eventos_Categoria (Cada evento tiene dos categorías)
 INSERT INTO Eventos_Categoria (idEvento, idCategoria)
 VALUES 
--- Cultural
-(1, 1), (8, 1), (13, 1), (17, 1), (25, 1),
--- Ecologismo y Medio Ambiente
-(2, 6), (3, 6), (23, 6),
--- Derechos Humanos y Luchas Sociales
-(4, 7), (5, 7), (10, 7), (12, 7), (20, 7), (24, 7),
--- Fiesta Popular
-(7, 3), (22, 3), (25, 3),
--- Feminismo y Diversidad
-(9, 4), (14, 4),
--- Música y Cultura DIY
-(6, 1), (11, 1), (16, 1), (19, 1), (21, 1),
--- Manifestaciones y Movilizaciones Sociales
-(15, 7),
--- Economía Social y Solidaria
-(18, 5),
--- Tecnología y Hacktivismo
-(21, 5);
+-- Cultural + Música y Cultura DIY
+(1, 1), (1, 7),
+(8, 1), (8, 7),
+(13, 1), (13, 7),
+(17, 1), (17, 7),
+(25, 1), (25, 7),
 
+-- Ecologismo y Medio Ambiente + Economía Social y Solidaria
+(2, 4), (2, 8),
+(3, 4), (3, 8),
+(23, 4), (23, 8),
 
--- Insertar relaciones Eventos_Tematica
-INSERT INTO Eventos_Tematica (idEvento, idTematica) VALUES
-(1, 2),
-(8, 2),
-(17, 2),
-(25, 2),
-(2, 8),
-(3, 8),
-(23, 8),
-(4, 7),
-(5, 7),
-(10, 7),
-(12, 7),
-(20, 7),
-(24, 7),
-(6, 9),
-(11, 9),
-(16, 9),
-(19, 9),
-(21, 9),
-(7, 3),
-(22, 3),
-(25, 3),
-(9, 4),
-(14, 4),
-(15, 7),
-(18, 6),
-(21, 5),
-(13, 1); -- Evento 13 asignado a "Cultural" para cubrir todos los eventos
+-- Derechos Humanos y Luchas Sociales + Manifestaciones y Protestas
+(4, 5), (4, 3),
+(5, 5), (5, 3),
+(10, 5), (10, 3),
+(12, 5), (12, 3),
+(20, 5), (20, 3),
+(24, 5), (24, 3),
 
+-- Fiesta Popular + Feminismo y Diversidad
+(7, 2), (7, 6),
+(22, 2), (22, 6),
+(25, 2), (25, 6),
+
+-- Tecnología y Hacktivismo + Economía Social y Solidaria
+(21, 9), (21, 8);
+
+-- Insertar relaciones Eventos_Tematica (Cada evento tiene dos temáticas)
+INSERT INTO Eventos_Tematica (idEvento, idTematica) 
+VALUES 
+-- Arte y Cultura Comunitaria + Música y Cultura
+(1, 2), (1, 9),
+(8, 2), (8, 9),
+(17, 2), (17, 9),
+(25, 2), (25, 9),
+
+-- Ecologismo y Medio Ambiente + Economía Social y Solidaria
+(2, 20), (2, 16),
+(3, 20), (3, 16),
+(23, 20), (23, 16),
+
+-- Derechos Humanos y Lucha Social + Manifestaciones
+(4, 6), (4, 17),
+(5, 6), (5, 17),
+(10, 6), (10, 17),
+(12, 6), (12, 17),
+(20, 6), (20, 17),
+(24, 6), (24, 17),
+
+-- Autogestión Colectiva + Sindicalismo
+(7, 3), (7, 7),
+(22, 3), (22, 7),
+(25, 3), (25, 7),
+
+-- Tecnología y Hacktivismo + Participación Ciudadana
+(21, 15), (21, 19),
+
+-- Feminismo y Diversidad + Luchas Internacionalistas
+(9, 4), (9, 14),
+(14, 4), (14, 14),
+
+-- Presentaciones y Charlas + Educación Alternativa
+(13, 18), (13, 12);
 
 
 
