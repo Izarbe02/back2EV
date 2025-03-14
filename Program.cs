@@ -37,6 +37,9 @@ builder.Services.AddAuthorization();
  builder.Services.AddScoped<IComentarioRepository, ComentarioRepository>(provider =>
         new ComentarioRepository(connectionString));
 
+builder.Services.AddScoped<IEstablecimientoRepository, EstablecimientoRepository>(provider =>
+        new EstablecimientoRepository(connectionString));
+
     builder.Services.AddScoped<ICategoriaEventoRepository, CategoriaEventoRepository>(provider =>
         new CategoriaEventoRepository(connectionString));
 
@@ -86,6 +89,7 @@ builder.Services.AddScoped<ICategoriaProductoService, CategoriaProductoService>(
 builder.Services.AddScoped<IOrganizadorService, OrganizadorService>();
 builder.Services.AddScoped<IProductoService, ProductoService>();
 builder.Services.AddScoped<IUsuarioService, UsuarioService>();
+builder.Services.AddScoped<IEstablecimientoService, EstablecimientoService>();
 builder.Services.AddScoped<IRolService, RolService>();
 builder.Services.AddScoped<IPostService, PostService>();
 builder.Services.AddScoped<ITematicaService, TematicaService>();

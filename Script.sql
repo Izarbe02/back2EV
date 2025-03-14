@@ -55,6 +55,18 @@ CREATE TABLE Organizador (
     FOREIGN KEY (idRol) REFERENCES Roles(ID) ON DELETE CASCADE
 );
 
+
+CREATE TABLE Establecimientos (
+    ID INT IDENTITY(1,1) PRIMARY KEY,
+    nombre NVARCHAR(50) NOT NULL,
+    ubicacion NVARCHAR(255) NOT NULL,
+    descripcion NVARCHAR(MAX),
+    idOrganizador INT NOT NULL,
+    FOREIGN KEY (idOrganizador) REFERENCES Organizador(ID) ON DELETE CASCADE
+);
+
+
+
 -- Tabla Eventos 
 CREATE TABLE Eventos (
     ID INT IDENTITY(1,1) PRIMARY KEY,
@@ -165,6 +177,12 @@ INSERT INTO Organizador (ID, nombre, ubicacion, descripcion, enlace, email, cont
 (8, 'Centro Social Librería La Pantera Rossa', 'Zaragoza, España', 'Centro social librería. Pensamiento crítico+autoorganización', 'https://www.lapanterarossa.net/sites/default/files/inline-images/colabora.jpg', 'contacto@pantera.es', 'claveorg8', '976111777', 2);
 SET IDENTITY_INSERT Organizador OFF;
 
+
+SET IDENTITY_INSERT Establecimientos ON;
+INSERT INTO Establecimientos (ID, nombre, ubicacion, descripcion, idOrganizador) VALUES 
+(1, 'Pabellon Teatro de los Sueños', 'Zaragoza, España', 'Pabellon para realizar distintas acitividades deportivas', 1),
+(2, 'Parque de los principes', 'Zaragoza, España', 'Local para realizar distintas actividades', 2)
+SET IDENTITY_INSERT Establecimientos OFF;
 
 
 -- Insertar Posts
@@ -347,6 +365,7 @@ DROP TABLE IF EXISTS Productos;
 DROP TABLE IF EXISTS Eventos;
 DROP TABLE IF EXISTS Usuarios;
 DROP TABLE IF EXISTS Organizador;
+DROP TABLE IF EXISTS Establecimientos;
 DROP TABLE IF EXISTS Roles;
 DROP TABLE IF EXISTS CategoriaEvento;
 DROP TABLE IF EXISTS CategoriaProducto;
